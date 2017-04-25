@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MsCrmTools.UserSettingsUtility.AppCode
 {
-    internal class UserSettings
+    public class UserSettings
     {
         public int AdvancedFindStartupMode { get; set; }
         public int AutoCreateContactOnPromote { get; set; }
