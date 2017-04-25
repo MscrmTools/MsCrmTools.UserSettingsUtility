@@ -273,6 +273,94 @@ namespace MsCrmTools.UserSettingsUtility
             });
         }
 
+        public void LoadCurrentUserSetting(UserSettings settings)
+        {
+            cbbSiteMapArea.SelectedItem = settings.HomePageArea;
+            cbbSiteMapSubArea.SelectedItem = settings.HomePageSubArea;
+            cbbAdvancedFindMode.SelectedIndex = settings.AdvancedFindStartupMode;
+            cbbCreateRecords.SelectedIndex = settings.AutoCreateContactOnPromote + 1;
+            cbbCalendar.SelectedIndex = settings.DefaultCalendarView + 1;
+            cbbTrackMessages.SelectedIndex = settings.IncomingEmailFilteringMethod + 1;
+            cbbReportScriptErrors.SelectedIndex = settings.ReportScriptErrors;
+
+            if (settings.IsSendAsAllowed.HasValue && settings.IsSendAsAllowed.Value)
+            {
+                cbbSendAsAllowed.SelectedIndex = 2;
+            }
+            if (settings.PagingLimit != 0)
+            {
+                cbbPagingLimit.SelectedItem = settings.PagingLimit.ToString();
+            }
+            if (settings.TimeZoneCode != 0)
+            {
+                cbbTimeZones.SelectedItem = cbbTimeZones.Items.Cast<AppCode.TimeZone>().Single(x => x.Code == settings.TimeZoneCode);
+            }
+            if (!string.IsNullOrEmpty(settings.WorkdayStartTime))
+            {
+                cbbWorkStartTime.SelectedItem = settings.WorkdayStartTime;
+            }
+            if (!string.IsNullOrEmpty(settings.WorkdayStopTime))
+            {
+                cbbWorkStopTime.SelectedItem = settings.WorkdayStopTime;
+            }
+            if (settings.HelpLanguage != 0)
+            {
+                cbbHelpLanguage.SelectedItem = cbbHelpLanguage.Items.Cast<object>().Skip(1).Single(x => ((Language)x).Lcid == settings.HelpLanguage);
+            }
+            if (settings.UiLanguage != 0)
+            {
+                cbbUiLanguage.SelectedItem = cbbUiLanguage.Items.Cast<object>().Skip(1).Single(x => ((Language)x).Lcid == settings.UiLanguage);
+            }
+            if (settings.Currency != null)
+            {
+                cbbCurrencies.SelectedItem = cbbCurrencies.Items.Cast<object>().Skip(1).Single(x => ((Currency)x).CurrencyReference.Id == settings.Currency.Id);
+            }
+            if (settings.StartupPaneEnabled.HasValue && settings.StartupPaneEnabled.Value)
+            {
+                cbbStartupPane.SelectedIndex = 2;
+            }
+            if (settings.UseCrmFormForAppointment.HasValue && settings.UseCrmFormForAppointment.Value)
+            {
+                cbbUseCrmFormAppt.SelectedIndex = 2;
+            }
+            if (settings.UseCrmFormForContact.HasValue && settings.UseCrmFormForContact.Value)
+            {
+                cbbUseCrmFormContact.SelectedIndex = 2;
+            }
+            if (settings.UseCrmFormForEmail.HasValue && settings.UseCrmFormForEmail.Value)
+            {
+                cbbUseCrmFormEmail.SelectedIndex = 2;
+            }
+            if (settings.UseCrmFormForTask.HasValue && settings.UseCrmFormForTask.Value)
+            {
+                cbbUseCrmFormTask.SelectedIndex = 2;
+            }
+        }
+
+        private void tsbReset_Click(object sender, EventArgs e)
+        {
+            cbbSiteMapArea.SelectedIndex = 0;
+            cbbSiteMapSubArea.SelectedIndex = 0;
+            cbbAdvancedFindMode.SelectedIndex = 0;
+            cbbCreateRecords.SelectedIndex = 0;
+            cbbCalendar.SelectedIndex = 0;
+            cbbTrackMessages.SelectedIndex = 0;
+            cbbReportScriptErrors.SelectedIndex = 0;
+            cbbSendAsAllowed.SelectedIndex = 0;
+            cbbPagingLimit.SelectedIndex = 0;
+            cbbTimeZones.SelectedIndex = 0;
+            cbbWorkStartTime.SelectedIndex = 0;
+            cbbWorkStopTime.SelectedIndex = 0;
+            cbbHelpLanguage.SelectedIndex = 0;
+            cbbUiLanguage.SelectedIndex = 0;
+            cbbCurrencies.SelectedIndex = 0;
+            cbbStartupPane.SelectedIndex = 0;
+            cbbUseCrmFormAppt.SelectedIndex = 0;
+            cbbUseCrmFormContact.SelectedIndex = 0;
+            cbbUseCrmFormEmail.SelectedIndex = 0;
+            cbbUseCrmFormTask.SelectedIndex = 0;
+        }
+
         public string RepositoryName => "MsCrmTools.UserSettingsUtility";
         public string UserName => "MscrmTools";
         public string HelpUrl => "https://github.com/MscrmTools/MsCrmTools.UserSettingsUtility/wiki";
