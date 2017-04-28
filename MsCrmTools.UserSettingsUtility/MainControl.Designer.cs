@@ -34,7 +34,11 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbLoadCrmItems = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsbEditInFXB = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbUpdateUserSettings = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsbReset = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.userSelector1 = new MsCrmTools.UserSettingsUtility.UserControls.UserSelector();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -84,7 +88,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.tsbReset = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -106,11 +109,15 @@
             this.toolStripSeparator1,
             this.tsbLoadCrmItems,
             this.toolStripSeparator2,
+            this.tsbEditInFXB,
+            this.toolStripSeparator3,
             this.tsbUpdateUserSettings,
+            this.toolStripSeparator4,
             this.tsbReset});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(821, 25);
+            this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
+            this.toolStrip1.Size = new System.Drawing.Size(2190, 48);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -120,43 +127,71 @@
             this.tsbClose.Image = ((System.Drawing.Image)(resources.GetObject("tsbClose.Image")));
             this.tsbClose.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbClose.Name = "tsbClose";
-            this.tsbClose.Size = new System.Drawing.Size(23, 22);
+            this.tsbClose.Size = new System.Drawing.Size(44, 45);
             this.tsbClose.Text = "Close this tool";
             this.tsbClose.Click += new System.EventHandler(this.TsbCloseClick);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 48);
             // 
             // tsbLoadCrmItems
             // 
             this.tsbLoadCrmItems.Image = ((System.Drawing.Image)(resources.GetObject("tsbLoadCrmItems.Image")));
             this.tsbLoadCrmItems.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbLoadCrmItems.Name = "tsbLoadCrmItems";
-            this.tsbLoadCrmItems.Size = new System.Drawing.Size(151, 22);
+            this.tsbLoadCrmItems.Size = new System.Drawing.Size(378, 45);
             this.tsbLoadCrmItems.Text = "Load Users and settings";
             this.tsbLoadCrmItems.Click += new System.EventHandler(this.tsbLoadCrmItems_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 48);
+            // 
+            // tsbEditInFXB
+            // 
+            this.tsbEditInFXB.Image = ((System.Drawing.Image)(resources.GetObject("tsbEditInFXB.Image")));
+            this.tsbEditInFXB.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbEditInFXB.Name = "tsbEditInFXB";
+            this.tsbEditInFXB.Size = new System.Drawing.Size(369, 45);
+            this.tsbEditInFXB.Text = "Choose users from FXB";
+            this.tsbEditInFXB.Click += new System.EventHandler(this.tsbEditInFXB_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 48);
             // 
             // tsbUpdateUserSettings
             // 
             this.tsbUpdateUserSettings.Image = ((System.Drawing.Image)(resources.GetObject("tsbUpdateUserSettings.Image")));
             this.tsbUpdateUserSettings.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbUpdateUserSettings.Name = "tsbUpdateUserSettings";
-            this.tsbUpdateUserSettings.Size = new System.Drawing.Size(149, 22);
+            this.tsbUpdateUserSettings.Size = new System.Drawing.Size(374, 45);
             this.tsbUpdateUserSettings.Text = "Update User(s) Settings";
             this.tsbUpdateUserSettings.Click += new System.EventHandler(this.tsbUpdateUserSettings_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 48);
+            // 
+            // tsbReset
+            // 
+            this.tsbReset.Image = ((System.Drawing.Image)(resources.GetObject("tsbReset.Image")));
+            this.tsbReset.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbReset.Name = "tsbReset";
+            this.tsbReset.Size = new System.Drawing.Size(134, 45);
+            this.tsbReset.Text = "Reset";
+            this.tsbReset.Click += new System.EventHandler(this.tsbReset_Click);
             // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 25);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 48);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -166,18 +201,18 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.panel1);
-            this.splitContainer1.Size = new System.Drawing.Size(821, 470);
-            this.splitContainer1.SplitterDistance = 349;
-            this.splitContainer1.SplitterWidth = 3;
+            this.splitContainer1.Size = new System.Drawing.Size(2190, 1132);
+            this.splitContainer1.SplitterDistance = 930;
+            this.splitContainer1.SplitterWidth = 8;
             this.splitContainer1.TabIndex = 2;
             // 
             // userSelector1
             // 
             this.userSelector1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.userSelector1.Location = new System.Drawing.Point(0, 0);
-            this.userSelector1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.userSelector1.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.userSelector1.Name = "userSelector1";
-            this.userSelector1.Size = new System.Drawing.Size(349, 470);
+            this.userSelector1.Size = new System.Drawing.Size(930, 1132);
             this.userSelector1.TabIndex = 1;
             // 
             // panel1
@@ -192,9 +227,9 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Enabled = false;
             this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.panel1.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(469, 470);
+            this.panel1.Size = new System.Drawing.Size(1252, 1132);
             this.panel1.TabIndex = 0;
             // 
             // gbOutlookForms
@@ -208,11 +243,11 @@
             this.gbOutlookForms.Controls.Add(this.label18);
             this.gbOutlookForms.Controls.Add(this.label19);
             this.gbOutlookForms.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbOutlookForms.Location = new System.Drawing.Point(0, 497);
-            this.gbOutlookForms.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.gbOutlookForms.Location = new System.Drawing.Point(0, 1185);
+            this.gbOutlookForms.Margin = new System.Windows.Forms.Padding(6, 4, 6, 4);
             this.gbOutlookForms.Name = "gbOutlookForms";
-            this.gbOutlookForms.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.gbOutlookForms.Size = new System.Drawing.Size(452, 127);
+            this.gbOutlookForms.Padding = new System.Windows.Forms.Padding(6, 4, 6, 4);
+            this.gbOutlookForms.Size = new System.Drawing.Size(1209, 303);
             this.gbOutlookForms.TabIndex = 59;
             this.gbOutlookForms.TabStop = false;
             this.gbOutlookForms.Text = "Outlook Forms";
@@ -227,19 +262,19 @@
             "No change",
             "No",
             "Yes"});
-            this.cbbUseCrmFormTask.Location = new System.Drawing.Point(155, 89);
-            this.cbbUseCrmFormTask.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.cbbUseCrmFormTask.Location = new System.Drawing.Point(414, 213);
+            this.cbbUseCrmFormTask.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.cbbUseCrmFormTask.Name = "cbbUseCrmFormTask";
-            this.cbbUseCrmFormTask.Size = new System.Drawing.Size(289, 21);
+            this.cbbUseCrmFormTask.Size = new System.Drawing.Size(767, 39);
             this.cbbUseCrmFormTask.TabIndex = 57;
             // 
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(6, 91);
-            this.label20.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label20.Location = new System.Drawing.Point(16, 217);
+            this.label20.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(114, 13);
+            this.label20.Size = new System.Drawing.Size(297, 32);
             this.label20.TabIndex = 58;
             this.label20.Text = "Use CRM form for task";
             // 
@@ -253,10 +288,10 @@
             "No change",
             "No",
             "Yes"});
-            this.cbbUseCrmFormAppt.Location = new System.Drawing.Point(155, 17);
-            this.cbbUseCrmFormAppt.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.cbbUseCrmFormAppt.Location = new System.Drawing.Point(414, 41);
+            this.cbbUseCrmFormAppt.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.cbbUseCrmFormAppt.Name = "cbbUseCrmFormAppt";
-            this.cbbUseCrmFormAppt.Size = new System.Drawing.Size(289, 21);
+            this.cbbUseCrmFormAppt.Size = new System.Drawing.Size(767, 39);
             this.cbbUseCrmFormAppt.TabIndex = 51;
             // 
             // cbbUseCrmFormContact
@@ -269,10 +304,10 @@
             "No change",
             "No",
             "Yes"});
-            this.cbbUseCrmFormContact.Location = new System.Drawing.Point(155, 41);
-            this.cbbUseCrmFormContact.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.cbbUseCrmFormContact.Location = new System.Drawing.Point(414, 97);
+            this.cbbUseCrmFormContact.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.cbbUseCrmFormContact.Name = "cbbUseCrmFormContact";
-            this.cbbUseCrmFormContact.Size = new System.Drawing.Size(289, 21);
+            this.cbbUseCrmFormContact.Size = new System.Drawing.Size(767, 39);
             this.cbbUseCrmFormContact.TabIndex = 52;
             // 
             // cbbUseCrmFormEmail
@@ -285,39 +320,39 @@
             "No change",
             "No",
             "Yes"});
-            this.cbbUseCrmFormEmail.Location = new System.Drawing.Point(155, 66);
-            this.cbbUseCrmFormEmail.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.cbbUseCrmFormEmail.Location = new System.Drawing.Point(414, 157);
+            this.cbbUseCrmFormEmail.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.cbbUseCrmFormEmail.Name = "cbbUseCrmFormEmail";
-            this.cbbUseCrmFormEmail.Size = new System.Drawing.Size(289, 21);
+            this.cbbUseCrmFormEmail.Size = new System.Drawing.Size(767, 39);
             this.cbbUseCrmFormEmail.TabIndex = 53;
             // 
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(6, 19);
-            this.label17.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label17.Location = new System.Drawing.Point(16, 45);
+            this.label17.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(118, 13);
+            this.label17.Size = new System.Drawing.Size(309, 32);
             this.label17.TabIndex = 54;
             this.label17.Text = "Use CRM form for appt.";
             // 
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(6, 43);
-            this.label18.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label18.Location = new System.Drawing.Point(16, 103);
+            this.label18.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(130, 13);
+            this.label18.Size = new System.Drawing.Size(337, 32);
             this.label18.TabIndex = 55;
             this.label18.Text = "Use CRM form for contact";
             // 
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(6, 68);
-            this.label19.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label19.Location = new System.Drawing.Point(16, 162);
+            this.label19.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(118, 13);
+            this.label19.Size = new System.Drawing.Size(314, 32);
             this.label19.TabIndex = 56;
             this.label19.Text = "Use CRM form for email";
             // 
@@ -328,11 +363,11 @@
             this.gbLanguages.Controls.Add(this.cbbHelpLanguage);
             this.gbLanguages.Controls.Add(this.label14);
             this.gbLanguages.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbLanguages.Location = new System.Drawing.Point(0, 432);
-            this.gbLanguages.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.gbLanguages.Location = new System.Drawing.Point(0, 1030);
+            this.gbLanguages.Margin = new System.Windows.Forms.Padding(6, 4, 6, 4);
             this.gbLanguages.Name = "gbLanguages";
-            this.gbLanguages.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.gbLanguages.Size = new System.Drawing.Size(452, 65);
+            this.gbLanguages.Padding = new System.Windows.Forms.Padding(6, 4, 6, 4);
+            this.gbLanguages.Size = new System.Drawing.Size(1209, 155);
             this.gbLanguages.TabIndex = 58;
             this.gbLanguages.TabStop = false;
             this.gbLanguages.Text = "Languages";
@@ -340,10 +375,10 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(6, 42);
-            this.label15.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label15.Location = new System.Drawing.Point(16, 100);
+            this.label15.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(76, 13);
+            this.label15.Size = new System.Drawing.Size(200, 32);
             this.label15.TabIndex = 64;
             this.label15.Text = "Help language";
             // 
@@ -353,10 +388,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbbUiLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbbUiLanguage.FormattingEnabled = true;
-            this.cbbUiLanguage.Location = new System.Drawing.Point(156, 17);
-            this.cbbUiLanguage.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.cbbUiLanguage.Location = new System.Drawing.Point(416, 41);
+            this.cbbUiLanguage.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.cbbUiLanguage.Name = "cbbUiLanguage";
-            this.cbbUiLanguage.Size = new System.Drawing.Size(293, 21);
+            this.cbbUiLanguage.Size = new System.Drawing.Size(778, 39);
             this.cbbUiLanguage.TabIndex = 61;
             // 
             // cbbHelpLanguage
@@ -365,19 +400,19 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbbHelpLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbbHelpLanguage.FormattingEnabled = true;
-            this.cbbHelpLanguage.Location = new System.Drawing.Point(155, 40);
-            this.cbbHelpLanguage.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.cbbHelpLanguage.Location = new System.Drawing.Point(414, 95);
+            this.cbbHelpLanguage.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.cbbHelpLanguage.Name = "cbbHelpLanguage";
-            this.cbbHelpLanguage.Size = new System.Drawing.Size(293, 21);
+            this.cbbHelpLanguage.Size = new System.Drawing.Size(778, 39);
             this.cbbHelpLanguage.TabIndex = 63;
             // 
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(7, 19);
-            this.label14.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label14.Location = new System.Drawing.Point(18, 45);
+            this.label14.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(65, 13);
+            this.label14.Size = new System.Drawing.Size(168, 32);
             this.label14.TabIndex = 62;
             this.label14.Text = "UI language";
             // 
@@ -386,11 +421,11 @@
             this.gbPrivacy.Controls.Add(this.label13);
             this.gbPrivacy.Controls.Add(this.cbbReportScriptErrors);
             this.gbPrivacy.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbPrivacy.Location = new System.Drawing.Point(0, 383);
-            this.gbPrivacy.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.gbPrivacy.Location = new System.Drawing.Point(0, 913);
+            this.gbPrivacy.Margin = new System.Windows.Forms.Padding(6, 4, 6, 4);
             this.gbPrivacy.Name = "gbPrivacy";
-            this.gbPrivacy.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.gbPrivacy.Size = new System.Drawing.Size(452, 49);
+            this.gbPrivacy.Padding = new System.Windows.Forms.Padding(6, 4, 6, 4);
+            this.gbPrivacy.Size = new System.Drawing.Size(1209, 117);
             this.gbPrivacy.TabIndex = 57;
             this.gbPrivacy.TabStop = false;
             this.gbPrivacy.Text = "Privacy";
@@ -398,10 +433,10 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(7, 19);
-            this.label13.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label13.Location = new System.Drawing.Point(18, 45);
+            this.label13.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(88, 13);
+            this.label13.Size = new System.Drawing.Size(237, 32);
             this.label13.TabIndex = 55;
             this.label13.Text = "Error notifications";
             // 
@@ -416,10 +451,10 @@
             "Ask me for permission to send an error report to Microsoft",
             "Automatically send an error report to Microsoft without asking me for permission",
             "Never send an error report to Microsoft about Microsoft Dynamics CRM"});
-            this.cbbReportScriptErrors.Location = new System.Drawing.Point(155, 17);
-            this.cbbReportScriptErrors.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.cbbReportScriptErrors.Location = new System.Drawing.Point(414, 41);
+            this.cbbReportScriptErrors.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.cbbReportScriptErrors.Name = "cbbReportScriptErrors";
-            this.cbbReportScriptErrors.Size = new System.Drawing.Size(289, 21);
+            this.cbbReportScriptErrors.Size = new System.Drawing.Size(767, 39);
             this.cbbReportScriptErrors.TabIndex = 54;
             // 
             // gbEmail
@@ -431,11 +466,11 @@
             this.gbEmail.Controls.Add(this.label9);
             this.gbEmail.Controls.Add(this.label10);
             this.gbEmail.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbEmail.Location = new System.Drawing.Point(0, 286);
-            this.gbEmail.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.gbEmail.Location = new System.Drawing.Point(0, 682);
+            this.gbEmail.Margin = new System.Windows.Forms.Padding(6, 4, 6, 4);
             this.gbEmail.Name = "gbEmail";
-            this.gbEmail.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.gbEmail.Size = new System.Drawing.Size(452, 97);
+            this.gbEmail.Padding = new System.Windows.Forms.Padding(6, 4, 6, 4);
+            this.gbEmail.Size = new System.Drawing.Size(1209, 231);
             this.gbEmail.TabIndex = 56;
             this.gbEmail.TabStop = false;
             this.gbEmail.Text = "Email Settings";
@@ -450,10 +485,10 @@
             "No change",
             "No",
             "Yes"});
-            this.cbbSendAsAllowed.Location = new System.Drawing.Point(155, 17);
-            this.cbbSendAsAllowed.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.cbbSendAsAllowed.Location = new System.Drawing.Point(414, 41);
+            this.cbbSendAsAllowed.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.cbbSendAsAllowed.Name = "cbbSendAsAllowed";
-            this.cbbSendAsAllowed.Size = new System.Drawing.Size(289, 21);
+            this.cbbSendAsAllowed.Size = new System.Drawing.Size(767, 39);
             this.cbbSendAsAllowed.TabIndex = 35;
             // 
             // cbbTrackMessages
@@ -468,10 +503,10 @@
             "Email messages in response to CRM email",
             "Email messages from CRM Leads, Contacts and Accounts",
             "Email messages from CRM records that are email enabled"});
-            this.cbbTrackMessages.Location = new System.Drawing.Point(155, 41);
-            this.cbbTrackMessages.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.cbbTrackMessages.Location = new System.Drawing.Point(414, 97);
+            this.cbbTrackMessages.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.cbbTrackMessages.Name = "cbbTrackMessages";
-            this.cbbTrackMessages.Size = new System.Drawing.Size(289, 21);
+            this.cbbTrackMessages.Size = new System.Drawing.Size(767, 39);
             this.cbbTrackMessages.TabIndex = 36;
             // 
             // cbbCreateRecords
@@ -485,39 +520,39 @@
             "No",
             "Contacts",
             "Leads"});
-            this.cbbCreateRecords.Location = new System.Drawing.Point(155, 66);
-            this.cbbCreateRecords.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.cbbCreateRecords.Location = new System.Drawing.Point(414, 157);
+            this.cbbCreateRecords.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.cbbCreateRecords.Name = "cbbCreateRecords";
-            this.cbbCreateRecords.Size = new System.Drawing.Size(289, 21);
+            this.cbbCreateRecords.Size = new System.Drawing.Size(767, 39);
             this.cbbCreateRecords.TabIndex = 37;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(6, 19);
-            this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label8.Location = new System.Drawing.Point(16, 45);
+            this.label8.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(127, 13);
+            this.label8.Size = new System.Drawing.Size(343, 32);
             this.label8.TabIndex = 48;
             this.label8.Text = "Allow emails on my behalf";
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 43);
-            this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label9.Location = new System.Drawing.Point(16, 103);
+            this.label9.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(112, 13);
+            this.label9.Size = new System.Drawing.Size(297, 32);
             this.label9.TabIndex = 49;
             this.label9.Text = "Track email messages";
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(6, 68);
-            this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label10.Location = new System.Drawing.Point(16, 162);
+            this.label10.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(76, 13);
+            this.label10.Size = new System.Drawing.Size(201, 32);
             this.label10.TabIndex = 50;
             this.label10.Text = "Create records";
             // 
@@ -530,11 +565,11 @@
             this.gbActivities.Controls.Add(this.label6);
             this.gbActivities.Controls.Add(this.label7);
             this.gbActivities.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbActivities.Location = new System.Drawing.Point(0, 192);
-            this.gbActivities.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.gbActivities.Location = new System.Drawing.Point(0, 458);
+            this.gbActivities.Margin = new System.Windows.Forms.Padding(6, 4, 6, 4);
             this.gbActivities.Name = "gbActivities";
-            this.gbActivities.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.gbActivities.Size = new System.Drawing.Size(452, 94);
+            this.gbActivities.Padding = new System.Windows.Forms.Padding(6, 4, 6, 4);
+            this.gbActivities.Size = new System.Drawing.Size(1209, 224);
             this.gbActivities.TabIndex = 55;
             this.gbActivities.TabStop = false;
             this.gbActivities.Text = "Activities";
@@ -550,10 +585,10 @@
             "Day",
             "Week",
             "Month"});
-            this.cbbCalendar.Location = new System.Drawing.Point(155, 17);
-            this.cbbCalendar.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.cbbCalendar.Location = new System.Drawing.Point(414, 41);
+            this.cbbCalendar.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.cbbCalendar.Name = "cbbCalendar";
-            this.cbbCalendar.Size = new System.Drawing.Size(293, 21);
+            this.cbbCalendar.Size = new System.Drawing.Size(778, 39);
             this.cbbCalendar.TabIndex = 32;
             // 
             // cbbWorkStartTime
@@ -611,10 +646,10 @@
             "22:30",
             "23:00",
             "23:30"});
-            this.cbbWorkStartTime.Location = new System.Drawing.Point(155, 42);
-            this.cbbWorkStartTime.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.cbbWorkStartTime.Location = new System.Drawing.Point(414, 100);
+            this.cbbWorkStartTime.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.cbbWorkStartTime.Name = "cbbWorkStartTime";
-            this.cbbWorkStartTime.Size = new System.Drawing.Size(293, 21);
+            this.cbbWorkStartTime.Size = new System.Drawing.Size(778, 39);
             this.cbbWorkStartTime.TabIndex = 33;
             // 
             // cbbWorkStopTime
@@ -672,39 +707,39 @@
             "22:30",
             "23:00",
             "23:30"});
-            this.cbbWorkStopTime.Location = new System.Drawing.Point(155, 66);
-            this.cbbWorkStopTime.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.cbbWorkStopTime.Location = new System.Drawing.Point(414, 157);
+            this.cbbWorkStopTime.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.cbbWorkStopTime.Name = "cbbWorkStopTime";
-            this.cbbWorkStopTime.Size = new System.Drawing.Size(293, 21);
+            this.cbbWorkStopTime.Size = new System.Drawing.Size(778, 39);
             this.cbbWorkStopTime.TabIndex = 34;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 19);
-            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label5.Location = new System.Drawing.Point(16, 45);
+            this.label5.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(49, 13);
+            this.label5.Size = new System.Drawing.Size(131, 32);
             this.label5.TabIndex = 45;
             this.label5.Text = "Calendar";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 44);
-            this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label6.Location = new System.Drawing.Point(16, 105);
+            this.label6.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(51, 13);
+            this.label6.Size = new System.Drawing.Size(136, 32);
             this.label6.TabIndex = 46;
             this.label6.Text = "Start time";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 68);
-            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label7.Location = new System.Drawing.Point(16, 162);
+            this.label7.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(48, 13);
+            this.label7.Size = new System.Drawing.Size(127, 32);
             this.label7.TabIndex = 47;
             this.label7.Text = "End time";
             // 
@@ -726,10 +761,10 @@
             this.gbGeneral.Controls.Add(this.label4);
             this.gbGeneral.Dock = System.Windows.Forms.DockStyle.Top;
             this.gbGeneral.Location = new System.Drawing.Point(0, 0);
-            this.gbGeneral.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.gbGeneral.Margin = new System.Windows.Forms.Padding(6, 4, 6, 4);
             this.gbGeneral.Name = "gbGeneral";
-            this.gbGeneral.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.gbGeneral.Size = new System.Drawing.Size(452, 192);
+            this.gbGeneral.Padding = new System.Windows.Forms.Padding(6, 4, 6, 4);
+            this.gbGeneral.Size = new System.Drawing.Size(1209, 458);
             this.gbGeneral.TabIndex = 54;
             this.gbGeneral.TabStop = false;
             this.gbGeneral.Text = "General";
@@ -737,10 +772,10 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(7, 159);
-            this.label16.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label16.Location = new System.Drawing.Point(18, 379);
+            this.label16.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(85, 13);
+            this.label16.Size = new System.Drawing.Size(221, 32);
             this.label16.TabIndex = 62;
             this.label16.Text = "Default currency";
             // 
@@ -750,29 +785,29 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbbCurrencies.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbbCurrencies.FormattingEnabled = true;
-            this.cbbCurrencies.Location = new System.Drawing.Point(156, 157);
-            this.cbbCurrencies.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.cbbCurrencies.Location = new System.Drawing.Point(416, 374);
+            this.cbbCurrencies.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.cbbCurrencies.Name = "cbbCurrencies";
-            this.cbbCurrencies.Size = new System.Drawing.Size(293, 21);
+            this.cbbCurrencies.Size = new System.Drawing.Size(778, 39);
             this.cbbCurrencies.TabIndex = 61;
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(7, 135);
-            this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label12.Location = new System.Drawing.Point(18, 322);
+            this.label12.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(108, 13);
+            this.label12.Size = new System.Drawing.Size(283, 32);
             this.label12.TabIndex = 60;
             this.label12.Text = "Advanced Find mode";
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(7, 111);
-            this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label11.Location = new System.Drawing.Point(18, 265);
+            this.label11.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(96, 13);
+            this.label11.Size = new System.Drawing.Size(251, 32);
             this.label11.TabIndex = 59;
             this.label11.Text = "Show startup pane";
             // 
@@ -786,10 +821,10 @@
             "No change",
             "Simple",
             "Detailed"});
-            this.cbbAdvancedFindMode.Location = new System.Drawing.Point(156, 133);
-            this.cbbAdvancedFindMode.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.cbbAdvancedFindMode.Location = new System.Drawing.Point(416, 317);
+            this.cbbAdvancedFindMode.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.cbbAdvancedFindMode.Name = "cbbAdvancedFindMode";
-            this.cbbAdvancedFindMode.Size = new System.Drawing.Size(293, 21);
+            this.cbbAdvancedFindMode.Size = new System.Drawing.Size(778, 39);
             this.cbbAdvancedFindMode.TabIndex = 58;
             // 
             // cbbStartupPane
@@ -802,10 +837,10 @@
             "No change",
             "False",
             "True"});
-            this.cbbStartupPane.Location = new System.Drawing.Point(156, 109);
-            this.cbbStartupPane.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.cbbStartupPane.Location = new System.Drawing.Point(416, 260);
+            this.cbbStartupPane.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.cbbStartupPane.Name = "cbbStartupPane";
-            this.cbbStartupPane.Size = new System.Drawing.Size(293, 21);
+            this.cbbStartupPane.Size = new System.Drawing.Size(778, 39);
             this.cbbStartupPane.TabIndex = 57;
             // 
             // cbbSiteMapSubArea
@@ -814,10 +849,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbbSiteMapSubArea.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbbSiteMapSubArea.FormattingEnabled = true;
-            this.cbbSiteMapSubArea.Location = new System.Drawing.Point(156, 37);
-            this.cbbSiteMapSubArea.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.cbbSiteMapSubArea.Location = new System.Drawing.Point(416, 89);
+            this.cbbSiteMapSubArea.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.cbbSiteMapSubArea.Name = "cbbSiteMapSubArea";
-            this.cbbSiteMapSubArea.Size = new System.Drawing.Size(293, 21);
+            this.cbbSiteMapSubArea.Size = new System.Drawing.Size(778, 39);
             this.cbbSiteMapSubArea.TabIndex = 29;
             // 
             // cbbSiteMapArea
@@ -826,10 +861,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbbSiteMapArea.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbbSiteMapArea.FormattingEnabled = true;
-            this.cbbSiteMapArea.Location = new System.Drawing.Point(156, 12);
-            this.cbbSiteMapArea.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.cbbSiteMapArea.Location = new System.Drawing.Point(416, 29);
+            this.cbbSiteMapArea.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.cbbSiteMapArea.Name = "cbbSiteMapArea";
-            this.cbbSiteMapArea.Size = new System.Drawing.Size(293, 21);
+            this.cbbSiteMapArea.Size = new System.Drawing.Size(778, 39);
             this.cbbSiteMapArea.TabIndex = 28;
             this.cbbSiteMapArea.SelectedIndexChanged += new System.EventHandler(this.cbbSiteMapArea_SelectedIndexChanged);
             // 
@@ -846,10 +881,10 @@
             "75",
             "100",
             "250"});
-            this.cbbPagingLimit.Location = new System.Drawing.Point(156, 62);
-            this.cbbPagingLimit.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.cbbPagingLimit.Location = new System.Drawing.Point(416, 148);
+            this.cbbPagingLimit.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.cbbPagingLimit.Name = "cbbPagingLimit";
-            this.cbbPagingLimit.Size = new System.Drawing.Size(293, 21);
+            this.cbbPagingLimit.Size = new System.Drawing.Size(778, 39);
             this.cbbPagingLimit.TabIndex = 30;
             // 
             // cbbTimeZones
@@ -858,70 +893,61 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbbTimeZones.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbbTimeZones.FormattingEnabled = true;
-            this.cbbTimeZones.Location = new System.Drawing.Point(156, 86);
-            this.cbbTimeZones.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.cbbTimeZones.Location = new System.Drawing.Point(416, 205);
+            this.cbbTimeZones.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.cbbTimeZones.Name = "cbbTimeZones";
-            this.cbbTimeZones.Size = new System.Drawing.Size(293, 21);
+            this.cbbTimeZones.Size = new System.Drawing.Size(778, 39);
             this.cbbTimeZones.TabIndex = 31;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(7, 14);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Location = new System.Drawing.Point(18, 33);
+            this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(69, 13);
+            this.label1.Size = new System.Drawing.Size(180, 32);
             this.label1.TabIndex = 41;
             this.label1.Text = "Default Pane";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(7, 39);
-            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label2.Location = new System.Drawing.Point(18, 93);
+            this.label2.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(63, 13);
+            this.label2.Size = new System.Drawing.Size(162, 32);
             this.label2.TabIndex = 42;
             this.label2.Text = "Default Tab";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(7, 63);
-            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label3.Location = new System.Drawing.Point(18, 151);
+            this.label3.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(92, 13);
+            this.label3.Size = new System.Drawing.Size(239, 32);
             this.label3.TabIndex = 43;
             this.label3.Text = "Records per page";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(7, 88);
-            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label4.Location = new System.Drawing.Point(18, 210);
+            this.label4.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(56, 13);
+            this.label4.Size = new System.Drawing.Size(147, 32);
             this.label4.TabIndex = 44;
             this.label4.Text = "Time zone";
             // 
-            // tsbReset
-            // 
-            this.tsbReset.Image = ((System.Drawing.Image)(resources.GetObject("tsbReset.Image")));
-            this.tsbReset.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbReset.Name = "tsbReset";
-            this.tsbReset.Size = new System.Drawing.Size(55, 22);
-            this.tsbReset.Text = "Reset";
-            this.tsbReset.Click += new System.EventHandler(this.tsbReset_Click);
-            // 
             // MainControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.toolStrip1);
-            this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.Name = "MainControl";
-            this.Size = new System.Drawing.Size(821, 495);
+            this.Size = new System.Drawing.Size(2190, 1180);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -1004,5 +1030,8 @@
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.ToolStripButton tsbReset;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripButton tsbEditInFXB;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
     }
 }

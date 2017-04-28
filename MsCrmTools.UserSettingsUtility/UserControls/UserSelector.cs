@@ -30,6 +30,7 @@ namespace MsCrmTools.UserSettingsUtility.UserControls
                 service = value;
                 LoadViews();
             }
+            get { return service; }
         }
 
         public void LoadViews()
@@ -63,39 +64,47 @@ namespace MsCrmTools.UserSettingsUtility.UserControls
 
         private void cbbViews_SelectedIndexChanged(object sender, EventArgs e)
         {
-            lvUsers.Items.Clear();
             var viewItem = (ViewItem)cbbViews.SelectedItem;
+            PopulateUsers(viewItem.FetchXml);
+        }
 
-            var entity = QueryHelper.GetItems(viewItem.FetchXml, service);
+        public void PopulateUsers(string fetchXml)
+        {
+            lvUsers.Items.Clear();
+            var entity = QueryHelper.GetItems(fetchXml, service);
 
             if (entity.EntityName == "systemuser")
             {
-                lvUsers.Items.AddRange(entity.Entities.ToList().Select(record => new ListViewItem
-                {
-                    Text = record.GetAttributeValue<string>("lastname"),
-                    ImageIndex = 0,
-                    StateImageIndex = 0,
-                    Tag = record,
-                    SubItems =
+                lvUsers.Items.AddRange(entity.Entities.ToList()
+                    .Select(record => new ListViewItem
                     {
-                        record.GetAttributeValue<string>("firstname"),
-                        record.GetAttributeValue<EntityReference>("businessunitid").Name
-                    }
-                }).ToArray());
+                        Text = record.GetAttributeValue<string>("lastname"),
+                        ImageIndex = 0,
+                        StateImageIndex = 0,
+                        Tag = record,
+                        SubItems =
+                        {
+                            record.GetAttributeValue<string>("firstname"),
+                            record.GetAttributeValue<EntityReference>("businessunitid").Name
+                        }
+                    })
+                    .ToArray());
             }
             else if (entity.EntityName == "team")
             {
-                lvUsers.Items.AddRange(entity.Entities.ToList().Select(record => new ListViewItem
-                {
-                    Text = record.GetAttributeValue<string>("name"),
-                    ImageIndex = 1,
-                    StateImageIndex = 1,
-                    Tag = record,
-                    SubItems =
+                lvUsers.Items.AddRange(entity.Entities.ToList()
+                    .Select(record => new ListViewItem
                     {
-                        record.GetAttributeValue<EntityReference>("businessunitid").Name
-                    }
-                }).ToArray());
+                        Text = record.GetAttributeValue<string>("name"),
+                        ImageIndex = 1,
+                        StateImageIndex = 1,
+                        Tag = record,
+                        SubItems =
+                        {
+                            record.GetAttributeValue<EntityReference>("businessunitid").Name
+                        }
+                    })
+                    .ToArray());
             }
         }
 

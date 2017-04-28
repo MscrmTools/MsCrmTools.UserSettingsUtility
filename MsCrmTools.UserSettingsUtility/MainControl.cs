@@ -8,10 +8,11 @@ using XrmToolBox.Extensibility.Interfaces;
 
 namespace MsCrmTools.UserSettingsUtility
 {
-    public partial class MainControl : PluginControlBase, IGitHubPlugin, IHelpPlugin
+    public partial class MainControl : PluginControlBase, IGitHubPlugin, IHelpPlugin, IMessageBusHost
     {
         private List<string> areas;
         private List<Tuple<string, string>> subAreas;
+        const string ACTIVE_USERS_FETCH = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' ><entity name='systemuser' ><attribute name='fullname' /><order attribute='fullname' descending='false' /><attribute name='businessunitid' /><attribute name='siteid' /><filter type='and' ><condition attribute='isdisabled' operator='eq' value='0' /><condition attribute='accessmode' operator='ne' value='3' /></filter><attribute name='systemuserid' /></entity></fetch>";
 
         public MainControl()
         {
@@ -29,11 +30,15 @@ namespace MsCrmTools.UserSettingsUtility
 
         private void LoadCrmItems()
         {
+            userSelector1.LoadViews();
+            LoadSettings();
+        }
+
+        private void LoadSettings()
+        {
             cbbSiteMapArea.Items.Clear();
             cbbSiteMapSubArea.Items.Clear();
             cbbTimeZones.Items.Clear();
-            userSelector1.Service = Service;
-            userSelector1.LoadViews();
 
             WorkAsync(new WorkAsyncInfo
             {
@@ -78,7 +83,7 @@ namespace MsCrmTools.UserSettingsUtility
                         cbbSiteMapSubArea.Items.Clear();
                         cbbCurrencies.Items.Clear();
 
-                        var sc = (SettingsCollection)e.Result;
+                        var sc = (SettingsCollection) e.Result;
 
                         // TimeZones
                         cbbTimeZones.Items.Add(new AppCode.TimeZone
@@ -95,7 +100,8 @@ namespace MsCrmTools.UserSettingsUtility
                                             Code = t.GetAttributeValue<int>("timezonecode"),
                                             Name = t.GetAttributeValue<string>("userinterfacename")
                                         })
-                                .Cast<object>().ToArray());
+                                .Cast<object>()
+                                .ToArray());
                         cbbTimeZones.SelectedIndex = 0;
 
                         // Language
@@ -364,5 +370,36 @@ namespace MsCrmTools.UserSettingsUtility
         public string RepositoryName => "MsCrmTools.UserSettingsUtility";
         public string UserName => "MscrmTools";
         public string HelpUrl => "https://github.com/MscrmTools/MsCrmTools.UserSettingsUtility/wiki";
+
+        private void tsbEditInFXB_Click(object sender, EventArgs e)
+        {
+            if (Service != null && userSelector1.Service == null)
+            {
+                userSelector1.Service = Service;
+            }
+            if (areas == null || !areas.Any())
+            {
+                ExecuteMethod(LoadSettings);
+            }
+            var messageBusEventArgs = new MessageBusEventArgs("FetchXML Builder");
+            var fetchXml = (((ComboBox) userSelector1.Controls.Find("cbbViews", true)?[0]).SelectedItem as ViewItem)?.FetchXml;
+            messageBusEventArgs.TargetArgument = fetchXml ?? ACTIVE_USERS_FETCH;
+            OnOutgoingMessage(this, messageBusEventArgs);
+        }
+
+        public void OnIncomingMessage(MessageBusEventArgs message)
+        {
+            if (message.SourcePlugin == "FetchXML Builder")
+            {
+                var fetchXml = (string)message.TargetArgument;
+                if (Service != null && userSelector1.Service == null)
+                {
+                    userSelector1.Service = Service;
+                }
+                userSelector1.PopulateUsers(fetchXml);
+            }
+        }
+
+        public event EventHandler<MessageBusEventArgs> OnOutgoingMessage;
     }
 }
