@@ -30,6 +30,7 @@ namespace MsCrmTools.UserSettingsUtility
 
         private void LoadCrmItems()
         {
+            userSelector1.Service = Service;
             userSelector1.LoadViews();
             LoadSettings();
         }
