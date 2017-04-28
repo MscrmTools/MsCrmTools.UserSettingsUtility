@@ -53,7 +53,12 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
                 Values = { userId },
             });
 
-            var record = records.Entities.First();
+            var record = records.Entities.FirstOrDefault();
+
+            if (record == null)
+            {
+                return;
+            }
 
             if (settings.AdvancedFindStartupMode >= 1)
                 record["advancedfindstartupmode"] = settings.AdvancedFindStartupMode;
