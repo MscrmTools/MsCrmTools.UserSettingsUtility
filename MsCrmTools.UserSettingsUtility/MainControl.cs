@@ -290,58 +290,84 @@ namespace MsCrmTools.UserSettingsUtility
             cbbTrackMessages.SelectedIndex = settings.IncomingEmailFilteringMethod + 1;
             cbbReportScriptErrors.SelectedIndex = settings.ReportScriptErrors;
 
-            if (settings.IsSendAsAllowed.HasValue && settings.IsSendAsAllowed.Value)
-            {
-                cbbSendAsAllowed.SelectedIndex = 2;
-            }
+            cbbSendAsAllowed.SelectedIndex = settings.IsSendAsAllowed.HasValue && settings.IsSendAsAllowed.Value
+                ? 2
+                : 0;
             if (settings.PagingLimit != 0)
             {
                 cbbPagingLimit.SelectedItem = settings.PagingLimit.ToString();
+            }
+            else
+            {
+                cbbPagingLimit.SelectedIndex = 0;
             }
             if (settings.TimeZoneCode != 0)
             {
                 cbbTimeZones.SelectedItem = cbbTimeZones.Items.Cast<AppCode.TimeZone>().Single(x => x.Code == settings.TimeZoneCode);
             }
+            else
+            {
+                cbbTimeZones.SelectedIndex = 0;
+            }
             if (!string.IsNullOrEmpty(settings.WorkdayStartTime))
             {
                 cbbWorkStartTime.SelectedItem = settings.WorkdayStartTime;
+            }
+            else
+            {
+                cbbWorkStartTime.SelectedIndex = 0;
             }
             if (!string.IsNullOrEmpty(settings.WorkdayStopTime))
             {
                 cbbWorkStopTime.SelectedItem = settings.WorkdayStopTime;
             }
+            else
+            {
+                cbbWorkStopTime.SelectedIndex = 0;
+            }
             if (settings.HelpLanguage != 0)
             {
                 cbbHelpLanguage.SelectedItem = cbbHelpLanguage.Items.Cast<object>().Skip(1).Single(x => ((Language)x).Lcid == settings.HelpLanguage);
+            }
+            else
+            {
+                cbbHelpLanguage.SelectedIndex = 0;
             }
             if (settings.UiLanguage != 0)
             {
                 cbbUiLanguage.SelectedItem = cbbUiLanguage.Items.Cast<object>().Skip(1).Single(x => ((Language)x).Lcid == settings.UiLanguage);
             }
+            else
+            {
+                cbbUiLanguage.SelectedIndex = 0;
+            }
             if (settings.Currency != null)
             {
-                cbbCurrencies.SelectedItem = cbbCurrencies.Items.Cast<object>().Skip(1).Single(x => ((Currency)x).CurrencyReference.Id == settings.Currency.Id);
+                cbbCurrencies.SelectedItem = cbbCurrencies.Items.Cast<object>()
+                    .Skip(1)
+                    .Single(x => ((Currency) x).CurrencyReference.Id == settings.Currency.Id);
             }
-            if (settings.StartupPaneEnabled.HasValue && settings.StartupPaneEnabled.Value)
+            else
             {
-                cbbStartupPane.SelectedIndex = 2;
+                cbbCurrencies.SelectedIndex = 0;
             }
-            if (settings.UseCrmFormForAppointment.HasValue && settings.UseCrmFormForAppointment.Value)
-            {
-                cbbUseCrmFormAppt.SelectedIndex = 2;
-            }
-            if (settings.UseCrmFormForContact.HasValue && settings.UseCrmFormForContact.Value)
-            {
-                cbbUseCrmFormContact.SelectedIndex = 2;
-            }
-            if (settings.UseCrmFormForEmail.HasValue && settings.UseCrmFormForEmail.Value)
-            {
-                cbbUseCrmFormEmail.SelectedIndex = 2;
-            }
-            if (settings.UseCrmFormForTask.HasValue && settings.UseCrmFormForTask.Value)
-            {
-                cbbUseCrmFormTask.SelectedIndex = 2;
-            }
+            cbbStartupPane.SelectedIndex = settings.StartupPaneEnabled.HasValue && settings.StartupPaneEnabled.Value
+                ? 2
+                : 0;
+            cbbUseCrmFormAppt.SelectedIndex = settings.UseCrmFormForAppointment.HasValue &&
+                                              settings.UseCrmFormForAppointment.Value
+                ? 2
+                : 0;
+            cbbUseCrmFormContact.SelectedIndex = settings.UseCrmFormForContact.HasValue &&
+                                                 settings.UseCrmFormForContact.Value
+                ? 2
+                : 0;
+            cbbUseCrmFormEmail.SelectedIndex = settings.UseCrmFormForEmail.HasValue && settings.UseCrmFormForEmail.Value
+                ? 2
+                : 0;
+            cbbUseCrmFormTask.SelectedIndex = settings.UseCrmFormForTask.HasValue && settings.UseCrmFormForTask.Value
+                ? 2
+                : 0;
         }
 
         private void tsbReset_Click(object sender, EventArgs e)
