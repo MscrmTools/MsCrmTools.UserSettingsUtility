@@ -5,17 +5,20 @@ using Microsoft.Xrm.Sdk.Query;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CrmEarlyBound;
 
 namespace MsCrmTools.UserSettingsUtility.AppCode
 {
-    internal class UserSettingsHelper
+    internal class UserSettingsHelper : IDisposable
     {
         private readonly ConnectionDetail detail;
         private readonly IOrganizationService service;
+        private readonly CrmServiceContext serviceContext;
 
         public UserSettingsHelper(IOrganizationService service, ConnectionDetail detail)
         {
             this.service = service;
+            this.serviceContext = new CrmServiceContext(service);
             this.detail = detail;
         }
 
@@ -26,12 +29,13 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
             return lcidResponse.RetrieveProvisionedLanguages.Select(lcid => new Language(lcid)).ToList();
         }
 
-        public List<Currency> RetrieveCurrencies()
+        public IEnumerable<TransactionCurrency> RetrieveCurrencies()
         {
-            return
-                service.RetrieveMultiple(new QueryExpression("transactioncurrency") { ColumnSet = new ColumnSet("currencyname") })
-                    .Entities.Select(tc => new Currency(tc))
-                    .ToList();
+            var currencies = serviceContext.TransactionCurrencySet
+                .OrderBy(c => c.CurrencyName)
+                .Select(c => new TransactionCurrency { Id = c.Id, CurrencyName = c.CurrencyName })
+                .ToList();
+            return currencies;
         }
 
         public EntityCollection RetrieveTimeZones()
@@ -46,64 +50,81 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
         {
             var currentUserId = detail.ServiceClient.OrganizationServiceProxy.CallerId;
             detail.ServiceClient.OrganizationServiceProxy.CallerId = userId;
-
             var records = detail.ServiceClient.OrganizationServiceProxy.RetrieveMultiple(new QueryByAttribute("usersettings")
             {
                 Attributes = { "systemuserid" },
                 Values = { userId },
             });
 
-            var record = records.Entities.FirstOrDefault();
+            var userSetting = records.Entities.FirstOrDefault().ToEntity<UserSettings>();
 
-            if (record == null)
+            if (userSetting == null)
             {
                 return;
             }
 
             if (settings.AdvancedFindStartupMode >= 1)
-                record["advancedfindstartupmode"] = settings.AdvancedFindStartupMode;
+                userSetting.AdvancedFindStartupMode = settings.AdvancedFindStartupMode;
             if (settings.AutoCreateContactOnPromote >= 0)
-                record["autocreatecontactonpromote"] = settings.AutoCreateContactOnPromote;
+                userSetting.AutoCreateContactOnPromote = settings.AutoCreateContactOnPromote;
             if (settings.DefaultCalendarView >= 0)
-                record["defaultcalendarview"] = settings.DefaultCalendarView;
-            if (settings.HomePageArea.Length > 0 && settings.HomePageArea != "No change")
-                record["homepagearea"] = settings.HomePageArea;
-            if (settings.HomePageSubArea.Length > 0 && settings.HomePageSubArea != "No change")
-                record["homepagesubarea"] = settings.HomePageSubArea;
-            if (settings.IncomingEmailFilteringMethod >= 0)
-                record["incomingemailfilteringmethod"] = new OptionSetValue(settings.IncomingEmailFilteringMethod);
+                userSetting.DefaultCalendarView = settings.DefaultCalendarView;
+            if (settings.HomepageArea.Length > 0 && settings.HomepageArea != "No change")
+                userSetting.HomepageArea = settings.HomepageArea;
+            if (settings.HomepageSubarea.Length > 0 && settings.HomepageSubarea != "No change")
+                userSetting.HomepageSubarea = settings.HomepageSubarea;
+            if (settings.IncomingEmailFilteringMethod.Value >= 0)
+                userSetting .IncomingEmailFilteringMethod= settings.IncomingEmailFilteringMethod;
             if (settings.PagingLimit.HasValue)
-                record["paginglimit"] = settings.PagingLimit.Value;
+                userSetting.PagingLimit = settings.PagingLimit.Value;
             if (settings.TimeZoneCode >= 0)
-                record["timezonecode"] = settings.TimeZoneCode;
+                userSetting.TimeZoneCode = settings.TimeZoneCode;
             if (settings.WorkdayStartTime.Length > 0 && settings.WorkdayStartTime != "No change")
-                record["workdaystarttime"] = settings.WorkdayStartTime;
+                userSetting.WorkdayStartTime = settings.WorkdayStartTime;
             if (settings.WorkdayStopTime.Length > 0 && settings.WorkdayStopTime != "No change")
-                record["workdaystoptime"] = settings.WorkdayStopTime;
-            if (settings.ReportScriptErrors >= 1)
-                record["reportscripterrors"] = new OptionSetValue(settings.ReportScriptErrors);
+                userSetting.WorkdayStopTime = settings.WorkdayStopTime;
+            if (settings.ReportScriptErrors.Value >= 1)
+                userSetting.ReportScriptErrors = settings.ReportScriptErrors;
             if (settings.IsSendAsAllowed.HasValue)
-                record["issendasallowed"] = settings.IsSendAsAllowed.Value;
-            if (settings.UiLanguage.HasValue)
-                record["uilanguageid"] = settings.UiLanguage.Value;
-            if (settings.HelpLanguage.HasValue)
-                record["helplanguageid"] = settings.HelpLanguage.Value;
-            if (settings.Currency != null)
-                record["transactioncurrencyid"] = settings.Currency;
-            if (settings.StartupPaneEnabled.HasValue)
-                record["getstartedpanecontentenabled"] = settings.StartupPaneEnabled.Value;
+                userSetting.IsSendAsAllowed = settings.IsSendAsAllowed.Value;
+            if (settings.UILanguageId.HasValue)
+                userSetting.UILanguageId = settings.UILanguageId.Value;
+            if (settings.HelpLanguageId.HasValue)
+                userSetting.HelpLanguageId = settings.HelpLanguageId.Value;
+            if (settings.TransactionCurrencyId != null)
+                userSetting.TransactionCurrencyId = settings.TransactionCurrencyId;
+            if (settings.GetStartedPaneContentEnabled.HasValue)
+                userSetting.GetStartedPaneContentEnabled = settings.GetStartedPaneContentEnabled.Value;
             if (settings.UseCrmFormForAppointment.HasValue)
-                record["usecrmformforappointment"] = settings.UseCrmFormForAppointment.Value;
+                userSetting.UseCrmFormForAppointment = settings.UseCrmFormForAppointment.Value;
             if (settings.UseCrmFormForContact.HasValue)
-                record["usecrmformforcontact"] = settings.UseCrmFormForContact.Value;
+                userSetting.UseCrmFormForContact = settings.UseCrmFormForContact.Value;
             if (settings.UseCrmFormForEmail.HasValue)
-                record["usecrmformforemail"] = settings.UseCrmFormForEmail.Value;
+                userSetting.UseCrmFormForEmail = settings.UseCrmFormForEmail.Value;
             if (settings.UseCrmFormForTask.HasValue)
-                record["usecrmformfortask"] = settings.UseCrmFormForTask.Value;
-
-            service.Update(record);
+                userSetting.UseCrmFormForTask = settings.UseCrmFormForTask.Value;
+            if(settings.DefaultDashboardId.HasValue)
+                userSetting.DefaultDashboardId = settings.DefaultDashboardId;
+            if (settings.LocaleId.HasValue)
+                userSetting.LocaleId = settings.LocaleId;
+            service.Update(userSetting);
 
             detail.ServiceClient.OrganizationServiceProxy.CallerId = currentUserId;
+        }
+
+        public IEnumerable<SystemForm> RetrieveDashboards()
+        {
+            var dashboards = serviceContext.SystemFormSet
+                .Where(s => s.ObjectTypeCode == "none" && s.UniqueName == null)
+                .OrderBy(s => s.Name)
+                .Select(s => new SystemForm {Id = s.Id, Name = s.Name})
+                .ToList();
+            return dashboards;
+        }
+
+        public void Dispose()
+        {
+            serviceContext.Dispose();
         }
     }
 }

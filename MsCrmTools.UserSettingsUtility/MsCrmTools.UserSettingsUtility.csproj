@@ -120,6 +120,9 @@
     <Reference Include="System.Security" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.ValueTuple, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.3.1\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Windows.Forms" />
@@ -145,7 +148,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppCode\Currency.cs" />
+    <Compile Include="AppCode\Entities.cs" />
     <Compile Include="AppCode\Language.cs" />
     <Compile Include="AppCode\ListViewItemComparer.cs" />
     <Compile Include="AppCode\QueryHelper.cs" />
@@ -153,7 +156,6 @@
     <Compile Include="AppCode\SiteMapManager.cs" />
     <Compile Include="AppCode\SystemUserManager.cs" />
     <Compile Include="AppCode\TimeZoneInfo.cs" />
-    <Compile Include="AppCode\UserSettings.cs" />
     <Compile Include="AppCode\UserSettingsHelper.cs" />
     <Compile Include="AppCode\ViewItem.cs" />
     <Compile Include="AppCode\ViewManager.cs" />

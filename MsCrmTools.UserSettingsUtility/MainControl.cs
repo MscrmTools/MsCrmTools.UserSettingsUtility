@@ -1,10 +1,14 @@
 ﻿using MsCrmTools.UserSettingsUtility.AppCode;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
+using CrmEarlyBound;
+using Microsoft.Xrm.Sdk;
 using XrmToolBox.Extensibility;
 using XrmToolBox.Extensibility.Interfaces;
+using UserSettings = CrmEarlyBound.UserSettings;
 
 namespace MsCrmTools.UserSettingsUtility
 {
@@ -41,6 +45,9 @@ namespace MsCrmTools.UserSettingsUtility
             cbbSiteMapSubArea.Items.Clear();
             cbbTimeZones.Items.Clear();
 
+            var ush = new UserSettingsHelper(Service, ConnectionDetail);
+            var smm = new SiteMapManager(Service);
+
             WorkAsync(new WorkAsyncInfo
             {
                 Message = "Initializing...",
@@ -50,21 +57,20 @@ namespace MsCrmTools.UserSettingsUtility
                     var sc = new SettingsCollection();
 
                     bw.ReportProgress(0, "Loading Available languages...");
-                    var ush = new UserSettingsHelper(Service, ConnectionDetail);
                     sc.Languages = ush.RetrieveAvailableLanguages();
 
                     bw.ReportProgress(0, "Loading Currencies...");
-                    ush = new UserSettingsHelper(Service, ConnectionDetail);
                     sc.Currencies = ush.RetrieveCurrencies();
 
                     bw.ReportProgress(0, "Loading Time Zones...");
-                    ush = new UserSettingsHelper(Service, ConnectionDetail);
                     sc.TimeZones = ush.RetrieveTimeZones();
 
                     bw.ReportProgress(0, "Loading SiteMap elements...");
-                    var smm = new SiteMapManager(Service);
                     areas = smm.GetAreaList();
                     subAreas = smm.GetSubAreaList();
+
+                    bw.ReportProgress(0, "Loading Dashboards...");
+                    sc.Dashboards = ush.RetrieveDashboards();
 
                     e.Result = sc;
                 },
@@ -83,6 +89,8 @@ namespace MsCrmTools.UserSettingsUtility
                         cbbSiteMapArea.Items.Clear();
                         cbbSiteMapSubArea.Items.Clear();
                         cbbCurrencies.Items.Clear();
+                        cbbDefaultDashboard.Items.Clear();
+                        cbbFormat.Items.Clear();
 
                         var sc = (SettingsCollection) e.Result;
 
@@ -113,6 +121,7 @@ namespace MsCrmTools.UserSettingsUtility
 
                         // Currencies
                         cbbCurrencies.Items.Add("No change");
+                        cbbCurrencies.DisplayMember = "CurrencyName";
                         cbbCurrencies.Items.AddRange(sc.Currencies.ToArray());
 
                         // SiteMap
@@ -121,6 +130,10 @@ namespace MsCrmTools.UserSettingsUtility
                         cbbSiteMapSubArea.Items.Add("No change");
                         cbbSiteMapSubArea.Items.AddRange(subAreas.Select(t => t.Item1).ToArray());
                         cbbSiteMapSubArea.Enabled = false;
+
+                        cbbDefaultDashboard.Items.Add("No change");
+                        cbbDefaultDashboard.DisplayMember = "Name";
+                        cbbDefaultDashboard.Items.AddRange(sc.Dashboards.ToArray());
 
                         foreach (var ctrl in panel1.Controls)
                         {
@@ -137,7 +150,13 @@ namespace MsCrmTools.UserSettingsUtility
                                 }
                             }
                         }
-
+                        cbbFormat.Items.Add("No change");
+                        cbbFormat.DisplayMember = "NativeName";
+                        cbbFormat.Items.AddRange(CultureInfo.GetCultures(CultureTypes.InstalledWin32Cultures)
+                            .Where(x => !x.IsNeutralCulture && x.LCID != 127)
+                            .OrderBy(ci => ci.DisplayName)
+                            .ToArray());
+                        cbbFormat.SelectedIndex = 0;
                         panel1.Enabled = true;
                     }
                 },
@@ -166,16 +185,15 @@ namespace MsCrmTools.UserSettingsUtility
 
             #region Initialisation des données à mettre à jour
 
-            var setting = new UserSettings
+            var setting = new UserSettings()
             {
                 AdvancedFindStartupMode = cbbAdvancedFindMode.SelectedIndex,
                 AutoCreateContactOnPromote = cbbCreateRecords.SelectedIndex - 1,
                 DefaultCalendarView = cbbCalendar.SelectedIndex - 1,
-                IncomingEmailFilteringMethod = cbbTrackMessages.SelectedIndex - 1,
-                ReportScriptErrors = cbbReportScriptErrors.SelectedIndex,
-                HomePageArea = cbbSiteMapArea.SelectedItem.ToString(),
-                HomePageSubArea = cbbSiteMapSubArea.SelectedItem.ToString(),
-                UsersToUpdate = userSelector1.SelectedItems,
+                IncomingEmailFilteringMethod = new OptionSetValue(cbbTrackMessages.SelectedIndex - 1),
+                ReportScriptErrors = new OptionSetValue(cbbReportScriptErrors.SelectedIndex),
+                HomepageArea = cbbSiteMapArea.SelectedItem.ToString(),
+                HomepageSubarea = cbbSiteMapSubArea.SelectedItem.ToString(),
             };
 
             if (cbbSendAsAllowed.SelectedIndex != 0)
@@ -213,22 +231,22 @@ namespace MsCrmTools.UserSettingsUtility
 
             if (cbbHelpLanguage.SelectedIndex != 0)
             {
-                setting.HelpLanguage = ((Language)cbbHelpLanguage.SelectedItem).Lcid;
+                setting.HelpLanguageId = ((Language)cbbHelpLanguage.SelectedItem).Lcid;
             }
 
             if (cbbUiLanguage.SelectedIndex != 0)
             {
-                setting.UiLanguage = ((Language)cbbUiLanguage.SelectedItem).Lcid;
+                setting.UILanguageId = ((Language)cbbUiLanguage.SelectedItem).Lcid;
             }
 
             if (cbbCurrencies.SelectedIndex != 0)
             {
-                setting.Currency = ((Currency)cbbCurrencies.SelectedItem).CurrencyReference;
+                setting.TransactionCurrencyId = ((TransactionCurrency)cbbCurrencies.SelectedItem).ToEntityReference();
             }
 
             if (cbbStartupPane.SelectedIndex != 0)
             {
-                setting.StartupPaneEnabled = cbbStartupPane.SelectedIndex == 2;
+                setting.GetStartedPaneContentEnabled = cbbStartupPane.SelectedIndex == 2;
             }
 
             if (cbbUseCrmFormAppt.SelectedIndex != 0)
@@ -250,22 +268,29 @@ namespace MsCrmTools.UserSettingsUtility
             {
                 setting.UseCrmFormForTask = cbbUseCrmFormTask.SelectedIndex == 2;
             }
-
+            if (cbbDefaultDashboard.SelectedIndex != 0)
+            {
+                setting.DefaultDashboardId = ((SystemForm)cbbDefaultDashboard.SelectedItem).Id;
+            }
+            if(cbbFormat.SelectedIndex != 0)
+            {
+                setting.LocaleId = ((CultureInfo) cbbFormat.SelectedItem).LCID;
+            }
             #endregion Initialisation des données à mettre à jour
 
             WorkAsync(new WorkAsyncInfo
             {
                 Message = "Initializing update...",
-                AsyncArgument = setting,
+                AsyncArgument = (selectedUsers: userSelector1.SelectedItems, userSettings: setting),
                 Work = (bw, evt) =>
                 {
-                    var settingArg = (UserSettings)evt.Argument;
+                    var updateUserSettings = ((List<Entity> selectedUsers, UserSettings setting))evt.Argument;
                     var ush = new UserSettingsHelper(Service, ConnectionDetail);
 
-                    foreach (var user in settingArg.UsersToUpdate)
+                    foreach (var updateUserSetting in updateUserSettings.selectedUsers)
                     {
-                        bw.ReportProgress(0, "Updating settings for user " + user.GetAttributeValue<string>("fullname"));
-                        ush.UpdateSettings(user.Id, setting);
+                        bw.ReportProgress(0, "Updating settings for user " + updateUserSetting.GetAttributeValue<string>("fullname"));
+                        ush.UpdateSettings(updateUserSetting.Id, updateUserSettings.setting);
                     }
                 },
                 PostWorkCallBack = evt =>
@@ -282,14 +307,14 @@ namespace MsCrmTools.UserSettingsUtility
 
         public void LoadCurrentUserSetting(UserSettings settings)
         {
-            cbbSiteMapArea.SelectedItem = settings.HomePageArea;
-            cbbSiteMapSubArea.SelectedItem = settings.HomePageSubArea;
-            cbbAdvancedFindMode.SelectedIndex = settings.AdvancedFindStartupMode;
-            cbbCreateRecords.SelectedIndex = settings.AutoCreateContactOnPromote + 1;
-            cbbCalendar.SelectedIndex = settings.DefaultCalendarView + 1;
-            cbbTrackMessages.SelectedIndex = settings.IncomingEmailFilteringMethod + 1;
-            cbbReportScriptErrors.SelectedIndex = settings.ReportScriptErrors;
-
+            cbbSiteMapArea.SelectedItem = settings.HomepageArea;
+            cbbSiteMapSubArea.SelectedItem = settings.HomepageSubarea;
+            if (settings.AdvancedFindStartupMode != null)
+                cbbAdvancedFindMode.SelectedIndex = settings.AdvancedFindStartupMode.Value;
+            cbbCreateRecords.SelectedIndex = settings.AutoCreateContactOnPromote.Value + 1;
+            cbbCalendar.SelectedIndex = settings.DefaultCalendarView.Value + 1;
+            cbbTrackMessages.SelectedIndex = settings.IncomingEmailFilteringMethod.Value + 1;
+            cbbReportScriptErrors.SelectedIndex = settings.ReportScriptErrors.Value;
             cbbSendAsAllowed.SelectedIndex = settings.IsSendAsAllowed.HasValue && settings.IsSendAsAllowed.Value
                 ? 2
                 : 0;
@@ -325,33 +350,40 @@ namespace MsCrmTools.UserSettingsUtility
             {
                 cbbWorkStopTime.SelectedIndex = 0;
             }
-            if (settings.HelpLanguage != 0)
+            if (settings.HelpLanguageId != 0)
             {
-                cbbHelpLanguage.SelectedItem = cbbHelpLanguage.Items.Cast<object>().Skip(1).Single(x => ((Language)x).Lcid == settings.HelpLanguage);
+                cbbHelpLanguage.SelectedItem = cbbHelpLanguage.Items
+                    .Cast<object>()
+                    .Skip(1)
+                    .Single(x => ((Language)x).Lcid == settings.HelpLanguageId);
             }
             else
             {
                 cbbHelpLanguage.SelectedIndex = 0;
             }
-            if (settings.UiLanguage != 0)
+            if (settings.UILanguageId != 0)
             {
-                cbbUiLanguage.SelectedItem = cbbUiLanguage.Items.Cast<object>().Skip(1).Single(x => ((Language)x).Lcid == settings.UiLanguage);
+                cbbUiLanguage.SelectedItem = cbbUiLanguage.Items
+                    .Cast<object>()
+                    .Skip(1)
+                    .Single(x => ((Language)x).Lcid == settings.UILanguageId);
             }
             else
             {
                 cbbUiLanguage.SelectedIndex = 0;
             }
-            if (settings.Currency != null)
+            if (settings.TransactionCurrencyId != null)
             {
-                cbbCurrencies.SelectedItem = cbbCurrencies.Items.Cast<object>()
+                cbbCurrencies.SelectedItem = cbbCurrencies.Items
+                    .Cast<object>()
                     .Skip(1)
-                    .Single(x => ((Currency) x).CurrencyReference.Id == settings.Currency.Id);
+                    .Single(x => ((TransactionCurrency) x).Id == settings.TransactionCurrencyId.Id);
             }
             else
             {
                 cbbCurrencies.SelectedIndex = 0;
             }
-            cbbStartupPane.SelectedIndex = settings.StartupPaneEnabled.HasValue && settings.StartupPaneEnabled.Value
+            cbbStartupPane.SelectedIndex = settings.GetStartedPaneContentEnabled.HasValue && settings.GetStartedPaneContentEnabled.Value
                 ? 2
                 : 0;
             cbbUseCrmFormAppt.SelectedIndex = settings.UseCrmFormForAppointment.HasValue &&
@@ -368,6 +400,17 @@ namespace MsCrmTools.UserSettingsUtility
             cbbUseCrmFormTask.SelectedIndex = settings.UseCrmFormForTask.HasValue && settings.UseCrmFormForTask.Value
                 ? 2
                 : 0;
+            if (settings.DefaultDashboardId.HasValue)
+            {
+                cbbDefaultDashboard.SelectedItem = cbbDefaultDashboard.Items.Cast<object>().Skip(1).Single(x => ((SystemForm)x).Id == settings.DefaultDashboardId);
+            }
+            else
+            {
+                cbbDefaultDashboard.SelectedIndex = 0;
+            }
+            cbbFormat.SelectedItem = cbbFormat.Items.Cast<object>()
+                .Skip(1)
+                .Single(c => ((CultureInfo)c).LCID == settings.LocaleId);
         }
 
         private void tsbReset_Click(object sender, EventArgs e)
@@ -392,6 +435,13 @@ namespace MsCrmTools.UserSettingsUtility
             cbbUseCrmFormContact.SelectedIndex = 0;
             cbbUseCrmFormEmail.SelectedIndex = 0;
             cbbUseCrmFormTask.SelectedIndex = 0;
+            cbbDefaultDashboard.SelectedIndex = 0;
+            cbbFormat.SelectedIndex = 0;
+            txtLongDateFormat.Text = "";
+            txtCurrencyFormat.Text = "";
+            txtNumberFormat.Text = "";
+            txtShortDateFormat.Text = "";
+            txtTimeFormat.Text = "";
         }
 
         public string RepositoryName => "MsCrmTools.UserSettingsUtility";
@@ -428,5 +478,18 @@ namespace MsCrmTools.UserSettingsUtility
         }
 
         public event EventHandler<MessageBusEventArgs> OnOutgoingMessage;
+
+        private void cbbFormat_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbbFormat.SelectedIndex == 0) return;
+
+            var selectedCulture = (CultureInfo) cbbFormat.SelectedItem;
+            var currentTime = DateTime.Now;
+            txtNumberFormat.Text = 123456789.ToString("f", selectedCulture);
+            txtCurrencyFormat.Text = 123456789.ToString("c", selectedCulture);
+            txtTimeFormat.Text = currentTime.ToString(selectedCulture.DateTimeFormat.ShortTimePattern);
+            txtShortDateFormat.Text = currentTime.ToString(selectedCulture.DateTimeFormat.ShortDatePattern);
+            txtLongDateFormat.Text = currentTime.ToString(selectedCulture.DateTimeFormat.LongDatePattern);
+        }
     }
 }
