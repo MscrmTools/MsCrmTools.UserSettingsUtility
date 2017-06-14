@@ -159,7 +159,7 @@ namespace MsCrmTools.UserSettingsUtility.UserControls
                 ColumnSet = new ColumnSet(true)
             });
 
-            var settings = records.Entities.First().ToEntity<UserSettings>();
+            var settings = records.Entities.First();
             ((MainControl)this.Parent.Parent.Parent).LoadCurrentUserSetting(settings);
         }
     }

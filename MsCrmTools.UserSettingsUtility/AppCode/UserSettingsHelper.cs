@@ -9,16 +9,14 @@ using CrmEarlyBound;
 
 namespace MsCrmTools.UserSettingsUtility.AppCode
 {
-    internal class UserSettingsHelper : IDisposable
+    internal class UserSettingsHelper
     {
         private readonly ConnectionDetail detail;
         private readonly IOrganizationService service;
-        private readonly CrmServiceContext serviceContext;
 
         public UserSettingsHelper(IOrganizationService service, ConnectionDetail detail)
         {
             this.service = service;
-            this.serviceContext = new CrmServiceContext(service);
             this.detail = detail;
         }
 
@@ -29,12 +27,16 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
             return lcidResponse.RetrieveProvisionedLanguages.Select(lcid => new Language(lcid)).ToList();
         }
 
-        public IEnumerable<TransactionCurrency> RetrieveCurrencies()
+        public IEnumerable<Entity> RetrieveCurrencies()
         {
-            var currencies = serviceContext.TransactionCurrencySet
-                .OrderBy(c => c.CurrencyName)
-                .Select(c => new TransactionCurrency { Id = c.Id, CurrencyName = c.CurrencyName })
-                .ToList();
+            var currencies = service.RetrieveMultiple(new FetchExpression(@"
+            <fetch>
+              <entity name='transactioncurrency' >
+                <attribute name='transactioncurrencyid' />
+                <attribute name='currencyname' />
+                <order attribute='currencyname' />
+              </entity>
+            </fetch>")).Entities;
             return currencies;
         }
 
@@ -46,85 +48,112 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
             return response.EntityCollection;
         }
 
-        public void UpdateSettings(Guid userId, UserSettings settings)
+        public void UpdateSettings(Guid userId, Entity settings)
         {
             var currentUserId = detail.ServiceClient.OrganizationServiceProxy.CallerId;
             detail.ServiceClient.OrganizationServiceProxy.CallerId = userId;
             var records = detail.ServiceClient.OrganizationServiceProxy.RetrieveMultiple(new QueryByAttribute("usersettings")
             {
-                Attributes = { "systemuserid" },
+                Attributes = { UserSettings.Fields.SystemUserId },
                 Values = { userId },
             });
 
-            var userSetting = records.Entities.FirstOrDefault().ToEntity<UserSettings>();
+            var userSetting = records.Entities.FirstOrDefault();
 
             if (userSetting == null)
             {
                 return;
             }
 
-            if (settings.AdvancedFindStartupMode >= 1)
-                userSetting.AdvancedFindStartupMode = settings.AdvancedFindStartupMode;
-            if (settings.AutoCreateContactOnPromote >= 0)
-                userSetting.AutoCreateContactOnPromote = settings.AutoCreateContactOnPromote;
-            if (settings.DefaultCalendarView >= 0)
-                userSetting.DefaultCalendarView = settings.DefaultCalendarView;
-            if (settings.HomepageArea.Length > 0 && settings.HomepageArea != "No change")
-                userSetting.HomepageArea = settings.HomepageArea;
-            if (settings.HomepageSubarea.Length > 0 && settings.HomepageSubarea != "No change")
-                userSetting.HomepageSubarea = settings.HomepageSubarea;
-            if (settings.IncomingEmailFilteringMethod.Value >= 0)
-                userSetting .IncomingEmailFilteringMethod= settings.IncomingEmailFilteringMethod;
-            if (settings.PagingLimit.HasValue)
-                userSetting.PagingLimit = settings.PagingLimit.Value;
-            if (settings.TimeZoneCode >= 0)
-                userSetting.TimeZoneCode = settings.TimeZoneCode;
-            if (settings.WorkdayStartTime.Length > 0 && settings.WorkdayStartTime != "No change")
-                userSetting.WorkdayStartTime = settings.WorkdayStartTime;
-            if (settings.WorkdayStopTime.Length > 0 && settings.WorkdayStopTime != "No change")
-                userSetting.WorkdayStopTime = settings.WorkdayStopTime;
-            if (settings.ReportScriptErrors.Value >= 1)
-                userSetting.ReportScriptErrors = settings.ReportScriptErrors;
-            if (settings.IsSendAsAllowed.HasValue)
-                userSetting.IsSendAsAllowed = settings.IsSendAsAllowed.Value;
-            if (settings.UILanguageId.HasValue)
-                userSetting.UILanguageId = settings.UILanguageId.Value;
-            if (settings.HelpLanguageId.HasValue)
-                userSetting.HelpLanguageId = settings.HelpLanguageId.Value;
-            if (settings.TransactionCurrencyId != null)
-                userSetting.TransactionCurrencyId = settings.TransactionCurrencyId;
-            if (settings.GetStartedPaneContentEnabled.HasValue)
-                userSetting.GetStartedPaneContentEnabled = settings.GetStartedPaneContentEnabled.Value;
-            if (settings.UseCrmFormForAppointment.HasValue)
-                userSetting.UseCrmFormForAppointment = settings.UseCrmFormForAppointment.Value;
-            if (settings.UseCrmFormForContact.HasValue)
-                userSetting.UseCrmFormForContact = settings.UseCrmFormForContact.Value;
-            if (settings.UseCrmFormForEmail.HasValue)
-                userSetting.UseCrmFormForEmail = settings.UseCrmFormForEmail.Value;
-            if (settings.UseCrmFormForTask.HasValue)
-                userSetting.UseCrmFormForTask = settings.UseCrmFormForTask.Value;
-            if(settings.DefaultDashboardId.HasValue)
-                userSetting.DefaultDashboardId = settings.DefaultDashboardId;
-            if (settings.LocaleId.HasValue)
-                userSetting.LocaleId = settings.LocaleId;
-            service.Update(userSetting);
+            if (settings.GetAttributeValue<int?>(UserSettings.Fields.AdvancedFindStartupMode) >= 1)
+                userSetting[UserSettings.Fields.AdvancedFindStartupMode] = settings.GetAttributeValue<int?>(UserSettings.Fields.AdvancedFindStartupMode);
+
+            if (settings.GetAttributeValue<int?>(UserSettings.Fields.AutoCreateContactOnPromote) >= 0)
+                userSetting[UserSettings.Fields.AutoCreateContactOnPromote] = settings.GetAttributeValue<int?>(UserSettings.Fields.AutoCreateContactOnPromote);
+
+            if (settings.GetAttributeValue<int?>(UserSettings.Fields.DefaultCalendarView) >= 0)
+                userSetting[UserSettings.Fields.DefaultCalendarView] = settings.GetAttributeValue<int?>(UserSettings.Fields.DefaultCalendarView);
+
+            if (settings.GetAttributeValue<string>(UserSettings.Fields.HomepageArea) != "No change")
+                userSetting[UserSettings.Fields.HomepageArea] = settings.GetAttributeValue<string>(UserSettings.Fields.HomepageArea);
+
+            if (settings.GetAttributeValue<string>(UserSettings.Fields.HomepageSubarea) != "No change")
+                userSetting[UserSettings.Fields.HomepageSubarea] = settings.GetAttributeValue<string>(UserSettings.Fields.HomepageSubarea);
+
+            if (settings.GetAttributeValue<OptionSetValue>(UserSettings.Fields.IncomingEmailFilteringMethod).Value >= 0)
+                userSetting[UserSettings.Fields.IncomingEmailFilteringMethod] = settings.GetAttributeValue<OptionSetValue>(UserSettings.Fields.IncomingEmailFilteringMethod);
+
+            if (settings.GetAttributeValue<int?>(UserSettings.Fields.PagingLimit).HasValue)
+                userSetting[UserSettings.Fields.PagingLimit] = settings.GetAttributeValue<int?>(UserSettings.Fields.PagingLimit).Value;
+
+            if (settings.GetAttributeValue<int?>(UserSettings.Fields.TimeZoneCode) >= 0)
+                userSetting[UserSettings.Fields.TimeZoneCode] = settings.GetAttributeValue<int?>(UserSettings.Fields.TimeZoneCode);
+
+            if (!string.IsNullOrEmpty(settings.GetAttributeValue<string>(UserSettings.Fields.WorkdayStartTime)) && settings.GetAttributeValue<string>(UserSettings.Fields.WorkdayStartTime) != "No change")
+                userSetting[UserSettings.Fields.WorkdayStartTime] = settings.GetAttributeValue<string>(UserSettings.Fields.WorkdayStartTime);
+
+            if (!string.IsNullOrEmpty(settings.GetAttributeValue<string>(UserSettings.Fields.WorkdayStopTime)) && settings.GetAttributeValue<string>(UserSettings.Fields.WorkdayStopTime) != "No change")
+                userSetting[UserSettings.Fields.WorkdayStopTime] = settings.GetAttributeValue<string>(UserSettings.Fields.WorkdayStopTime);
+
+            if (settings.GetAttributeValue<OptionSetValue>(UserSettings.Fields.ReportScriptErrors).Value >= 1)
+                userSetting[UserSettings.Fields.ReportScriptErrors] = settings.GetAttributeValue<OptionSetValue>(UserSettings.Fields.ReportScriptErrors);
+
+            if (settings.GetAttributeValue<bool?>(UserSettings.Fields.IsSendAsAllowed).HasValue)
+                userSetting[UserSettings.Fields.IsSendAsAllowed] = settings.GetAttributeValue<bool?>(UserSettings.Fields.IsSendAsAllowed).Value;
+
+            if (settings.GetAttributeValue<int?>(UserSettings.Fields.UILanguageId).HasValue)
+                userSetting[UserSettings.Fields.UILanguageId] = settings.GetAttributeValue<int?>(UserSettings.Fields.UILanguageId).Value;
+
+            if (settings.GetAttributeValue<int?>(UserSettings.Fields.HelpLanguageId).HasValue)
+                userSetting[UserSettings.Fields.HelpLanguageId] = settings.GetAttributeValue<int?>(UserSettings.Fields.HelpLanguageId).Value;
+
+            if (settings.GetAttributeValue<EntityReference>(UserSettings.Fields.TransactionCurrencyId) != null)
+                userSetting[UserSettings.Fields.TransactionCurrencyId] = settings.GetAttributeValue<EntityReference>(UserSettings.Fields.TransactionCurrencyId);
+
+            if (settings.GetAttributeValue<bool?>(UserSettings.Fields.GetStartedPaneContentEnabled).HasValue)
+                userSetting[UserSettings.Fields.GetStartedPaneContentEnabled] = settings.GetAttributeValue<bool?>(UserSettings.Fields.GetStartedPaneContentEnabled).Value;
+
+            if (settings.GetAttributeValue<bool?>(UserSettings.Fields.UseCrmFormForAppointment).HasValue)
+                userSetting[UserSettings.Fields.UseCrmFormForAppointment] = settings.GetAttributeValue<bool?>(UserSettings.Fields.UseCrmFormForAppointment).Value;
+
+            if (settings.GetAttributeValue<bool?>(UserSettings.Fields.UseCrmFormForContact).HasValue)
+                userSetting[UserSettings.Fields.UseCrmFormForContact] = settings.GetAttributeValue<bool?>(UserSettings.Fields.UseCrmFormForContact).Value;
+
+            if (settings.GetAttributeValue<bool?>(UserSettings.Fields.UseCrmFormForEmail).HasValue)
+                userSetting[UserSettings.Fields.UseCrmFormForEmail] = settings.GetAttributeValue<bool?>(UserSettings.Fields.UseCrmFormForEmail).Value;
+
+            if (settings.GetAttributeValue<bool?>(UserSettings.Fields.UseCrmFormForTask).HasValue)
+                userSetting[UserSettings.Fields.UseCrmFormForTask] = settings.GetAttributeValue<bool?>(UserSettings.Fields.UseCrmFormForTask).Value;
+
+            if (settings.GetAttributeValue<Guid?>(UserSettings.Fields.DefaultDashboardId).HasValue)
+                userSetting[UserSettings.Fields.DefaultDashboardId] = settings.GetAttributeValue<Guid?>(UserSettings.Fields.DefaultDashboardId);
+
+            if (settings.GetAttributeValue<int?>(UserSettings.Fields.LocaleId).HasValue)
+                userSetting[UserSettings.Fields.LocaleId] = settings.GetAttributeValue<int?>(UserSettings.Fields.LocaleId).Value;
+
+            if (userSetting.Attributes.Count > 1)
+            {
+                service.Update(userSetting);
+            }
 
             detail.ServiceClient.OrganizationServiceProxy.CallerId = currentUserId;
         }
 
-        public IEnumerable<SystemForm> RetrieveDashboards()
+        public IEnumerable<Entity> RetrieveDashboards()
         {
-            var dashboards = serviceContext.SystemFormSet
-                .Where(s => s.ObjectTypeCode == "none" && s.UniqueName == null)
-                .OrderBy(s => s.Name)
-                .Select(s => new SystemForm {Id = s.Id, Name = s.Name})
-                .ToList();
+            var dashboards = service.RetrieveMultiple(new FetchExpression(@"
+            <fetch>
+              <entity name='systemform' >
+                <attribute name='formid' />
+                <attribute name='name' />
+                <filter>
+                  <condition attribute='uniquename' operator='null' />
+                  <condition attribute='objecttypecode' operator='eq' value='0' />
+                </filter>
+                <order attribute='name' />
+              </entity>
+            </fetch>")).Entities;
             return dashboards;
-        }
-
-        public void Dispose()
-        {
-            serviceContext.Dispose();
         }
     }
 }
