@@ -145,7 +145,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppCode\Currency.cs" />
+    <Compile Include="AppCode\Entities.cs" />
     <Compile Include="AppCode\Language.cs" />
     <Compile Include="AppCode\ListViewItemComparer.cs" />
     <Compile Include="AppCode\QueryHelper.cs" />
@@ -153,7 +153,6 @@
     <Compile Include="AppCode\SiteMapManager.cs" />
     <Compile Include="AppCode\SystemUserManager.cs" />
     <Compile Include="AppCode\TimeZoneInfo.cs" />
-    <Compile Include="AppCode\UserSettings.cs" />
     <Compile Include="AppCode\UserSettingsHelper.cs" />
     <Compile Include="AppCode\ViewItem.cs" />
     <Compile Include="AppCode\ViewManager.cs" />
@@ -198,7 +197,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_BuildVersioningStyle="None.YearStamp.MonthStamp.DayStamp" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_ConfigurationName="Release" />
+      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_BuildVersioningStyle="None.YearStamp.MonthStamp.DayStamp" />
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>

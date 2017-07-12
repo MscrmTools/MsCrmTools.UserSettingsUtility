@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using CrmEarlyBound;
 using Microsoft.Xrm.Sdk.Query;
 
 namespace MsCrmTools.UserSettingsUtility.UserControls
@@ -37,7 +38,7 @@ namespace MsCrmTools.UserSettingsUtility.UserControls
         {
             if (service == null)
             {
-                throw new Exception("IOrganization service is not initialized for this control");
+               throw new Exception("IOrganization service is not initialized for this control");
             }
 
             var vManager = new ViewManager(service);
@@ -158,30 +159,7 @@ namespace MsCrmTools.UserSettingsUtility.UserControls
                 ColumnSet = new ColumnSet(true)
             });
 
-            var record = records.Entities.First();
-            var settings = new UserSettings
-            {
-                AdvancedFindStartupMode = record.GetAttributeValue<int>("advancedfindstartupmode"),
-                AutoCreateContactOnPromote = record.GetAttributeValue<int>("autocreatecontactonpromote"),
-                DefaultCalendarView = record.GetAttributeValue<int>("defaultcalendarview"),
-                HomePageArea = record.GetAttributeValue<string>("homepagearea"),
-                HomePageSubArea = record.GetAttributeValue<string>("homepagesubarea"),
-                IncomingEmailFilteringMethod = record.GetAttributeValue<OptionSetValue>("incomingemailfilteringmethod").Value,
-                PagingLimit = record.GetAttributeValue<int?>("paginglimit"),
-                TimeZoneCode = record.GetAttributeValue<int?>("timezonecode"),
-                WorkdayStartTime = record.GetAttributeValue<string>("workdaystarttime"),
-                WorkdayStopTime = record.GetAttributeValue<string>("workdaystoptime"),
-                ReportScriptErrors = record.GetAttributeValue<OptionSetValue>("reportscripterrors").Value,
-                IsSendAsAllowed = record.GetAttributeValue<bool?>("issendasallowed"),
-                UiLanguage = record.GetAttributeValue<int>("uilanguageid"),
-                HelpLanguage = record.GetAttributeValue<int>("helplanguageid"),
-                Currency = record.GetAttributeValue<EntityReference>("transactioncurrencyid"),
-                StartupPaneEnabled = record.GetAttributeValue<bool?>("getstartedpanecontentenabled"),
-                UseCrmFormForAppointment = record.GetAttributeValue<bool?>("usecrmformforappointment"),
-                UseCrmFormForContact = record.GetAttributeValue<bool?>("usecrmformforcontact"),
-                UseCrmFormForEmail = record.GetAttributeValue<bool?>("usecrmformforemail"),
-                UseCrmFormForTask = record.GetAttributeValue<bool?>("usecrmformfortask")
-            };
+            var settings = records.Entities.First();
             ((MainControl)this.Parent.Parent.Parent).LoadCurrentUserSetting(settings);
         }
     }
