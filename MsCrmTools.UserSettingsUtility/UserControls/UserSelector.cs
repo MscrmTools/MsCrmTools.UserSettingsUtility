@@ -29,7 +29,10 @@ namespace MsCrmTools.UserSettingsUtility.UserControls
             set
             {
                 service = value;
-                LoadViews();
+                if (service != null)
+                {
+                    LoadViews();
+                }
             }
             get { return service; }
         }
@@ -38,7 +41,7 @@ namespace MsCrmTools.UserSettingsUtility.UserControls
         {
             if (service == null)
             {
-               throw new Exception("IOrganization service is not initialized for this control");
+                throw new Exception("IOrganization service is not initialized for this control");
             }
 
             var vManager = new ViewManager(service);
