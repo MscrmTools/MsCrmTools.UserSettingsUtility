@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using Microsoft.Crm.Sdk.Messages;
 
 namespace MsCrmTools.UserSettingsUtility.AppCode
 {
@@ -24,7 +25,30 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
             AddMissingCrmAttribute(xDoc, "firstname");
             AddMissingCrmAttribute(xDoc, "lastname");
 
-            return service.RetrieveMultiple(new FetchExpression(xDoc.ToString()));
+            var response = (FetchXmlToQueryExpressionResponse)service.Execute(new FetchXmlToQueryExpressionRequest
+            {
+                FetchXml = xDoc.ToString()
+            });
+
+            var query = response.Query;
+            query.PageInfo = new PagingInfo
+            {
+                PageNumber = 1,
+                Count = 1000
+            };
+            var ec = new EntityCollection();
+            EntityCollection result;
+            do
+            {
+                result = service.RetrieveMultiple(query);
+                ec.Entities.AddRange(result.Entities);
+                ec.EntityName = result.EntityName;
+
+                query.PageInfo.PageNumber++;
+                query.PageInfo.PagingCookie = result.PagingCookie;
+            } while (result.MoreRecords);
+
+            return ec;
         }
 
         private static void AddMissingCrmAttribute(XDocument xDoc, string attributeName)
