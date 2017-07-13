@@ -391,7 +391,7 @@ namespace MsCrmTools.UserSettingsUtility
                 cbbCurrencies.SelectedItem = cbbCurrencies.Items
                     .Cast<object>()
                     .Skip(1)
-                    .Single(x => ((Entity) x).Id == settings.GetAttributeValue<EntityReference>(UserSettings.TransactionCurrencyId).Id);
+                    .Single(x => ((EntityReference) x).Id == settings.GetAttributeValue<EntityReference>(UserSettings.TransactionCurrencyId).Id);
             }
             else
             {
@@ -419,7 +419,11 @@ namespace MsCrmTools.UserSettingsUtility
                 : 0;
             if (settings.GetAttributeValue<Guid?>(UserSettings.DefaultDashboardId).HasValue)
             {
-                cbbDefaultDashboard.SelectedItem = cbbDefaultDashboard.Items.Cast<object>().Skip(1).Single(x => ((EntityReference)x).Id == settings.GetAttributeValue<Guid?>(UserSettings.DefaultDashboardId));
+                var defaultSystemDashboardId = cbbDefaultDashboard.Items.Cast<object>()
+                    .Skip(1)
+                    .SingleOrDefault(x => ((EntityReference) x).Id ==
+                                 settings.GetAttributeValue<Guid?>(UserSettings.DefaultDashboardId));
+                cbbDefaultDashboard.SelectedItem = defaultSystemDashboardId ?? 0;
             }
             else
             {
