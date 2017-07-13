@@ -16,7 +16,7 @@ namespace MsCrmTools.UserSettingsUtility
     {
         private List<string> areas;
         private List<Tuple<string, string>> subAreas;
-        const string ACTIVE_USERS_FETCH = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' ><entity name='systemuser' ><attribute name='fullname' /><order attribute='fullname' descending='false' /><attribute name='businessunitid' /><attribute name='siteid' /><filter type='and' ><condition attribute='isdisabled' operator='eq' value='0' /><condition attribute='accessmode' operator='ne' value='3' /></filter><attribute name='systemuserid' /></entity></fetch>";
+        private const string ACTIVE_USERS_FETCH = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' ><entity name='systemuser' ><attribute name='fullname' /><order attribute='fullname' descending='false' /><attribute name='businessunitid' /><attribute name='siteid' /><filter type='and' ><condition attribute='isdisabled' operator='eq' value='0' /><condition attribute='accessmode' operator='ne' value='3' /></filter><attribute name='systemuserid' /></entity></fetch>";
 
         public MainControl()
         {
@@ -92,7 +92,7 @@ namespace MsCrmTools.UserSettingsUtility
                         cbbDefaultDashboard.Items.Clear();
                         cbbFormat.Items.Clear();
 
-                        var sc = (SettingsCollection) e.Result;
+                        var sc = (SettingsCollection)e.Result;
 
                         // TimeZones
                         cbbTimeZones.Items.Add(new AppCode.TimeZone
@@ -286,16 +286,17 @@ namespace MsCrmTools.UserSettingsUtility
                 var dashboard = (EntityReference)cbbDefaultDashboard.SelectedItem;
                 setting[UserSettings.DefaultDashboardId] = dashboard.Id;
             }
-            if(cbbFormat.SelectedIndex != 0)
+            if (cbbFormat.SelectedIndex != 0)
             {
-                setting[UserSettings.LocaleId] = ((CultureInfo) cbbFormat.SelectedItem).LCID;
+                setting[UserSettings.LocaleId] = ((CultureInfo)cbbFormat.SelectedItem).LCID;
             }
+
             #endregion Initialisation des données à mettre à jour
 
             WorkAsync(new WorkAsyncInfo
             {
                 Message = "Initializing update...",
-                AsyncArgument = new Tuple<List<Entity>,Entity>(userSelector1.SelectedItems, setting),
+                AsyncArgument = new Tuple<List<Entity>, Entity>(userSelector1.SelectedItems, setting),
                 Work = (bw, evt) =>
                 {
                     var updateUserSettings = (Tuple<List<Entity>, Entity>)evt.Argument;
@@ -391,13 +392,13 @@ namespace MsCrmTools.UserSettingsUtility
                 cbbCurrencies.SelectedItem = cbbCurrencies.Items
                     .Cast<object>()
                     .Skip(1)
-                    .Single(x => ((EntityReference) x).Id == settings.GetAttributeValue<EntityReference>(UserSettings.TransactionCurrencyId).Id);
+                    .Single(x => ((EntityReference)x).Id == settings.GetAttributeValue<EntityReference>(UserSettings.TransactionCurrencyId).Id);
             }
             else
             {
                 cbbCurrencies.SelectedIndex = 0;
             }
-            cbbStartupPane.SelectedIndex = settings.GetAttributeValue<bool?>(UserSettings.GetStartedPaneContentEnabled).HasValue 
+            cbbStartupPane.SelectedIndex = settings.GetAttributeValue<bool?>(UserSettings.GetStartedPaneContentEnabled).HasValue
                 && settings.GetAttributeValue<bool?>(UserSettings.GetStartedPaneContentEnabled).Value
                 ? 2
                 : 0;
@@ -409,11 +410,11 @@ namespace MsCrmTools.UserSettingsUtility
                                                  settings.GetAttributeValue<bool?>(UserSettings.UseCrmFormForContact).Value
                 ? 2
                 : 0;
-            cbbUseCrmFormEmail.SelectedIndex = settings.GetAttributeValue<bool?>(UserSettings.UseCrmFormForEmail).HasValue 
+            cbbUseCrmFormEmail.SelectedIndex = settings.GetAttributeValue<bool?>(UserSettings.UseCrmFormForEmail).HasValue
                 && settings.GetAttributeValue<bool?>(UserSettings.UseCrmFormForEmail).Value
                 ? 2
                 : 0;
-            cbbUseCrmFormTask.SelectedIndex = settings.GetAttributeValue<bool?>(UserSettings.UseCrmFormForTask).HasValue 
+            cbbUseCrmFormTask.SelectedIndex = settings.GetAttributeValue<bool?>(UserSettings.UseCrmFormForTask).HasValue
                 && settings.GetAttributeValue<bool?>(UserSettings.UseCrmFormForTask).Value
                 ? 2
                 : 0;
@@ -421,7 +422,7 @@ namespace MsCrmTools.UserSettingsUtility
             {
                 var defaultSystemDashboardId = cbbDefaultDashboard.Items.Cast<object>()
                     .Skip(1)
-                    .SingleOrDefault(x => ((EntityReference) x).Id ==
+                    .SingleOrDefault(x => ((EntityReference)x).Id ==
                                  settings.GetAttributeValue<Guid?>(UserSettings.DefaultDashboardId));
                 cbbDefaultDashboard.SelectedItem = defaultSystemDashboardId ?? 0;
             }
@@ -480,7 +481,7 @@ namespace MsCrmTools.UserSettingsUtility
                 ExecuteMethod(LoadSettings);
             }
             var messageBusEventArgs = new MessageBusEventArgs("FetchXML Builder");
-            var fetchXml = (((ComboBox) userSelector1.Controls.Find("cbbViews", true)?[0]).SelectedItem as ViewItem)?.FetchXml;
+            var fetchXml = (((ComboBox)userSelector1.Controls.Find("cbbViews", true)?[0]).SelectedItem as ViewItem)?.FetchXml;
             messageBusEventArgs.TargetArgument = fetchXml ?? ACTIVE_USERS_FETCH;
             OnOutgoingMessage(this, messageBusEventArgs);
         }
@@ -504,9 +505,9 @@ namespace MsCrmTools.UserSettingsUtility
         {
             if (cbbFormat.SelectedIndex == 0) return;
 
-            var selectedCulture = (CultureInfo) cbbFormat.SelectedItem;
+            var selectedCulture = (CultureInfo)cbbFormat.SelectedItem;
             var currentTime = DateTime.Now;
-            txtNumberFormat.Text = 123456789.ToString("f", selectedCulture);
+            txtNumberFormat.Text = 123456789.ToString("n", selectedCulture);
             txtCurrencyFormat.Text = 123456789.ToString("c", selectedCulture);
             txtTimeFormat.Text = currentTime.ToString(selectedCulture.DateTimeFormat.ShortTimePattern);
             txtShortDateFormat.Text = currentTime.ToString(selectedCulture.DateTimeFormat.ShortDatePattern);
