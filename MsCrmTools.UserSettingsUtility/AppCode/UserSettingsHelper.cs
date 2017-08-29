@@ -147,8 +147,7 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
                 <attribute name='formid' />
                 <attribute name='name' />
                 <filter>
-                  <condition attribute='uniquename' operator='null' />
-                  <condition attribute='objecttypecode' operator='eq' value='0' />
+                  <condition attribute='type' operator='eq' value='0' />
                 </filter>
                 <order attribute='name' />
               </entity>
