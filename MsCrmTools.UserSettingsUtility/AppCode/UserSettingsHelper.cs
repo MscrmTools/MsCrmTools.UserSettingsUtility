@@ -48,18 +48,27 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
             return response.EntityCollection;
         }
 
-        public void UpdateSettings(Guid userId, Entity settings)
+        public void UpdateSettings(Guid userId, Entity settings, out string errorMsg)
         {
+            errorMsg = "";
             var currentUserId = detail.ServiceClient.OrganizationServiceProxy.CallerId;
             detail.ServiceClient.OrganizationServiceProxy.CallerId = userId;
-            var records = detail.ServiceClient.OrganizationServiceProxy.RetrieveMultiple(new QueryByAttribute("usersettings")
+
+            Entity userSetting = null;
+            try
             {
-                Attributes = { UserSettings.Fields.SystemUserId },
-                Values = { userId },
-            });
+                var records = detail.ServiceClient.OrganizationServiceProxy.RetrieveMultiple(new QueryByAttribute("usersettings")
+                {
+                    Attributes = { UserSettings.Fields.SystemUserId },
+                    Values = { userId }
+                });
 
-            var userSetting = records.Entities.FirstOrDefault();
-
+                userSetting = records.Entities.FirstOrDefault();
+            }
+            catch (System.ServiceModel.FaultException ex)
+            {
+                errorMsg = ex.Message;
+            }
             if (userSetting == null)
             {
                 return;
@@ -133,7 +142,14 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
 
             if (userSetting.Attributes.Count > 1)
             {
-                service.Update(userSetting);
+                try
+                {
+                    service.Update(userSetting);
+                }
+                catch (System.ServiceModel.FaultException ex)
+                {
+                    errorMsg = ex.Message;
+                }
             }
 
             detail.ServiceClient.OrganizationServiceProxy.CallerId = currentUserId;

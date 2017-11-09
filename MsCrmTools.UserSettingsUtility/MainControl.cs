@@ -304,8 +304,13 @@ namespace MsCrmTools.UserSettingsUtility
 
                     foreach (var updateUserSetting in updateUserSettings.Item1)
                     {
+                        string errMsg;
                         bw.ReportProgress(0, "Updating settings for user " + updateUserSetting.GetAttributeValue<string>("fullname"));
-                        ush.UpdateSettings(updateUserSetting.Id, updateUserSettings.Item2);
+                        ush.UpdateSettings(updateUserSetting.Id, updateUserSettings.Item2, out errMsg);
+                        if (!string.IsNullOrEmpty(errMsg))
+                        {                            
+                            bw.ReportProgress(10, "Error whilst updating settings for user " + updateUserSetting.GetAttributeValue<string>("fullname") + " - " + errMsg);
+                        }
                     }
                 },
                 PostWorkCallBack = evt =>
