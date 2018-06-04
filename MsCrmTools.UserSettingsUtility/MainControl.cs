@@ -91,6 +91,7 @@ namespace MsCrmTools.UserSettingsUtility
                         cbbCurrencies.Items.Clear();
                         cbbDefaultDashboard.Items.Clear();
                         cbbFormat.Items.Clear();
+                        cbbSearch.Items.Clear();
 
                         var sc = (SettingsCollection)e.Result;
 
@@ -127,6 +128,18 @@ namespace MsCrmTools.UserSettingsUtility
                             var currency = c.ToEntityReference();
                             currency.Name = c.GetAttributeValue<string>("currencyname");
                             cbbCurrencies.Items.Add(currency);
+                        }
+
+                        // Default search
+                        cbbSearch.Items.Add("No change");
+                        if (ush.RetrieveVersion().Major >= 9) {
+                            cbbSearch.Items.Add("Relevance search");
+                            cbbSearch.Items.Add("Categorized search");
+                            cbbSearch.Items.Add("Use last search");
+                            cbbSearch.Items.Add("Custom search");
+                            cbbSearch.Enabled = true;
+                        } else {
+                            cbbSearch.Enabled = false;
                         }
 
                         // SiteMap
@@ -205,7 +218,8 @@ namespace MsCrmTools.UserSettingsUtility
                     {UserSettings.IncomingEmailFilteringMethod, new OptionSetValue(cbbTrackMessages.SelectedIndex - 1)},
                     {UserSettings.ReportScriptErrors, new OptionSetValue(cbbReportScriptErrors.SelectedIndex)},
                     {UserSettings.HomepageArea, cbbSiteMapArea.SelectedItem.ToString()},
-                    {UserSettings.HomepageSubarea, cbbSiteMapSubArea.SelectedItem.ToString()}
+                    {UserSettings.HomepageSubarea, cbbSiteMapSubArea.SelectedItem.ToString()},
+                    {UserSettings.DefaultSearchExperience, new OptionSetValue(cbbSearch.SelectedIndex - 1)}
                 }
             };
 
@@ -333,6 +347,16 @@ namespace MsCrmTools.UserSettingsUtility
             cbbSendAsAllowed.SelectedIndex = settings.GetAttributeValue<bool?>(UserSettings.IsSendAsAllowed).HasValue && settings.GetAttributeValue<bool?>(UserSettings.IsSendAsAllowed).Value
                 ? 2
                 : 0;
+
+            if (cbbSearch.Items.Count > 1 && settings.GetAttributeValue<OptionSetValue>(UserSettings.DefaultSearchExperience) != null)
+            {
+                cbbSearch.SelectedIndex = settings.GetAttributeValue<OptionSetValue>(UserSettings.DefaultSearchExperience).Value + 1;
+            }
+            else
+            {
+                cbbSearch.SelectedIndex = 0;
+            }
+
             if (settings.GetAttributeValue<int>(UserSettings.PagingLimit) != 0)
             {
                 cbbPagingLimit.SelectedItem = settings.GetAttributeValue<int>(UserSettings.PagingLimit).ToString();
@@ -459,6 +483,7 @@ namespace MsCrmTools.UserSettingsUtility
             cbbUseCrmFormTask.SelectedIndex = 0;
             cbbDefaultDashboard.SelectedIndex = 0;
             cbbFormat.SelectedIndex = 0;
+            cbbSearch.SelectedIndex = 0;
             txtLongDateFormat.Text = "";
             txtCurrencyFormat.Text = "";
             txtNumberFormat.Text = "";
