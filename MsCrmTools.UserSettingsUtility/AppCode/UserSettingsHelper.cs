@@ -27,6 +27,14 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
             return lcidResponse.RetrieveProvisionedLanguages.Select(lcid => new Language(lcid)).ToList();
         }
 
+        public Version RetrieveVersion()
+        {
+            var request = new RetrieveVersionRequest();
+            var response = (RetrieveVersionResponse) service.Execute(request);
+
+            return Version.Parse(response.Version);
+        }
+
         public IEnumerable<Entity> RetrieveCurrencies()
         {
             var currencies = service.RetrieveMultiple(new FetchExpression(@"
@@ -130,6 +138,9 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
 
             if (settings.GetAttributeValue<int?>(UserSettings.Fields.LocaleId).HasValue)
                 userSetting[UserSettings.Fields.LocaleId] = settings.GetAttributeValue<int?>(UserSettings.Fields.LocaleId).Value;
+
+            if (settings.GetAttributeValue<OptionSetValue>(UserSettings.Fields.DefaultSearchExperience).Value >= 0)
+                userSetting[UserSettings.Fields.DefaultSearchExperience] = settings.GetAttributeValue<OptionSetValue>(UserSettings.Fields.DefaultSearchExperience);
 
             if (userSetting.Attributes.Count > 1)
             {
