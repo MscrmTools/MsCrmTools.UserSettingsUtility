@@ -1,4 +1,5 @@
-﻿using McTools.Xrm.Connection;
+﻿using CrmEarlyBound;
+using McTools.Xrm.Connection;
 using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
@@ -6,42 +7,33 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using CrmEarlyBound;
 
 namespace MsCrmTools.UserSettingsUtility.AppCode
 {
     internal class UserSettingsHelper
     {
-        private readonly ConnectionDetail _detail;
-        private readonly IOrganizationService _service;
-        private Boolean _ignoreDisabledUsers;
-        private Boolean _ignoreUserWithoutRoles;
-        private Guid _currentUserId;
+        private readonly ConnectionDetail detail;
+        private readonly IOrganizationService service;
+        private Guid currentUserId;
+        private Boolean ignoreDisabledUsers;
+        private Boolean ignoreUserWithoutRoles;
 
         public UserSettingsHelper(IOrganizationService service, ConnectionDetail detail)
         {
-            _service = service;
-            _detail = detail;
+            this.service = service;
+            this.detail = detail;
         }
 
         public List<Language> RetrieveAvailableLanguages()
         {
             var lcidRequest = new RetrieveProvisionedLanguagesRequest();
-            var lcidResponse = (RetrieveProvisionedLanguagesResponse)_service.Execute(lcidRequest);
+            var lcidResponse = (RetrieveProvisionedLanguagesResponse)service.Execute(lcidRequest);
             return lcidResponse.RetrieveProvisionedLanguages.Select(lcid => new Language(lcid)).ToList();
-        }
-
-        public Version RetrieveVersion()
-        {
-            var request = new RetrieveVersionRequest();
-            var response = (RetrieveVersionResponse) _service.Execute(request);
-
-            return Version.Parse(response.Version);
         }
 
         public IEnumerable<Entity> RetrieveCurrencies()
         {
-            var currencies = _service.RetrieveMultiple(new FetchExpression(@"
+            var currencies = service.RetrieveMultiple(new FetchExpression(@"
             <fetch>
               <entity name='transactioncurrency' >
                 <attribute name='transactioncurrencyid' />
@@ -52,21 +44,45 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
             return currencies;
         }
 
+        public IEnumerable<Entity> RetrieveDashboards()
+        {
+            var dashboards = service.RetrieveMultiple(new FetchExpression(@"
+            <fetch>
+              <entity name='systemform' >
+                <attribute name='formid' />
+                <attribute name='name' />
+                <filter>
+                  <condition attribute='type' operator='eq' value='0' />
+                </filter>
+                <order attribute='name' />
+              </entity>
+            </fetch>")).Entities;
+            return dashboards;
+        }
+
         public EntityCollection RetrieveTimeZones()
         {
             var request = new GetAllTimeZonesWithDisplayNameRequest { LocaleId = 1033 };
-            var response = (GetAllTimeZonesWithDisplayNameResponse)_service.Execute(request);
+            var response = (GetAllTimeZonesWithDisplayNameResponse)service.Execute(request);
 
             return response.EntityCollection;
+        }
+
+        public Version RetrieveVersion()
+        {
+            var request = new RetrieveVersionRequest();
+            var response = (RetrieveVersionResponse)service.Execute(request);
+
+            return Version.Parse(response.Version);
         }
 
         public void UpdateSettings(Guid userId, string userFullName, Entity settings)
         {
             try
             {
-                _currentUserId = _detail.ServiceClient.OrganizationServiceProxy.CallerId;
-                _detail.ServiceClient.OrganizationServiceProxy.CallerId = userId;
-                var records = _detail.ServiceClient.OrganizationServiceProxy.RetrieveMultiple(new QueryByAttribute("usersettings")
+                currentUserId = detail.ServiceClient.OrganizationServiceProxy.CallerId;
+                detail.ServiceClient.OrganizationServiceProxy.CallerId = userId;
+                var records = detail.ServiceClient.OrganizationServiceProxy.RetrieveMultiple(new QueryByAttribute("usersettings")
                 {
                     Attributes = { UserSettings.Fields.SystemUserId },
                     Values = { userId },
@@ -150,20 +166,20 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
 
                 if (userSetting.Attributes.Count > 1)
                 {
-                    _service.Update(userSetting);
+                    service.Update(userSetting);
                 }
 
-                _detail.ServiceClient.OrganizationServiceProxy.CallerId = _currentUserId;
+                detail.ServiceClient.OrganizationServiceProxy.CallerId = currentUserId;
             }
             catch (Exception e)
             {
                 // Reset callerid to the logged in user so later queries don't fail
-                _detail.ServiceClient.OrganizationServiceProxy.CallerId = _currentUserId;
+                detail.ServiceClient.OrganizationServiceProxy.CallerId = currentUserId;
 
                 // If the user is disabled, they can't be updated - raise error and ask if processing should continue
                 if (e.Message.StartsWith("The user with SystemUserId") && e.Message.EndsWith("is disabled"))
                 {
-                    if (!_ignoreDisabledUsers)
+                    if (!ignoreDisabledUsers)
                     {
                         ContinueIgnoreOrAbort(userFullName, "UserIsDisabled");
                     }
@@ -171,14 +187,14 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
                 // If the user has no security roles, they can't be updated - raise error and ask if processing should continue
                 else if (e.Message.Contains("no roles are assigned to user"))
                 {
-                    if (!_ignoreUserWithoutRoles)
+                    if (!ignoreUserWithoutRoles)
                     {
                         ContinueIgnoreOrAbort(userFullName, "UserHasNoSecurityRoles");
                     }
                 }
                 // Some other unexpected error has occured
                 else
-                {                    
+                {
                     throw;
                 }
             }
@@ -195,6 +211,7 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
                     title = "User is disabled!";
                     message = "User " + userFullName + " is disabled";
                     break;
+
                 case "UserHasNoSecurityRoles":
                     title = "User has no security roles!";
                     message = "User " + userFullName + " has no security roles";
@@ -209,15 +226,14 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
                 // Continue, suppressing any similar messages
                 if (errorType == "UserIsDisabled")
                 {
-                    _ignoreDisabledUsers = true;
+                    ignoreDisabledUsers = true;
                 }
 
                 if (errorType == "UserHasNoSecurityRoles")
                 {
-                    _ignoreUserWithoutRoles = true;
+                    ignoreUserWithoutRoles = true;
                 }
             }
-
             else if (dr == DialogResult.Abort)
             {
                 // Abort processing
@@ -227,21 +243,5 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
 
         public class UserAbortedException : Exception
         { }
-
-        public IEnumerable<Entity> RetrieveDashboards()
-        {
-            var dashboards = _service.RetrieveMultiple(new FetchExpression(@"
-            <fetch>
-              <entity name='systemform' >
-                <attribute name='formid' />
-                <attribute name='name' />
-                <filter>
-                  <condition attribute='type' operator='eq' value='0' />
-                </filter>
-                <order attribute='name' />
-              </entity>
-            </fetch>")).Entities;
-            return dashboards;
-        }
     }
 }
