@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
-using CrmEarlyBound;
 using Microsoft.Xrm.Sdk;
 using XrmToolBox.Extensibility;
 using XrmToolBox.Extensibility.Interfaces;
@@ -268,7 +267,7 @@ namespace MsCrmTools.UserSettingsUtility
 
             if (cbbCurrencies.SelectedIndex != 0)
             {
-                setting[UserSettings.TransactionCurrencyId] = (EntityReference)cbbCurrencies.SelectedItem; ;
+                setting[UserSettings.TransactionCurrencyId] = (EntityReference)cbbCurrencies.SelectedItem;
             }
 
             if (cbbStartupPane.SelectedIndex != 0)
@@ -318,16 +317,21 @@ namespace MsCrmTools.UserSettingsUtility
 
                     foreach (var updateUserSetting in updateUserSettings.Item1)
                     {
-                        bw.ReportProgress(0, "Updating settings for user " + updateUserSetting.GetAttributeValue<string>("fullname"));
-                        ush.UpdateSettings(updateUserSetting.Id, updateUserSettings.Item2);
+                        string userFullName = updateUserSetting.GetAttributeValue<string>("fullname");
+                        bw.ReportProgress(0, "Updating settings for user " + userFullName);
+                        ush.UpdateSettings(updateUserSetting.Id, userFullName, updateUserSettings.Item2);
                     }
                 },
                 PostWorkCallBack = evt =>
                 {
                     if (evt.Error != null)
                     {
-                        MessageBox.Show(this, "An error occured: " + evt.Error.ToString(), "Error", MessageBoxButtons.OK,
-                            MessageBoxIcon.Error);
+                        // Don't show as message if the user has just cancelled the operation
+                        if (!evt.Error.Message.Contains("UserAbortedException") )
+                        {
+                            MessageBox.Show(this, "An error occured: " + evt.Error.ToString(), "Error", MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+                        }                        
                     }
                 },
                 ProgressChanged = evt => { SetWorkingMessage(evt.UserState.ToString()); }
