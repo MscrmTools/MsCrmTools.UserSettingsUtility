@@ -203,7 +203,7 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
 
             DialogResult dr = DialogueBoxManager.DialogBox(title,
                 message + ", so their settings can not be updated. " +
-                @"Do you want to Continue, Ignore any similar errors, or Cancel?", "Continue", "Ignore All", "Abort");
+                @"Do you want to Continue, Ignore any similar errors, or Abort?", "Continue", "Ignore All", "Abort");
             if (dr == DialogResult.Ignore)
             {
                 // Continue, suppressing any similar messages
