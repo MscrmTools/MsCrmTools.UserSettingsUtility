@@ -3,6 +3,7 @@ using McTools.Xrm.Connection;
 using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
+using Microsoft.Xrm.Tooling.Connector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,14 +14,14 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
     internal class UserSettingsHelper
     {
         private readonly ConnectionDetail detail;
-        private readonly IOrganizationService service;
+        private readonly CrmServiceClient service;
         private Guid currentUserId;
         private Boolean ignoreDisabledUsers;
         private Boolean ignoreUserWithoutRoles;
 
         public UserSettingsHelper(IOrganizationService service, ConnectionDetail detail)
         {
-            this.service = service;
+            this.service = (CrmServiceClient)service;
             this.detail = detail;
         }
 
@@ -80,9 +81,9 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
         {
             try
             {
-                currentUserId = detail.ServiceClient.OrganizationServiceProxy.CallerId;
-                detail.ServiceClient.OrganizationServiceProxy.CallerId = userId;
-                var records = detail.ServiceClient.OrganizationServiceProxy.RetrieveMultiple(new QueryByAttribute("usersettings")
+                currentUserId = service.CallerId;
+                service.CallerId = userId;
+                var records = service.RetrieveMultiple(new QueryByAttribute("usersettings")
                 {
                     Attributes = { UserSettings.Fields.SystemUserId },
                     Values = { userId },
@@ -169,12 +170,12 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
                     service.Update(userSetting);
                 }
 
-                detail.ServiceClient.OrganizationServiceProxy.CallerId = currentUserId;
+                service.CallerId = currentUserId;
             }
             catch (Exception e)
             {
                 // Reset callerid to the logged in user so later queries don't fail
-                detail.ServiceClient.OrganizationServiceProxy.CallerId = currentUserId;
+                service.CallerId = currentUserId;
 
                 // If the user is disabled, they can't be updated - raise error and ask if processing should continue
                 if (e.Message.StartsWith("The user with SystemUserId") && e.Message.EndsWith("is disabled"))
