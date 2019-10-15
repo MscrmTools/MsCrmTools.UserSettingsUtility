@@ -39,6 +39,9 @@
             this.llCheckNone = new System.Windows.Forms.LinkLabel();
             this.llCheckAll = new System.Windows.Forms.LinkLabel();
             this.lvUsers = new System.Windows.Forms.ListView();
+            this.chFirstName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chLastName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chBusinessUnit = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -49,20 +52,20 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbbViews.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbbViews.FormattingEnabled = true;
-            this.cbbViews.Location = new System.Drawing.Point(44, 3);
-            this.cbbViews.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.cbbViews.Location = new System.Drawing.Point(88, 6);
+            this.cbbViews.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.cbbViews.Name = "cbbViews";
-            this.cbbViews.Size = new System.Drawing.Size(329, 21);
+            this.cbbViews.Size = new System.Drawing.Size(654, 33);
             this.cbbViews.TabIndex = 2;
             this.cbbViews.SelectedIndexChanged += new System.EventHandler(this.cbbViews_SelectedIndexChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(2, 5);
-            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label2.Location = new System.Drawing.Point(4, 10);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(30, 13);
+            this.label2.Size = new System.Drawing.Size(58, 25);
             this.label2.TabIndex = 3;
             this.label2.Text = "View";
             // 
@@ -79,9 +82,9 @@
             this.panel1.Controls.Add(this.label2);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(374, 25);
+            this.panel1.Size = new System.Drawing.Size(748, 48);
             this.panel1.TabIndex = 5;
             // 
             // panel2
@@ -90,19 +93,19 @@
             this.panel2.Controls.Add(this.llCheckNone);
             this.panel2.Controls.Add(this.llCheckAll);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(0, 25);
-            this.panel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel2.Location = new System.Drawing.Point(0, 48);
+            this.panel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(374, 21);
+            this.panel2.Size = new System.Drawing.Size(748, 40);
             this.panel2.TabIndex = 7;
             // 
             // llInvertSelection
             // 
             this.llInvertSelection.AutoSize = true;
-            this.llInvertSelection.Location = new System.Drawing.Point(121, 2);
-            this.llInvertSelection.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.llInvertSelection.Location = new System.Drawing.Point(242, 4);
+            this.llInvertSelection.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.llInvertSelection.Name = "llInvertSelection";
-            this.llInvertSelection.Size = new System.Drawing.Size(79, 13);
+            this.llInvertSelection.Size = new System.Drawing.Size(157, 25);
             this.llInvertSelection.TabIndex = 2;
             this.llInvertSelection.TabStop = true;
             this.llInvertSelection.Text = "Invert selection";
@@ -111,10 +114,10 @@
             // llCheckNone
             // 
             this.llCheckNone.AutoSize = true;
-            this.llCheckNone.Location = new System.Drawing.Point(55, 2);
-            this.llCheckNone.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.llCheckNone.Location = new System.Drawing.Point(110, 4);
+            this.llCheckNone.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.llCheckNone.Name = "llCheckNone";
-            this.llCheckNone.Size = new System.Drawing.Size(65, 13);
+            this.llCheckNone.Size = new System.Drawing.Size(127, 25);
             this.llCheckNone.TabIndex = 1;
             this.llCheckNone.TabStop = true;
             this.llCheckNone.Text = "Check none";
@@ -123,10 +126,10 @@
             // llCheckAll
             // 
             this.llCheckAll.AutoSize = true;
-            this.llCheckAll.Location = new System.Drawing.Point(2, 2);
-            this.llCheckAll.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.llCheckAll.Location = new System.Drawing.Point(4, 4);
+            this.llCheckAll.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.llCheckAll.Name = "llCheckAll";
-            this.llCheckAll.Size = new System.Drawing.Size(51, 13);
+            this.llCheckAll.Size = new System.Drawing.Size(101, 25);
             this.llCheckAll.TabIndex = 0;
             this.llCheckAll.TabStop = true;
             this.llCheckAll.Text = "Check all";
@@ -135,13 +138,17 @@
             // lvUsers
             // 
             this.lvUsers.CheckBoxes = true;
+            this.lvUsers.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.chLastName,
+            this.chFirstName,
+            this.chBusinessUnit});
             this.lvUsers.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvUsers.FullRowSelect = true;
             this.lvUsers.HideSelection = false;
-            this.lvUsers.Location = new System.Drawing.Point(0, 46);
-            this.lvUsers.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.lvUsers.Location = new System.Drawing.Point(0, 88);
+            this.lvUsers.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.lvUsers.Name = "lvUsers";
-            this.lvUsers.Size = new System.Drawing.Size(374, 364);
+            this.lvUsers.Size = new System.Drawing.Size(748, 700);
             this.lvUsers.SmallImageList = this.ilUserAndTeams;
             this.lvUsers.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.lvUsers.TabIndex = 8;
@@ -150,16 +157,31 @@
             this.lvUsers.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.lvUsers_ColumnClick);
             this.lvUsers.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lvUsers_ItemSelectionChanged);
             // 
+            // chFirstName
+            // 
+            this.chFirstName.Text = "First name";
+            this.chFirstName.Width = 150;
+            // 
+            // chLastName
+            // 
+            this.chLastName.Text = "Last name";
+            this.chLastName.Width = 150;
+            // 
+            // chBusinessUnit
+            // 
+            this.chBusinessUnit.Text = "Business unit";
+            this.chBusinessUnit.Width = 150;
+            // 
             // UserSelector
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.lvUsers);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
-            this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.Name = "UserSelector";
-            this.Size = new System.Drawing.Size(374, 410);
+            this.Size = new System.Drawing.Size(748, 788);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -179,5 +201,8 @@
         private System.Windows.Forms.LinkLabel llInvertSelection;
         private System.Windows.Forms.LinkLabel llCheckNone;
         private System.Windows.Forms.LinkLabel llCheckAll;
+        private System.Windows.Forms.ColumnHeader chFirstName;
+        private System.Windows.Forms.ColumnHeader chLastName;
+        private System.Windows.Forms.ColumnHeader chBusinessUnit;
     }
 }

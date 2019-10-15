@@ -3,6 +3,7 @@ using Microsoft.Xrm.Sdk.Query;
 using MsCrmTools.UserSettingsUtility.AppCode;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -36,7 +37,7 @@ namespace MsCrmTools.UserSettingsUtility.UserControls
             get { return service; }
         }
 
-        public void LoadViews()
+        public List<ViewItem> LoadViews()
         {
             if (service == null)
             {
@@ -44,65 +45,46 @@ namespace MsCrmTools.UserSettingsUtility.UserControls
             }
 
             var vManager = new ViewManager(service);
-            lvUsers.Columns.Clear();
-
-            List<ViewItem> items = vManager.RetrieveViews("systemuser");
-
-            lvUsers.Columns.AddRange(new[]
-            {
-                new ColumnHeader {Text = "Last name", Width = 150},
-                new ColumnHeader {Text = "First name", Width = 150},
-                new ColumnHeader {Text = "Business unit", Width = 150}
-            });
-
-            if (items != null)
-            {
-                cbbViews.SelectedIndexChanged -= cbbViews_SelectedIndexChanged;
-                cbbViews.Items.Clear();
-                cbbViews.Items.AddRange(items.ToArray());
-                cbbViews.SelectedIndexChanged += cbbViews_SelectedIndexChanged;
-                cbbViews.SelectedIndex = 0;
-            }
+            return vManager.RetrieveViews("systemuser");
         }
 
         public void PopulateUsers(string fetchXml)
         {
             lvUsers.Items.Clear();
-            var entity = QueryHelper.GetItems(fetchXml, service);
 
-            if (entity.EntityName == "systemuser")
+            var bw = new BackgroundWorker();
+            bw.DoWork += (sender, e) => { e.Result = QueryHelper.GetItems(e.Argument.ToString(), service); };
+            bw.RunWorkerCompleted += (sender, e) =>
             {
-                lvUsers.Items.AddRange(entity.Entities.ToList()
-                    .Select(record => new ListViewItem
-                    {
-                        Text = record.GetAttributeValue<string>("lastname"),
-                        ImageIndex = 0,
-                        StateImageIndex = 0,
-                        Tag = record,
-                        SubItems =
+                var records = (EntityCollection)e.Result;
+                if (records.EntityName == "systemuser")
+                {
+                    lvUsers.Items.AddRange(records.Entities.ToList()
+                        .Select(record => new ListViewItem
                         {
-                            record.GetAttributeValue<string>("firstname"),
-                            record.GetAttributeValue<EntityReference>("businessunitid").Name
-                        }
-                    })
-                    .ToArray());
-            }
-            else if (entity.EntityName == "team")
-            {
-                lvUsers.Items.AddRange(entity.Entities.ToList()
-                    .Select(record => new ListViewItem
-                    {
-                        Text = record.GetAttributeValue<string>("name"),
-                        ImageIndex = 1,
-                        StateImageIndex = 1,
-                        Tag = record,
-                        SubItems =
-                        {
-                            record.GetAttributeValue<EntityReference>("businessunitid").Name
-                        }
-                    })
-                    .ToArray());
-            }
+                            Text = record.GetAttributeValue<string>("lastname"),
+                            ImageIndex = 0,
+                            StateImageIndex = 0,
+                            Tag = record,
+                            SubItems =
+                            {
+                                record.GetAttributeValue<string>("firstname"),
+                                record.GetAttributeValue<EntityReference>("businessunitid").Name
+                            }
+                        })
+                        .ToArray());
+                }
+            };
+            bw.RunWorkerAsync(fetchXml);
+        }
+
+        public void SetViews(List<ViewItem> scViews)
+        {
+            cbbViews.SelectedIndexChanged -= cbbViews_SelectedIndexChanged;
+            cbbViews.Items.Clear();
+            cbbViews.Items.AddRange(scViews.ToArray());
+            cbbViews.SelectedIndexChanged += cbbViews_SelectedIndexChanged;
+            cbbViews.SelectedIndex = 0;
         }
 
         private void cbbViews_SelectedIndexChanged(object sender, EventArgs e)
