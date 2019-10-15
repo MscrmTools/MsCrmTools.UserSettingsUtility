@@ -1,11 +1,10 @@
 ﻿using Microsoft.Xrm.Sdk;
+using Microsoft.Xrm.Sdk.Query;
 using MsCrmTools.UserSettingsUtility.AppCode;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using CrmEarlyBound;
-using Microsoft.Xrm.Sdk.Query;
 
 namespace MsCrmTools.UserSettingsUtility.UserControls
 {
@@ -66,12 +65,6 @@ namespace MsCrmTools.UserSettingsUtility.UserControls
             }
         }
 
-        private void cbbViews_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            var viewItem = (ViewItem)cbbViews.SelectedItem;
-            PopulateUsers(viewItem.FetchXml);
-        }
-
         public void PopulateUsers(string fetchXml)
         {
             lvUsers.Items.Clear();
@@ -110,6 +103,12 @@ namespace MsCrmTools.UserSettingsUtility.UserControls
                     })
                     .ToArray());
             }
+        }
+
+        private void cbbViews_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var viewItem = (ViewItem)cbbViews.SelectedItem;
+            PopulateUsers(viewItem.FetchXml);
         }
 
         private void llCheckAll_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -154,6 +153,7 @@ namespace MsCrmTools.UserSettingsUtility.UserControls
         private void lvUsers_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             var user = e.Item.Tag as Entity;
+            if (user == null) return;
 
             var records = service.RetrieveMultiple(new QueryByAttribute("usersettings")
             {
@@ -162,7 +162,13 @@ namespace MsCrmTools.UserSettingsUtility.UserControls
                 ColumnSet = new ColumnSet(true)
             });
 
-            var settings = records.Entities.First();
+            var settings = records.Entities.FirstOrDefault();
+            if (settings == null)
+            {
+                MessageBox.Show(this,
+                    $@"Unable to find settings for the user {user.GetAttributeValue<string>("fullname")}", @"Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
             ((MainControl)this.Parent.Parent.Parent).LoadCurrentUserSetting(settings);
         }
     }

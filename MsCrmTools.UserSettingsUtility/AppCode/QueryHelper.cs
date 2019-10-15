@@ -1,10 +1,10 @@
-﻿using Microsoft.Xrm.Sdk;
+﻿using Microsoft.Crm.Sdk.Messages;
+using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 using System;
 using System.Linq;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using Microsoft.Crm.Sdk.Messages;
 
 namespace MsCrmTools.UserSettingsUtility.AppCode
 {
@@ -24,6 +24,7 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
 
             AddMissingCrmAttribute(xDoc, "firstname");
             AddMissingCrmAttribute(xDoc, "lastname");
+            AddMissingCrmAttribute(xDoc, "fullname");
 
             var response = (FetchXmlToQueryExpressionResponse)service.Execute(new FetchXmlToQueryExpressionRequest
             {

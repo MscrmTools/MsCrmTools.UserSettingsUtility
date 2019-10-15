@@ -3,10 +3,10 @@ using McTools.Xrm.Connection;
 using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
-using Microsoft.Xrm.Tooling.Connector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace MsCrmTools.UserSettingsUtility.AppCode
@@ -14,14 +14,14 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
     internal class UserSettingsHelper
     {
         private readonly ConnectionDetail detail;
-        private readonly CrmServiceClient service;
+        private readonly IOrganizationService service;
         private Guid currentUserId;
         private Boolean ignoreDisabledUsers;
         private Boolean ignoreUserWithoutRoles;
 
         public UserSettingsHelper(IOrganizationService service, ConnectionDetail detail)
         {
-            this.service = (CrmServiceClient)service;
+            this.service = service;
             this.detail = detail;
         }
 
@@ -81,8 +81,8 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
         {
             try
             {
-                currentUserId = service.CallerId;
-                service.CallerId = userId;
+                currentUserId = GetCallerId(service);
+                SetCallerId(userId, service);
                 var records = service.RetrieveMultiple(new QueryByAttribute("usersettings")
                 {
                     Attributes = { UserSettings.Fields.SystemUserId },
@@ -170,12 +170,12 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
                     service.Update(userSetting);
                 }
 
-                service.CallerId = currentUserId;
+                SetCallerId(currentUserId, service);
             }
             catch (Exception e)
             {
                 // Reset callerid to the logged in user so later queries don't fail
-                service.CallerId = currentUserId;
+                SetCallerId(currentUserId, service);
 
                 // If the user is disabled, they can't be updated - raise error and ask if processing should continue
                 if (e.Message.StartsWith("The user with SystemUserId") && e.Message.EndsWith("is disabled"))
@@ -239,6 +239,28 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
             {
                 // Abort processing
                 throw new UserAbortedException();
+            }
+        }
+
+        private Guid GetCallerId(object obj)
+        {
+            PropertyInfo propertyInfo = obj.GetType().GetProperty("CallerId");
+            // make sure object has the property we are after
+            if (propertyInfo != null)
+            {
+                return (Guid)propertyInfo.GetValue(obj, null);
+            }
+
+            return Guid.Empty;
+        }
+
+        private void SetCallerId(Guid value, object obj)
+        {
+            PropertyInfo propertyInfo = obj.GetType().GetProperty("CallerId");
+            // make sure object has the property we are after
+            if (propertyInfo != null)
+            {
+                propertyInfo.SetValue(obj, value, null);
             }
         }
 
