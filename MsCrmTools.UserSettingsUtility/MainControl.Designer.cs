@@ -678,7 +678,9 @@
             "All email messages",
             "Email messages in response to CRM email",
             "Email messages from CRM Leads, Contacts and Accounts",
-            "Email messages from CRM records that are email enabled"});
+            "Email messages from CRM records that are email enabled",
+            "No email messages (only valid for CDS/Dynamics 365 v9.1+)"
+            });
             this.cbbTrackMessages.Location = new System.Drawing.Point(155, 41);
             this.cbbTrackMessages.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.cbbTrackMessages.Name = "cbbTrackMessages";
