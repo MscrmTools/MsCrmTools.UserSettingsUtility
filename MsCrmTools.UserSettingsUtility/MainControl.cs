@@ -50,6 +50,12 @@ namespace MsCrmTools.UserSettingsUtility
                     ? 2
                     : 0;
 
+            cbbSynchronizeResourceBookingWithOutlook.SelectedIndex =
+                settings.GetAttributeValue<bool?>(UserSettings.IsResourceBookingExchangeSyncEnabled).HasValue &&
+                settings.GetAttributeValue<bool?>(UserSettings.IsResourceBookingExchangeSyncEnabled).Value
+                    ? 2
+                    : 0;
+
             if (cbbSearch.Items.Count > 1 && settings.GetAttributeValue<OptionSetValue>(UserSettings.DefaultSearchExperience) != null)
             {
                 cbbSearch.SelectedIndex = settings.GetAttributeValue<OptionSetValue>(UserSettings.DefaultSearchExperience).Value + 1;
@@ -326,6 +332,15 @@ namespace MsCrmTools.UserSettingsUtility
                         cbbAutoDataCaptureEnabled.Enabled = isDataCaptureEnabled &&
                             (version.Major == 8 && version.Minor >= 2 || version.Major >= 9);
 
+                        // Sync Resources booking with Outlook
+                        // For now, it's not necessary to have org level setting enabled to change
+                        // user setting. Not using the org level settings for now.
+                        var isResourceBookingExchangeSyncEnabled =
+                            sc.OrgSettings.GetAttributeValue<bool>(OrganizationSettings.Fields
+                                .IsResourceBookingExchangeSyncEnabled);
+                        cbbSynchronizeResourceBookingWithOutlook.Enabled = //isResourceBookingExchangeSyncEnabled &&
+                                                            (version.Major == 8 && version.Minor >= 2 || version.Major >= 9);
+
                         // SiteMap
                         cbbSiteMapArea.Items.Add("No change");
                         cbbSiteMapArea.Items.AddRange(areas.ToArray());
@@ -408,6 +423,7 @@ namespace MsCrmTools.UserSettingsUtility
             cbbReportScriptErrors.SelectedIndex = 0;
             cbbSendAsAllowed.SelectedIndex = 0;
             cbbAutoDataCaptureEnabled.SelectedIndex = 0;
+            cbbSynchronizeResourceBookingWithOutlook.SelectedIndex = 0;
             cbbPagingLimit.SelectedIndex = 0;
             cbbTimeZones.SelectedIndex = 0;
             cbbWorkStartTime.SelectedIndex = 0;
@@ -464,6 +480,12 @@ namespace MsCrmTools.UserSettingsUtility
             if (cbbAutoDataCaptureEnabled.SelectedIndex != 0)
             {
                 setting[UserSettings.IsAutoDataCaptureEnabled] = cbbAutoDataCaptureEnabled.SelectedIndex == 2;
+            }
+
+            if (cbbSynchronizeResourceBookingWithOutlook.SelectedIndex != 0)
+            {
+                setting[UserSettings.IsResourceBookingExchangeSyncEnabled] =
+                    cbbSynchronizeResourceBookingWithOutlook.SelectedIndex == 2;
             }
 
             if (cbbPagingLimit.SelectedIndex != 0)

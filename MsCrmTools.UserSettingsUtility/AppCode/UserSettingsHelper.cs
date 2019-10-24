@@ -138,6 +138,9 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
                 if (settings.GetAttributeValue<bool?>(UserSettings.Fields.IsSendAsAllowed).HasValue)
                     userSetting[UserSettings.Fields.IsSendAsAllowed] = settings.GetAttributeValue<bool?>(UserSettings.Fields.IsSendAsAllowed).Value;
 
+                if (settings.GetAttributeValue<bool?>(UserSettings.Fields.IsResourceBookingExchangeSyncEnabled).HasValue)
+                    userSetting[UserSettings.Fields.IsResourceBookingExchangeSyncEnabled] = settings.GetAttributeValue<bool?>(UserSettings.Fields.IsResourceBookingExchangeSyncEnabled).Value;
+
                 if (settings.GetAttributeValue<bool?>(UserSettings.Fields.IsAutoDataCaptureEnabled).HasValue)
                     userSetting[UserSettings.Fields.IsAutoDataCaptureEnabled] = settings.GetAttributeValue<bool?>(UserSettings.Fields.IsAutoDataCaptureEnabled).Value;
 

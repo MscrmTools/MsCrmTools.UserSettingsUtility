@@ -107,6 +107,9 @@
             this.label4 = new System.Windows.Forms.Label();
             this.cbbAutoDataCaptureEnabled = new System.Windows.Forms.ComboBox();
             this.label28 = new System.Windows.Forms.Label();
+            this.gbSynchronization = new System.Windows.Forms.GroupBox();
+            this.label29 = new System.Windows.Forms.Label();
+            this.cbbSynchronizeResourceBookingWithOutlook = new System.Windows.Forms.ComboBox();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -120,6 +123,7 @@
             this.gbEmail.SuspendLayout();
             this.gbActivities.SuspendLayout();
             this.gbGeneral.SuspendLayout();
+            this.gbSynchronization.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -239,6 +243,7 @@
             // panel1
             // 
             this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.gbSynchronization);
             this.panel1.Controls.Add(this.gbFormats);
             this.panel1.Controls.Add(this.gbOutlookForms);
             this.panel1.Controls.Add(this.gbLanguages);
@@ -1205,6 +1210,46 @@
             this.label28.TabIndex = 52;
             this.label28.Text = "Show emails not tracked in Activities list";
             // 
+            // gbSynchronization
+            // 
+            this.gbSynchronization.AutoSize = true;
+            this.gbSynchronization.Controls.Add(this.cbbSynchronizeResourceBookingWithOutlook);
+            this.gbSynchronization.Controls.Add(this.label29);
+            this.gbSynchronization.Dock = System.Windows.Forms.DockStyle.Top;
+            this.gbSynchronization.Location = new System.Drawing.Point(0, 1721);
+            this.gbSynchronization.Margin = new System.Windows.Forms.Padding(4);
+            this.gbSynchronization.Name = "gbSynchronization";
+            this.gbSynchronization.Padding = new System.Windows.Forms.Padding(4);
+            this.gbSynchronization.Size = new System.Drawing.Size(947, 128);
+            this.gbSynchronization.TabIndex = 66;
+            this.gbSynchronization.TabStop = false;
+            this.gbSynchronization.Text = "Synchronization";
+            // 
+            // label29
+            // 
+            this.label29.Location = new System.Drawing.Point(14, 37);
+            this.label29.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(272, 63);
+            this.label29.TabIndex = 55;
+            this.label29.Text = "Synchronize resource bookings with Outlook";
+            // 
+            // cbbSynchronizeResourceBookingWithOutlook
+            // 
+            this.cbbSynchronizeResourceBookingWithOutlook.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbbSynchronizeResourceBookingWithOutlook.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbbSynchronizeResourceBookingWithOutlook.FormattingEnabled = true;
+            this.cbbSynchronizeResourceBookingWithOutlook.Items.AddRange(new object[] {
+            "No change",
+            "No",
+            "Yes"});
+            this.cbbSynchronizeResourceBookingWithOutlook.Location = new System.Drawing.Point(310, 37);
+            this.cbbSynchronizeResourceBookingWithOutlook.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.cbbSynchronizeResourceBookingWithOutlook.Name = "cbbSynchronizeResourceBookingWithOutlook";
+            this.cbbSynchronizeResourceBookingWithOutlook.Size = new System.Drawing.Size(653, 33);
+            this.cbbSynchronizeResourceBookingWithOutlook.TabIndex = 56;
+            // 
             // MainControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -1236,6 +1281,7 @@
             this.gbActivities.PerformLayout();
             this.gbGeneral.ResumeLayout(false);
             this.gbGeneral.PerformLayout();
+            this.gbSynchronization.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1321,5 +1367,8 @@
         private System.Windows.Forms.Label txtSearch;
         private System.Windows.Forms.ComboBox cbbAutoDataCaptureEnabled;
         private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.GroupBox gbSynchronization;
+        private System.Windows.Forms.ComboBox cbbSynchronizeResourceBookingWithOutlook;
+        private System.Windows.Forms.Label label29;
     }
 }
