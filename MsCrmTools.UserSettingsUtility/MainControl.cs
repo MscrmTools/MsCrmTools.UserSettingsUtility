@@ -1,4 +1,5 @@
-﻿using Microsoft.Xrm.Sdk;
+﻿using CrmEarlyBound;
+using Microsoft.Xrm.Sdk;
 using MsCrmTools.UserSettingsUtility.AppCode;
 using System;
 using System.Collections.Generic;
@@ -43,6 +44,11 @@ namespace MsCrmTools.UserSettingsUtility
             cbbSendAsAllowed.SelectedIndex = settings.GetAttributeValue<bool?>(UserSettings.IsSendAsAllowed).HasValue && settings.GetAttributeValue<bool?>(UserSettings.IsSendAsAllowed).Value
                 ? 2
                 : 0;
+            cbbAutoDataCaptureEnabled.SelectedIndex =
+                settings.GetAttributeValue<bool?>(UserSettings.IsAutoDataCaptureEnabled).HasValue &&
+                settings.GetAttributeValue<bool?>(UserSettings.IsAutoDataCaptureEnabled).Value
+                    ? 2
+                    : 0;
 
             if (cbbSearch.Items.Count > 1 && settings.GetAttributeValue<OptionSetValue>(UserSettings.DefaultSearchExperience) != null)
             {
@@ -229,6 +235,8 @@ namespace MsCrmTools.UserSettingsUtility
                     bw.ReportProgress(0, "Loading Dashboards...");
                     sc.Dashboards = ush.RetrieveDashboards();
 
+                    bw.ReportProgress(0, "Loading Environment Settings...");
+                    sc.OrgSettings = ush.RetrieveOrgSettings();
                     e.Result = sc;
                 },
                 PostWorkCallBack = e =>
@@ -295,9 +303,10 @@ namespace MsCrmTools.UserSettingsUtility
                             cbbCurrencies.Items.Add(currency);
                         }
 
+                        var version = ush.RetrieveVersion();
                         // Default search
                         cbbSearch.Items.Add("No change");
-                        if (ush.RetrieveVersion().Major >= 9)
+                        if (version.Major >= 9)
                         {
                             cbbSearch.Items.Add("Relevance search");
                             cbbSearch.Items.Add("Categorized search");
@@ -309,6 +318,13 @@ namespace MsCrmTools.UserSettingsUtility
                         {
                             cbbSearch.Enabled = false;
                         }
+
+                        // AutoDataCapture
+                        var isDataCaptureEnabled =
+                            sc.OrgSettings.GetAttributeValue<bool>(OrganizationSettings.Fields
+                                .IsAutoDataCaptureEnabled);
+                        cbbAutoDataCaptureEnabled.Enabled = isDataCaptureEnabled &&
+                            (version.Major == 8 && version.Minor >= 2 || version.Major >= 9);
 
                         // SiteMap
                         cbbSiteMapArea.Items.Add("No change");
@@ -391,6 +407,7 @@ namespace MsCrmTools.UserSettingsUtility
             cbbTrackMessages.SelectedIndex = 0;
             cbbReportScriptErrors.SelectedIndex = 0;
             cbbSendAsAllowed.SelectedIndex = 0;
+            cbbAutoDataCaptureEnabled.SelectedIndex = 0;
             cbbPagingLimit.SelectedIndex = 0;
             cbbTimeZones.SelectedIndex = 0;
             cbbWorkStartTime.SelectedIndex = 0;
@@ -442,6 +459,11 @@ namespace MsCrmTools.UserSettingsUtility
             if (cbbSendAsAllowed.SelectedIndex != 0)
             {
                 setting[UserSettings.IsSendAsAllowed] = cbbSendAsAllowed.SelectedIndex == 2;
+            }
+
+            if (cbbAutoDataCaptureEnabled.SelectedIndex != 0)
+            {
+                setting[UserSettings.IsAutoDataCaptureEnabled] = cbbAutoDataCaptureEnabled.SelectedIndex == 2;
             }
 
             if (cbbPagingLimit.SelectedIndex != 0)

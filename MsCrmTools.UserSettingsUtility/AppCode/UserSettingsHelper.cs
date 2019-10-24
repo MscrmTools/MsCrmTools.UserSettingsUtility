@@ -61,6 +61,12 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
             return dashboards;
         }
 
+        public Entity RetrieveOrgSettings()
+        {
+            return service.RetrieveMultiple(new QueryExpression("organization") { ColumnSet = new ColumnSet(true) })
+                .Entities.First();
+        }
+
         public EntityCollection RetrieveTimeZones()
         {
             var request = new GetAllTimeZonesWithDisplayNameRequest { LocaleId = 1033 };
@@ -131,6 +137,9 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
 
                 if (settings.GetAttributeValue<bool?>(UserSettings.Fields.IsSendAsAllowed).HasValue)
                     userSetting[UserSettings.Fields.IsSendAsAllowed] = settings.GetAttributeValue<bool?>(UserSettings.Fields.IsSendAsAllowed).Value;
+
+                if (settings.GetAttributeValue<bool?>(UserSettings.Fields.IsAutoDataCaptureEnabled).HasValue)
+                    userSetting[UserSettings.Fields.IsAutoDataCaptureEnabled] = settings.GetAttributeValue<bool?>(UserSettings.Fields.IsAutoDataCaptureEnabled).Value;
 
                 if (settings.GetAttributeValue<int?>(UserSettings.Fields.UILanguageId).HasValue)
                     userSetting[UserSettings.Fields.UILanguageId] = settings.GetAttributeValue<int?>(UserSettings.Fields.UILanguageId).Value;

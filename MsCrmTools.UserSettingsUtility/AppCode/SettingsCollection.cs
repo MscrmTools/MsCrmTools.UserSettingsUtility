@@ -10,6 +10,7 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
         public IEnumerable<Entity> Currencies { get; set; }
         public IEnumerable<Entity> Dashboards { get; set; }
         public List<Language> Languages { get; set; }
+        public Entity OrgSettings { get; set; }
         public List<Tuple<string, string>> SubAreas { get; set; }
         public EntityCollection TimeZones { get; set; }
         public List<ViewItem> Views { get; set; }
