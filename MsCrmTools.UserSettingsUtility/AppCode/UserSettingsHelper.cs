@@ -52,8 +52,9 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
               <entity name='systemform' >
                 <attribute name='formid' />
                 <attribute name='name' />
-                <filter>
+                <filter type='or'>
                   <condition attribute='type' operator='eq' value='0' />
+                  <condition attribute='type' operator='eq' value='10' />
                 </filter>
                 <order attribute='name' />
               </entity>
