@@ -25,6 +25,8 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
             this.detail = detail;
         }
 
+        internal event EventHandler<UserUpdateEventArgs> OnResult;
+
         public List<Language> RetrieveAvailableLanguages()
         {
             var lcidRequest = new RetrieveProvisionedLanguagesRequest();
@@ -104,98 +106,136 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
                 }
 
                 if (settings.GetAttributeValue<int?>(UserSettings.Fields.AdvancedFindStartupMode) >= 1)
-                    userSetting[UserSettings.Fields.AdvancedFindStartupMode] = settings.GetAttributeValue<int?>(UserSettings.Fields.AdvancedFindStartupMode);
+                    userSetting[UserSettings.Fields.AdvancedFindStartupMode] =
+                        settings.GetAttributeValue<int?>(UserSettings.Fields.AdvancedFindStartupMode);
 
                 if (settings.GetAttributeValue<int?>(UserSettings.Fields.AutoCreateContactOnPromote) >= 0)
-                    userSetting[UserSettings.Fields.AutoCreateContactOnPromote] = settings.GetAttributeValue<int?>(UserSettings.Fields.AutoCreateContactOnPromote);
+                    userSetting[UserSettings.Fields.AutoCreateContactOnPromote] =
+                        settings.GetAttributeValue<int?>(UserSettings.Fields.AutoCreateContactOnPromote);
 
                 if (settings.GetAttributeValue<int?>(UserSettings.Fields.DefaultCalendarView) >= 0)
-                    userSetting[UserSettings.Fields.DefaultCalendarView] = settings.GetAttributeValue<int?>(UserSettings.Fields.DefaultCalendarView);
+                    userSetting[UserSettings.Fields.DefaultCalendarView] =
+                        settings.GetAttributeValue<int?>(UserSettings.Fields.DefaultCalendarView);
 
                 if (settings.GetAttributeValue<string>(UserSettings.Fields.HomepageArea) != "No change")
-                    userSetting[UserSettings.Fields.HomepageArea] = settings.GetAttributeValue<string>(UserSettings.Fields.HomepageArea);
+                    userSetting[UserSettings.Fields.HomepageArea] =
+                        settings.GetAttributeValue<string>(UserSettings.Fields.HomepageArea);
 
                 if (settings.GetAttributeValue<string>(UserSettings.Fields.HomepageSubarea) != "No change")
-                    userSetting[UserSettings.Fields.HomepageSubarea] = settings.GetAttributeValue<string>(UserSettings.Fields.HomepageSubarea);
+                    userSetting[UserSettings.Fields.HomepageSubarea] =
+                        settings.GetAttributeValue<string>(UserSettings.Fields.HomepageSubarea);
 
-                if (settings.GetAttributeValue<OptionSetValue>(UserSettings.Fields.IncomingEmailFilteringMethod).Value >= 0)
-                    userSetting[UserSettings.Fields.IncomingEmailFilteringMethod] = settings.GetAttributeValue<OptionSetValue>(UserSettings.Fields.IncomingEmailFilteringMethod);
+                if (settings.GetAttributeValue<OptionSetValue>(UserSettings.Fields.IncomingEmailFilteringMethod)
+                        .Value >= 0)
+                    userSetting[UserSettings.Fields.IncomingEmailFilteringMethod] =
+                        settings.GetAttributeValue<OptionSetValue>(UserSettings.Fields.IncomingEmailFilteringMethod);
 
                 if (settings.GetAttributeValue<int?>(UserSettings.Fields.PagingLimit).HasValue)
-                    userSetting[UserSettings.Fields.PagingLimit] = settings.GetAttributeValue<int?>(UserSettings.Fields.PagingLimit).Value;
+                    userSetting[UserSettings.Fields.PagingLimit] =
+                        settings.GetAttributeValue<int?>(UserSettings.Fields.PagingLimit).Value;
 
                 if (settings.GetAttributeValue<int?>(UserSettings.Fields.TimeZoneCode) >= 0)
-                    userSetting[UserSettings.Fields.TimeZoneCode] = settings.GetAttributeValue<int?>(UserSettings.Fields.TimeZoneCode);
+                    userSetting[UserSettings.Fields.TimeZoneCode] =
+                        settings.GetAttributeValue<int?>(UserSettings.Fields.TimeZoneCode);
 
-                if (!string.IsNullOrEmpty(settings.GetAttributeValue<string>(UserSettings.Fields.WorkdayStartTime)) && settings.GetAttributeValue<string>(UserSettings.Fields.WorkdayStartTime) != "No change")
-                    userSetting[UserSettings.Fields.WorkdayStartTime] = settings.GetAttributeValue<string>(UserSettings.Fields.WorkdayStartTime);
+                if (!string.IsNullOrEmpty(settings.GetAttributeValue<string>(UserSettings.Fields.WorkdayStartTime)) &&
+                    settings.GetAttributeValue<string>(UserSettings.Fields.WorkdayStartTime) != "No change")
+                    userSetting[UserSettings.Fields.WorkdayStartTime] =
+                        settings.GetAttributeValue<string>(UserSettings.Fields.WorkdayStartTime);
 
-                if (!string.IsNullOrEmpty(settings.GetAttributeValue<string>(UserSettings.Fields.WorkdayStopTime)) && settings.GetAttributeValue<string>(UserSettings.Fields.WorkdayStopTime) != "No change")
-                    userSetting[UserSettings.Fields.WorkdayStopTime] = settings.GetAttributeValue<string>(UserSettings.Fields.WorkdayStopTime);
+                if (!string.IsNullOrEmpty(settings.GetAttributeValue<string>(UserSettings.Fields.WorkdayStopTime)) &&
+                    settings.GetAttributeValue<string>(UserSettings.Fields.WorkdayStopTime) != "No change")
+                    userSetting[UserSettings.Fields.WorkdayStopTime] =
+                        settings.GetAttributeValue<string>(UserSettings.Fields.WorkdayStopTime);
 
                 if (settings.GetAttributeValue<OptionSetValue>(UserSettings.Fields.ReportScriptErrors).Value >= 1)
-                    userSetting[UserSettings.Fields.ReportScriptErrors] = settings.GetAttributeValue<OptionSetValue>(UserSettings.Fields.ReportScriptErrors);
+                    userSetting[UserSettings.Fields.ReportScriptErrors] =
+                        settings.GetAttributeValue<OptionSetValue>(UserSettings.Fields.ReportScriptErrors);
 
                 if (settings.GetAttributeValue<bool?>(UserSettings.Fields.IsSendAsAllowed).HasValue)
-                    userSetting[UserSettings.Fields.IsSendAsAllowed] = settings.GetAttributeValue<bool?>(UserSettings.Fields.IsSendAsAllowed).Value;
+                    userSetting[UserSettings.Fields.IsSendAsAllowed] =
+                        settings.GetAttributeValue<bool?>(UserSettings.Fields.IsSendAsAllowed).Value;
 
-                if (settings.GetAttributeValue<bool?>(UserSettings.Fields.IsResourceBookingExchangeSyncEnabled).HasValue)
-                    userSetting[UserSettings.Fields.IsResourceBookingExchangeSyncEnabled] = settings.GetAttributeValue<bool?>(UserSettings.Fields.IsResourceBookingExchangeSyncEnabled).Value;
+                if (settings.GetAttributeValue<bool?>(UserSettings.Fields.IsResourceBookingExchangeSyncEnabled)
+                    .HasValue)
+                    userSetting[UserSettings.Fields.IsResourceBookingExchangeSyncEnabled] = settings
+                        .GetAttributeValue<bool?>(UserSettings.Fields.IsResourceBookingExchangeSyncEnabled).Value;
 
                 if (settings.GetAttributeValue<bool?>(UserSettings.Fields.IsAutoDataCaptureEnabled).HasValue)
-                    userSetting[UserSettings.Fields.IsAutoDataCaptureEnabled] = settings.GetAttributeValue<bool?>(UserSettings.Fields.IsAutoDataCaptureEnabled).Value;
+                    userSetting[UserSettings.Fields.IsAutoDataCaptureEnabled] = settings
+                        .GetAttributeValue<bool?>(UserSettings.Fields.IsAutoDataCaptureEnabled).Value;
 
                 if (settings.GetAttributeValue<int?>(UserSettings.Fields.UILanguageId).HasValue)
-                    userSetting[UserSettings.Fields.UILanguageId] = settings.GetAttributeValue<int?>(UserSettings.Fields.UILanguageId).Value;
+                    userSetting[UserSettings.Fields.UILanguageId] =
+                        settings.GetAttributeValue<int?>(UserSettings.Fields.UILanguageId).Value;
 
                 if (settings.GetAttributeValue<int?>(UserSettings.Fields.HelpLanguageId).HasValue)
-                    userSetting[UserSettings.Fields.HelpLanguageId] = settings.GetAttributeValue<int?>(UserSettings.Fields.HelpLanguageId).Value;
+                    userSetting[UserSettings.Fields.HelpLanguageId] =
+                        settings.GetAttributeValue<int?>(UserSettings.Fields.HelpLanguageId).Value;
 
                 if (settings.GetAttributeValue<EntityReference>(UserSettings.Fields.TransactionCurrencyId) != null)
-                    userSetting[UserSettings.Fields.TransactionCurrencyId] = settings.GetAttributeValue<EntityReference>(UserSettings.Fields.TransactionCurrencyId);
+                    userSetting[UserSettings.Fields.TransactionCurrencyId] =
+                        settings.GetAttributeValue<EntityReference>(UserSettings.Fields.TransactionCurrencyId);
 
                 if (settings.GetAttributeValue<bool?>(UserSettings.Fields.GetStartedPaneContentEnabled).HasValue)
-                    userSetting[UserSettings.Fields.GetStartedPaneContentEnabled] = settings.GetAttributeValue<bool?>(UserSettings.Fields.GetStartedPaneContentEnabled).Value;
+                    userSetting[UserSettings.Fields.GetStartedPaneContentEnabled] = settings
+                        .GetAttributeValue<bool?>(UserSettings.Fields.GetStartedPaneContentEnabled).Value;
 
                 if (settings.GetAttributeValue<bool?>(UserSettings.Fields.UseCrmFormForAppointment).HasValue)
-                    userSetting[UserSettings.Fields.UseCrmFormForAppointment] = settings.GetAttributeValue<bool?>(UserSettings.Fields.UseCrmFormForAppointment).Value;
+                    userSetting[UserSettings.Fields.UseCrmFormForAppointment] = settings
+                        .GetAttributeValue<bool?>(UserSettings.Fields.UseCrmFormForAppointment).Value;
 
                 if (settings.GetAttributeValue<bool?>(UserSettings.Fields.UseCrmFormForContact).HasValue)
-                    userSetting[UserSettings.Fields.UseCrmFormForContact] = settings.GetAttributeValue<bool?>(UserSettings.Fields.UseCrmFormForContact).Value;
+                    userSetting[UserSettings.Fields.UseCrmFormForContact] = settings
+                        .GetAttributeValue<bool?>(UserSettings.Fields.UseCrmFormForContact).Value;
 
                 if (settings.GetAttributeValue<bool?>(UserSettings.Fields.UseCrmFormForEmail).HasValue)
-                    userSetting[UserSettings.Fields.UseCrmFormForEmail] = settings.GetAttributeValue<bool?>(UserSettings.Fields.UseCrmFormForEmail).Value;
+                    userSetting[UserSettings.Fields.UseCrmFormForEmail] =
+                        settings.GetAttributeValue<bool?>(UserSettings.Fields.UseCrmFormForEmail).Value;
 
                 if (settings.GetAttributeValue<bool?>(UserSettings.Fields.UseCrmFormForTask).HasValue)
-                    userSetting[UserSettings.Fields.UseCrmFormForTask] = settings.GetAttributeValue<bool?>(UserSettings.Fields.UseCrmFormForTask).Value;
+                    userSetting[UserSettings.Fields.UseCrmFormForTask] =
+                        settings.GetAttributeValue<bool?>(UserSettings.Fields.UseCrmFormForTask).Value;
 
                 if (settings.GetAttributeValue<Guid?>(UserSettings.Fields.DefaultDashboardId).HasValue)
-                    userSetting[UserSettings.Fields.DefaultDashboardId] = settings.GetAttributeValue<Guid?>(UserSettings.Fields.DefaultDashboardId);
+                    userSetting[UserSettings.Fields.DefaultDashboardId] =
+                        settings.GetAttributeValue<Guid?>(UserSettings.Fields.DefaultDashboardId);
 
                 if (settings.GetAttributeValue<int?>(UserSettings.Fields.LocaleId).HasValue)
-                    userSetting[UserSettings.Fields.LocaleId] = settings.GetAttributeValue<int?>(UserSettings.Fields.LocaleId).Value;
+                    userSetting[UserSettings.Fields.LocaleId] =
+                        settings.GetAttributeValue<int?>(UserSettings.Fields.LocaleId).Value;
 
                 if (settings.GetAttributeValue<OptionSetValue>(UserSettings.Fields.DefaultSearchExperience).Value >= 0)
-                    userSetting[UserSettings.Fields.DefaultSearchExperience] = settings.GetAttributeValue<OptionSetValue>(UserSettings.Fields.DefaultSearchExperience);
+                    userSetting[UserSettings.Fields.DefaultSearchExperience] =
+                        settings.GetAttributeValue<OptionSetValue>(UserSettings.Fields.DefaultSearchExperience);
 
                 if (settings.GetAttributeValue<bool?>(UserSettings.Fields.IsEmailConversationViewEnabled).HasValue)
-                    userSetting[UserSettings.Fields.IsEmailConversationViewEnabled] = settings.GetAttributeValue<bool>(UserSettings.Fields.IsEmailConversationViewEnabled);
+                    userSetting[UserSettings.Fields.IsEmailConversationViewEnabled] =
+                        settings.GetAttributeValue<bool>(UserSettings.Fields.IsEmailConversationViewEnabled);
 
                 if (userSetting.Attributes.Count > 1)
                 {
                     service.Update(userSetting);
-                }
 
-                SetCallerId(currentUserId, service);
+                    OnResult?.Invoke(this, new UserUpdateEventArgs
+                    {
+                        Success = true,
+                        UserName = userFullName
+                    });
+                }
             }
             catch (Exception e)
             {
-                // Reset callerid to the logged in user so later queries don't fail
-                SetCallerId(currentUserId, service);
-
                 // If the user is disabled, they can't be updated - raise error and ask if processing should continue
                 if (e.Message.StartsWith("The user with SystemUserId") && e.Message.EndsWith("is disabled"))
                 {
+                    OnResult?.Invoke(this, new UserUpdateEventArgs
+                    {
+                        Success = false,
+                        UserName = userFullName,
+                        Message = "The user is disabled. User settings cannot be updated"
+                    });
+
                     if (!ignoreDisabledUsers)
                     {
                         ContinueIgnoreOrAbort(userFullName, "UserIsDisabled");
@@ -204,6 +244,13 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
                 // If the user has no security roles, they can't be updated - raise error and ask if processing should continue
                 else if (e.Message.Contains("no roles are assigned to user"))
                 {
+                    OnResult?.Invoke(this, new UserUpdateEventArgs
+                    {
+                        Success = false,
+                        UserName = userFullName,
+                        Message = "The user has no roles assigned. User settings cannot be updated"
+                    });
+
                     if (!ignoreUserWithoutRoles)
                     {
                         ContinueIgnoreOrAbort(userFullName, "UserHasNoSecurityRoles");
@@ -212,8 +259,18 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
                 // Some other unexpected error has occured
                 else
                 {
-                    throw;
+                    OnResult?.Invoke(this, new UserUpdateEventArgs
+                    {
+                        Success = false,
+                        UserName = userFullName,
+                        Message = e.Message
+                    });
                 }
+            }
+            finally
+            {
+                // Reset callerid to the logged in user so later queries don't fail
+                SetCallerId(currentUserId, service);
             }
         }
 

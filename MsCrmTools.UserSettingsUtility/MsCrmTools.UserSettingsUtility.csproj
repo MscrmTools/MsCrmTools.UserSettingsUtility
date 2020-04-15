@@ -175,6 +175,7 @@
     <Compile Include="AppCode\SystemUserManager.cs" />
     <Compile Include="AppCode\TimeZoneInfo.cs" />
     <Compile Include="AppCode\UserSettingsHelper.cs" />
+    <Compile Include="AppCode\UserUpdateEventArgs.cs" />
     <Compile Include="AppCode\ViewItem.cs" />
     <Compile Include="AppCode\ViewManager.cs" />
     <Compile Include="MainControl.cs">

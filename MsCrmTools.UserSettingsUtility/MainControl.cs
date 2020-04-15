@@ -4,6 +4,7 @@ using MsCrmTools.UserSettingsUtility.AppCode;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using XrmToolBox.Extensibility;
@@ -16,11 +17,14 @@ namespace MsCrmTools.UserSettingsUtility
     {
         private const string ACTIVE_USERS_FETCH = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' ><entity name='systemuser' ><attribute name='fullname' /><order attribute='fullname' descending='false' /><attribute name='businessunitid' /><attribute name='siteid' /><filter type='and' ><condition attribute='isdisabled' operator='eq' value='0' /><condition attribute='accessmode' operator='ne' value='3' /></filter><attribute name='systemuserid' /></entity></fetch>";
         private List<string> areas;
+        private LogManager log;
         private List<Tuple<string, string>> subAreas;
 
         public MainControl()
         {
             InitializeComponent();
+
+            log = new LogManager(GetType());
         }
 
         public event EventHandler<MessageBusEventArgs> OnOutgoingMessage;
@@ -583,6 +587,18 @@ namespace MsCrmTools.UserSettingsUtility
 
             #endregion Initialisation des données à mettre à jour
 
+            if (File.Exists(log.FilePath))
+            {
+                var result = MessageBox.Show(this,
+                    @"A log file already exists for this tool. Would you like to overwrite it?", @"Question",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    log.DeleteLog();
+                }
+            }
+
             WorkAsync(new WorkAsyncInfo
             {
                 Message = "Initializing update...",
@@ -591,6 +607,17 @@ namespace MsCrmTools.UserSettingsUtility
                 {
                     var updateUserSettings = (Tuple<List<Entity>, Entity>)evt.Argument;
                     var ush = new UserSettingsHelper(Service, ConnectionDetail);
+                    ush.OnResult += (helper, args) =>
+                    {
+                        if (args.Success)
+                        {
+                            log.LogInfo($"User {args.UserName} updated successfully");
+                        }
+                        else
+                        {
+                            log.LogError($"User {args.UserName} was not updated. Error message: {args.Message}");
+                        }
+                    };
 
                     foreach (var updateUserSetting in updateUserSettings.Item1)
                     {
@@ -606,9 +633,16 @@ namespace MsCrmTools.UserSettingsUtility
                         // Don't show as message if the user has just cancelled the operation
                         if (!evt.Error.Message.Contains("UserAbortedException"))
                         {
-                            MessageBox.Show(this, "An error occured: " + evt.Error.ToString(), "Error", MessageBoxButtons.OK,
+                            MessageBox.Show(this, $@"An error occured: {evt.Error}", @"Error", MessageBoxButtons.OK,
                                 MessageBoxIcon.Error);
                         }
+                    }
+
+                    var message = "Do you want to open log file?";
+                    if (MessageBox.Show(this, message, @"Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
+                        DialogResult.Yes)
+                    {
+                        log.OpenLog();
                     }
                 },
                 ProgressChanged = evt => { SetWorkingMessage(evt.UserState.ToString()); }
