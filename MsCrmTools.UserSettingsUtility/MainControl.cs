@@ -150,6 +150,13 @@ namespace MsCrmTools.UserSettingsUtility
                 && settings.GetAttributeValue<bool?>(UserSettings.UseCrmFormForTask).Value
                 ? 2
                 : 0;
+
+            cbbShowEmailsAsConversation.SelectedIndex =
+                settings.GetAttributeValue<bool?>(UserSettings.IsEmailConversationViewEnabled).HasValue
+                && settings.GetAttributeValue<bool?>(UserSettings.IsEmailConversationViewEnabled).Value
+                    ? 2
+                    : 0;
+
             if (settings.GetAttributeValue<Guid?>(UserSettings.DefaultDashboardId).HasValue)
             {
                 var defaultSystemDashboardId = cbbDefaultDashboard.Items.Cast<object>()
@@ -341,6 +348,9 @@ namespace MsCrmTools.UserSettingsUtility
                         cbbSynchronizeResourceBookingWithOutlook.Enabled = //isResourceBookingExchangeSyncEnabled &&
                                                             (version.Major == 8 && version.Minor >= 2 || version.Major >= 9);
 
+                        cbbShowEmailsAsConversation.Enabled =
+                            version.Major == 9 && version.Minor >= 1 || version.Major > 9;
+
                         // SiteMap
                         cbbSiteMapArea.Items.Add("No change");
                         cbbSiteMapArea.Items.AddRange(areas.ToArray());
@@ -424,6 +434,7 @@ namespace MsCrmTools.UserSettingsUtility
             cbbSendAsAllowed.SelectedIndex = 0;
             cbbAutoDataCaptureEnabled.SelectedIndex = 0;
             cbbSynchronizeResourceBookingWithOutlook.SelectedIndex = 0;
+            cbbShowEmailsAsConversation.SelectedIndex = 0;
             cbbPagingLimit.SelectedIndex = 0;
             cbbTimeZones.SelectedIndex = 0;
             cbbWorkStartTime.SelectedIndex = 0;
@@ -563,6 +574,11 @@ namespace MsCrmTools.UserSettingsUtility
             if (cbbFormat.SelectedIndex != 0)
             {
                 setting[UserSettings.LocaleId] = ((CultureInfo)cbbFormat.SelectedItem).LCID;
+            }
+
+            if (cbbShowEmailsAsConversation.SelectedIndex != 0)
+            {
+                setting[UserSettings.IsEmailConversationViewEnabled] = cbbShowEmailsAsConversation.SelectedIndex == 2;
             }
 
             #endregion Initialisation des données à mettre à jour

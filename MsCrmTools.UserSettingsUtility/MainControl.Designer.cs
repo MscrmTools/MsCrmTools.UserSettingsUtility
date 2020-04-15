@@ -42,6 +42,9 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.userSelector1 = new MsCrmTools.UserSettingsUtility.UserControls.UserSelector();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.gbSynchronization = new System.Windows.Forms.GroupBox();
+            this.cbbSynchronizeResourceBookingWithOutlook = new System.Windows.Forms.ComboBox();
+            this.label29 = new System.Windows.Forms.Label();
             this.gbFormats = new System.Windows.Forms.GroupBox();
             this.cbbFormat = new System.Windows.Forms.ComboBox();
             this.txtLongDateFormat = new System.Windows.Forms.TextBox();
@@ -73,6 +76,8 @@
             this.label13 = new System.Windows.Forms.Label();
             this.cbbReportScriptErrors = new System.Windows.Forms.ComboBox();
             this.gbEmail = new System.Windows.Forms.GroupBox();
+            this.cbbAutoDataCaptureEnabled = new System.Windows.Forms.ComboBox();
+            this.label28 = new System.Windows.Forms.Label();
             this.cbbSendAsAllowed = new System.Windows.Forms.ComboBox();
             this.cbbTrackMessages = new System.Windows.Forms.ComboBox();
             this.cbbCreateRecords = new System.Windows.Forms.ComboBox();
@@ -105,17 +110,15 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.cbbAutoDataCaptureEnabled = new System.Windows.Forms.ComboBox();
-            this.label28 = new System.Windows.Forms.Label();
-            this.gbSynchronization = new System.Windows.Forms.GroupBox();
-            this.label29 = new System.Windows.Forms.Label();
-            this.cbbSynchronizeResourceBookingWithOutlook = new System.Windows.Forms.ComboBox();
+            this.label30 = new System.Windows.Forms.Label();
+            this.cbbShowEmailsAsConversation = new System.Windows.Forms.ComboBox();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.gbSynchronization.SuspendLayout();
             this.gbFormats.SuspendLayout();
             this.gbOutlookForms.SuspendLayout();
             this.gbLanguages.SuspendLayout();
@@ -123,7 +126,6 @@
             this.gbEmail.SuspendLayout();
             this.gbActivities.SuspendLayout();
             this.gbGeneral.SuspendLayout();
-            this.gbSynchronization.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -259,6 +261,46 @@
             this.panel1.Size = new System.Drawing.Size(981, 1501);
             this.panel1.TabIndex = 0;
             // 
+            // gbSynchronization
+            // 
+            this.gbSynchronization.AutoSize = true;
+            this.gbSynchronization.Controls.Add(this.cbbSynchronizeResourceBookingWithOutlook);
+            this.gbSynchronization.Controls.Add(this.label29);
+            this.gbSynchronization.Dock = System.Windows.Forms.DockStyle.Top;
+            this.gbSynchronization.Location = new System.Drawing.Point(0, 1761);
+            this.gbSynchronization.Margin = new System.Windows.Forms.Padding(4);
+            this.gbSynchronization.Name = "gbSynchronization";
+            this.gbSynchronization.Padding = new System.Windows.Forms.Padding(4);
+            this.gbSynchronization.Size = new System.Drawing.Size(947, 128);
+            this.gbSynchronization.TabIndex = 66;
+            this.gbSynchronization.TabStop = false;
+            this.gbSynchronization.Text = "Synchronization";
+            // 
+            // cbbSynchronizeResourceBookingWithOutlook
+            // 
+            this.cbbSynchronizeResourceBookingWithOutlook.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbbSynchronizeResourceBookingWithOutlook.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbbSynchronizeResourceBookingWithOutlook.FormattingEnabled = true;
+            this.cbbSynchronizeResourceBookingWithOutlook.Items.AddRange(new object[] {
+            "No change",
+            "No",
+            "Yes"});
+            this.cbbSynchronizeResourceBookingWithOutlook.Location = new System.Drawing.Point(310, 37);
+            this.cbbSynchronizeResourceBookingWithOutlook.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.cbbSynchronizeResourceBookingWithOutlook.Name = "cbbSynchronizeResourceBookingWithOutlook";
+            this.cbbSynchronizeResourceBookingWithOutlook.Size = new System.Drawing.Size(653, 33);
+            this.cbbSynchronizeResourceBookingWithOutlook.TabIndex = 56;
+            // 
+            // label29
+            // 
+            this.label29.Location = new System.Drawing.Point(14, 37);
+            this.label29.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(272, 63);
+            this.label29.TabIndex = 55;
+            this.label29.Text = "Synchronize resource bookings with Outlook";
+            // 
             // gbFormats
             // 
             this.gbFormats.AutoSize = true;
@@ -275,10 +317,10 @@
             this.gbFormats.Controls.Add(this.label23);
             this.gbFormats.Controls.Add(this.label22);
             this.gbFormats.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbFormats.Location = new System.Drawing.Point(0, 1391);
-            this.gbFormats.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.gbFormats.Location = new System.Drawing.Point(0, 1431);
+            this.gbFormats.Margin = new System.Windows.Forms.Padding(2);
             this.gbFormats.Name = "gbFormats";
-            this.gbFormats.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.gbFormats.Padding = new System.Windows.Forms.Padding(2);
             this.gbFormats.Size = new System.Drawing.Size(947, 330);
             this.gbFormats.TabIndex = 65;
             this.gbFormats.TabStop = false;
@@ -291,7 +333,7 @@
             this.cbbFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbbFormat.FormattingEnabled = true;
             this.cbbFormat.Location = new System.Drawing.Point(310, 35);
-            this.cbbFormat.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbbFormat.Margin = new System.Windows.Forms.Padding(2);
             this.cbbFormat.Name = "cbbFormat";
             this.cbbFormat.Size = new System.Drawing.Size(653, 33);
             this.cbbFormat.TabIndex = 11;
@@ -303,7 +345,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtLongDateFormat.Enabled = false;
             this.txtLongDateFormat.Location = new System.Drawing.Point(310, 271);
-            this.txtLongDateFormat.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtLongDateFormat.Margin = new System.Windows.Forms.Padding(2);
             this.txtLongDateFormat.Name = "txtLongDateFormat";
             this.txtLongDateFormat.Size = new System.Drawing.Size(653, 31);
             this.txtLongDateFormat.TabIndex = 10;
@@ -314,7 +356,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtShortDateFormat.Enabled = false;
             this.txtShortDateFormat.Location = new System.Drawing.Point(310, 231);
-            this.txtShortDateFormat.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtShortDateFormat.Margin = new System.Windows.Forms.Padding(2);
             this.txtShortDateFormat.Name = "txtShortDateFormat";
             this.txtShortDateFormat.Size = new System.Drawing.Size(653, 31);
             this.txtShortDateFormat.TabIndex = 9;
@@ -325,7 +367,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTimeFormat.Enabled = false;
             this.txtTimeFormat.Location = new System.Drawing.Point(310, 177);
-            this.txtTimeFormat.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtTimeFormat.Margin = new System.Windows.Forms.Padding(2);
             this.txtTimeFormat.Name = "txtTimeFormat";
             this.txtTimeFormat.Size = new System.Drawing.Size(653, 31);
             this.txtTimeFormat.TabIndex = 8;
@@ -336,7 +378,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCurrencyFormat.Enabled = false;
             this.txtCurrencyFormat.Location = new System.Drawing.Point(310, 129);
-            this.txtCurrencyFormat.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtCurrencyFormat.Margin = new System.Windows.Forms.Padding(2);
             this.txtCurrencyFormat.Name = "txtCurrencyFormat";
             this.txtCurrencyFormat.Size = new System.Drawing.Size(653, 31);
             this.txtCurrencyFormat.TabIndex = 7;
@@ -347,7 +389,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtNumberFormat.Enabled = false;
             this.txtNumberFormat.Location = new System.Drawing.Point(310, 85);
-            this.txtNumberFormat.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtNumberFormat.Margin = new System.Windows.Forms.Padding(2);
             this.txtNumberFormat.Name = "txtNumberFormat";
             this.txtNumberFormat.Size = new System.Drawing.Size(653, 31);
             this.txtNumberFormat.TabIndex = 6;
@@ -424,10 +466,10 @@
             this.gbOutlookForms.Controls.Add(this.label18);
             this.gbOutlookForms.Controls.Add(this.label19);
             this.gbOutlookForms.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbOutlookForms.Location = new System.Drawing.Point(0, 1153);
-            this.gbOutlookForms.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbOutlookForms.Location = new System.Drawing.Point(0, 1193);
+            this.gbOutlookForms.Margin = new System.Windows.Forms.Padding(4);
             this.gbOutlookForms.Name = "gbOutlookForms";
-            this.gbOutlookForms.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbOutlookForms.Padding = new System.Windows.Forms.Padding(4);
             this.gbOutlookForms.Size = new System.Drawing.Size(947, 238);
             this.gbOutlookForms.TabIndex = 59;
             this.gbOutlookForms.TabStop = false;
@@ -545,10 +587,10 @@
             this.gbLanguages.Controls.Add(this.cbbHelpLanguage);
             this.gbLanguages.Controls.Add(this.label14);
             this.gbLanguages.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbLanguages.Location = new System.Drawing.Point(0, 1009);
-            this.gbLanguages.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbLanguages.Location = new System.Drawing.Point(0, 1049);
+            this.gbLanguages.Margin = new System.Windows.Forms.Padding(4);
             this.gbLanguages.Name = "gbLanguages";
-            this.gbLanguages.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbLanguages.Padding = new System.Windows.Forms.Padding(4);
             this.gbLanguages.Size = new System.Drawing.Size(947, 144);
             this.gbLanguages.TabIndex = 58;
             this.gbLanguages.TabStop = false;
@@ -604,10 +646,10 @@
             this.gbPrivacy.Controls.Add(this.label13);
             this.gbPrivacy.Controls.Add(this.cbbReportScriptErrors);
             this.gbPrivacy.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbPrivacy.Location = new System.Drawing.Point(0, 909);
-            this.gbPrivacy.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbPrivacy.Location = new System.Drawing.Point(0, 949);
+            this.gbPrivacy.Margin = new System.Windows.Forms.Padding(4);
             this.gbPrivacy.Name = "gbPrivacy";
-            this.gbPrivacy.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbPrivacy.Padding = new System.Windows.Forms.Padding(4);
             this.gbPrivacy.Size = new System.Drawing.Size(947, 100);
             this.gbPrivacy.TabIndex = 57;
             this.gbPrivacy.TabStop = false;
@@ -642,7 +684,8 @@
             // 
             // gbEmail
             // 
-            this.gbEmail.AutoSize = true;
+            this.gbEmail.Controls.Add(this.cbbShowEmailsAsConversation);
+            this.gbEmail.Controls.Add(this.label30);
             this.gbEmail.Controls.Add(this.cbbAutoDataCaptureEnabled);
             this.gbEmail.Controls.Add(this.label28);
             this.gbEmail.Controls.Add(this.cbbSendAsAllowed);
@@ -653,13 +696,38 @@
             this.gbEmail.Controls.Add(this.label10);
             this.gbEmail.Dock = System.Windows.Forms.DockStyle.Top;
             this.gbEmail.Location = new System.Drawing.Point(0, 644);
-            this.gbEmail.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbEmail.Margin = new System.Windows.Forms.Padding(4);
             this.gbEmail.Name = "gbEmail";
-            this.gbEmail.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.gbEmail.Size = new System.Drawing.Size(947, 265);
+            this.gbEmail.Padding = new System.Windows.Forms.Padding(4);
+            this.gbEmail.Size = new System.Drawing.Size(947, 305);
             this.gbEmail.TabIndex = 56;
             this.gbEmail.TabStop = false;
             this.gbEmail.Text = "Email Settings";
+            // 
+            // cbbAutoDataCaptureEnabled
+            // 
+            this.cbbAutoDataCaptureEnabled.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbbAutoDataCaptureEnabled.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbbAutoDataCaptureEnabled.FormattingEnabled = true;
+            this.cbbAutoDataCaptureEnabled.Items.AddRange(new object[] {
+            "No change",
+            "No",
+            "Yes"});
+            this.cbbAutoDataCaptureEnabled.Location = new System.Drawing.Point(312, 177);
+            this.cbbAutoDataCaptureEnabled.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.cbbAutoDataCaptureEnabled.Name = "cbbAutoDataCaptureEnabled";
+            this.cbbAutoDataCaptureEnabled.Size = new System.Drawing.Size(653, 33);
+            this.cbbAutoDataCaptureEnabled.TabIndex = 51;
+            // 
+            // label28
+            // 
+            this.label28.Location = new System.Drawing.Point(14, 181);
+            this.label28.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(272, 56);
+            this.label28.TabIndex = 52;
+            this.label28.Text = "Show emails not tracked in Activities list";
             // 
             // cbbSendAsAllowed
             // 
@@ -754,9 +822,9 @@
             this.gbActivities.Controls.Add(this.label7);
             this.gbActivities.Dock = System.Windows.Forms.DockStyle.Top;
             this.gbActivities.Location = new System.Drawing.Point(0, 450);
-            this.gbActivities.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbActivities.Margin = new System.Windows.Forms.Padding(4);
             this.gbActivities.Name = "gbActivities";
-            this.gbActivities.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbActivities.Padding = new System.Windows.Forms.Padding(4);
             this.gbActivities.Size = new System.Drawing.Size(947, 194);
             this.gbActivities.TabIndex = 55;
             this.gbActivities.TabStop = false;
@@ -954,9 +1022,9 @@
             this.gbGeneral.Controls.Add(this.label4);
             this.gbGeneral.Dock = System.Windows.Forms.DockStyle.Top;
             this.gbGeneral.Location = new System.Drawing.Point(0, 0);
-            this.gbGeneral.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbGeneral.Margin = new System.Windows.Forms.Padding(4);
             this.gbGeneral.Name = "gbGeneral";
-            this.gbGeneral.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbGeneral.Padding = new System.Windows.Forms.Padding(4);
             this.gbGeneral.Size = new System.Drawing.Size(947, 450);
             this.gbGeneral.TabIndex = 54;
             this.gbGeneral.TabStop = false;
@@ -1185,70 +1253,30 @@
             this.label4.TabIndex = 44;
             this.label4.Text = "Time zone";
             // 
-            // cbbAutoDataCaptureEnabled
+            // label30
             // 
-            this.cbbAutoDataCaptureEnabled.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.label30.Location = new System.Drawing.Point(14, 249);
+            this.label30.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(272, 56);
+            this.label30.TabIndex = 53;
+            this.label30.Text = "Show emails as conversation on Timeline";
+            // 
+            // cbbShowEmailsAsConversation
+            // 
+            this.cbbShowEmailsAsConversation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbbAutoDataCaptureEnabled.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbbAutoDataCaptureEnabled.FormattingEnabled = true;
-            this.cbbAutoDataCaptureEnabled.Items.AddRange(new object[] {
+            this.cbbShowEmailsAsConversation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbbShowEmailsAsConversation.FormattingEnabled = true;
+            this.cbbShowEmailsAsConversation.Items.AddRange(new object[] {
             "No change",
             "No",
             "Yes"});
-            this.cbbAutoDataCaptureEnabled.Location = new System.Drawing.Point(312, 177);
-            this.cbbAutoDataCaptureEnabled.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.cbbAutoDataCaptureEnabled.Name = "cbbAutoDataCaptureEnabled";
-            this.cbbAutoDataCaptureEnabled.Size = new System.Drawing.Size(653, 33);
-            this.cbbAutoDataCaptureEnabled.TabIndex = 51;
-            // 
-            // label28
-            // 
-            this.label28.Location = new System.Drawing.Point(14, 181);
-            this.label28.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(272, 56);
-            this.label28.TabIndex = 52;
-            this.label28.Text = "Show emails not tracked in Activities list";
-            // 
-            // gbSynchronization
-            // 
-            this.gbSynchronization.AutoSize = true;
-            this.gbSynchronization.Controls.Add(this.cbbSynchronizeResourceBookingWithOutlook);
-            this.gbSynchronization.Controls.Add(this.label29);
-            this.gbSynchronization.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbSynchronization.Location = new System.Drawing.Point(0, 1721);
-            this.gbSynchronization.Margin = new System.Windows.Forms.Padding(4);
-            this.gbSynchronization.Name = "gbSynchronization";
-            this.gbSynchronization.Padding = new System.Windows.Forms.Padding(4);
-            this.gbSynchronization.Size = new System.Drawing.Size(947, 128);
-            this.gbSynchronization.TabIndex = 66;
-            this.gbSynchronization.TabStop = false;
-            this.gbSynchronization.Text = "Synchronization";
-            // 
-            // label29
-            // 
-            this.label29.Location = new System.Drawing.Point(14, 37);
-            this.label29.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(272, 63);
-            this.label29.TabIndex = 55;
-            this.label29.Text = "Synchronize resource bookings with Outlook";
-            // 
-            // cbbSynchronizeResourceBookingWithOutlook
-            // 
-            this.cbbSynchronizeResourceBookingWithOutlook.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbbSynchronizeResourceBookingWithOutlook.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbbSynchronizeResourceBookingWithOutlook.FormattingEnabled = true;
-            this.cbbSynchronizeResourceBookingWithOutlook.Items.AddRange(new object[] {
-            "No change",
-            "No",
-            "Yes"});
-            this.cbbSynchronizeResourceBookingWithOutlook.Location = new System.Drawing.Point(310, 37);
-            this.cbbSynchronizeResourceBookingWithOutlook.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.cbbSynchronizeResourceBookingWithOutlook.Name = "cbbSynchronizeResourceBookingWithOutlook";
-            this.cbbSynchronizeResourceBookingWithOutlook.Size = new System.Drawing.Size(653, 33);
-            this.cbbSynchronizeResourceBookingWithOutlook.TabIndex = 56;
+            this.cbbShowEmailsAsConversation.Location = new System.Drawing.Point(310, 246);
+            this.cbbShowEmailsAsConversation.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.cbbShowEmailsAsConversation.Name = "cbbShowEmailsAsConversation";
+            this.cbbShowEmailsAsConversation.Size = new System.Drawing.Size(653, 33);
+            this.cbbShowEmailsAsConversation.TabIndex = 54;
             // 
             // MainControl
             // 
@@ -1267,6 +1295,7 @@
             this.splitContainer1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.gbSynchronization.ResumeLayout(false);
             this.gbFormats.ResumeLayout(false);
             this.gbFormats.PerformLayout();
             this.gbOutlookForms.ResumeLayout(false);
@@ -1281,7 +1310,6 @@
             this.gbActivities.PerformLayout();
             this.gbGeneral.ResumeLayout(false);
             this.gbGeneral.PerformLayout();
-            this.gbSynchronization.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1370,5 +1398,7 @@
         private System.Windows.Forms.GroupBox gbSynchronization;
         private System.Windows.Forms.ComboBox cbbSynchronizeResourceBookingWithOutlook;
         private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.ComboBox cbbShowEmailsAsConversation;
+        private System.Windows.Forms.Label label30;
     }
 }

@@ -178,6 +178,9 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
                 if (settings.GetAttributeValue<OptionSetValue>(UserSettings.Fields.DefaultSearchExperience).Value >= 0)
                     userSetting[UserSettings.Fields.DefaultSearchExperience] = settings.GetAttributeValue<OptionSetValue>(UserSettings.Fields.DefaultSearchExperience);
 
+                if (settings.GetAttributeValue<bool?>(UserSettings.Fields.IsEmailConversationViewEnabled).HasValue)
+                    userSetting[UserSettings.Fields.IsEmailConversationViewEnabled] = settings.GetAttributeValue<bool>(UserSettings.Fields.IsEmailConversationViewEnabled);
+
                 if (userSetting.Attributes.Count > 1)
                 {
                     service.Update(userSetting);
