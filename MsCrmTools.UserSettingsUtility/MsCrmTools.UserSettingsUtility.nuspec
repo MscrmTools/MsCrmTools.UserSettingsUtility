@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>MsCrmTools.UserSettingsUtility</id>
+    <version>1.2020.4.13</version>
+    <title>User Settings Utility for XrmToolBox</title>
+    <authors>MscrmTools</authors>
+    <owners>MscrmTools</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <projectUrl>https://github.com/MscrmTools/MsCrmTools.UserSettingsUtility</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/wiki/MscrmTools/XrmToolBox/Images/logo_0100.png</iconUrl>
+    <description>Manage users personal settings in bulk</description>
+    <summary>Manage users personal settings in bulk</summary>
+    <releaseNotes>Added user searching capability</releaseNotes>
+    <tags>XrmToolBox Plugin User Settings Utility</tags>
+    <dependencies>
+      <dependency id="XrmToolBox" version="1.2018.3.21" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\Release\MsCrmTools.UserSettingsUtility.dll" target="lib\net452\Plugins" />
+  </files>
+</package>

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace MsCrmTools.UserSettingsUtility.UserControls
@@ -12,6 +13,8 @@ namespace MsCrmTools.UserSettingsUtility.UserControls
     public partial class UserSelector : UserControl
     {
         private int currentColumnOrder;
+        private List<ListViewItem> items = new List<ListViewItem>();
+        private Thread searchThread;
         private IOrganizationService service;
 
         public UserSelector()
@@ -37,6 +40,18 @@ namespace MsCrmTools.UserSettingsUtility.UserControls
             get { return service; }
         }
 
+        public void FilterDisplay(object term)
+        {
+            var filteredItems = items.Where(i => string.IsNullOrEmpty(term.ToString()) || i.Text.ToLower().IndexOf(term.ToString().ToLower()) >= 0
+            || i.SubItems.Cast<ListViewItem.ListViewSubItem>().Any(s => s.Text.ToLower().IndexOf(term.ToString().ToLower()) >= 0));
+
+            Invoke(new Action(() =>
+            {
+                lvUsers.Items.Clear();
+                lvUsers.Items.AddRange(filteredItems.ToArray());
+            }));
+        }
+
         public List<ViewItem> LoadViews()
         {
             if (service == null)
@@ -59,7 +74,8 @@ namespace MsCrmTools.UserSettingsUtility.UserControls
                 var records = (EntityCollection)e.Result;
                 if (records.EntityName == "systemuser")
                 {
-                    lvUsers.Items.AddRange(records.Entities.ToList()
+                    items.Clear();
+                    items.AddRange(records.Entities
                         .Select(record => new ListViewItem
                         {
                             Text = record.GetAttributeValue<string>("lastname"),
@@ -73,6 +89,8 @@ namespace MsCrmTools.UserSettingsUtility.UserControls
                             }
                         })
                         .ToArray());
+
+                    lvUsers.Items.AddRange(items.ToArray());
                 }
             };
             bw.RunWorkerAsync(fetchXml);
@@ -152,6 +170,13 @@ namespace MsCrmTools.UserSettingsUtility.UserControls
                 return;
             }
             ((MainControl)this.Parent.Parent.Parent).LoadCurrentUserSetting(settings);
+        }
+
+        private void txtFilter_TextChanged(object sender, EventArgs e)
+        {
+            searchThread?.Abort();
+            searchThread = new Thread(FilterDisplay);
+            searchThread.Start(txtFilter.Text);
         }
     }
 }
