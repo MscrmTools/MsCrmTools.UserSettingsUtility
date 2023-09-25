@@ -42,7 +42,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>1</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug Without GemBox|AnyCPU'">
@@ -54,6 +54,9 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="McTools.Xrm.Connection, Version=1.2021.9.46, Culture=neutral, PublicKeyToken=96037217801d9658, processorArchitecture=MSIL">
@@ -234,6 +237,7 @@
   <ItemGroup>
     <Compile Include="AppCode\DialogueBoxManager.cs" />
     <Compile Include="AppCode\Entities.cs" />
+    <Compile Include="AppCode\SiteMapItem.cs" />
     <Compile Include="AppCode\Language.cs" />
     <Compile Include="AppCode\ListViewItemComparer.cs" />
     <Compile Include="AppCode\QueryHelper.cs" />
@@ -275,6 +279,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\UserSelector.resx">
       <DependentUpon>UserSelector.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -284,10 +289,13 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\logo_0100.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_BuildVersioningStyle="None.YearStamp.MonthStamp.DayStamp" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_ConfigurationName="Release" />
+      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_BuildVersioningStyle="None.YearStamp.MonthStamp.DayStamp" />
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>

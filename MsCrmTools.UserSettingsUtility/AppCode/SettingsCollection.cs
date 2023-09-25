@@ -14,5 +14,7 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
         public List<Tuple<string, string>> SubAreas { get; set; }
         public EntityCollection TimeZones { get; set; }
         public List<ViewItem> Views { get; set; }
+
+        public List<AppSiteMapItems> Homes { get; set; }
     }
 }

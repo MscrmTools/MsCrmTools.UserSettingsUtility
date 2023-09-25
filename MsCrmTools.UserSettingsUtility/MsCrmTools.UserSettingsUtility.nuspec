@@ -1,23 +1,27 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+<?xml version="1.0" encoding="utf-8"?>
+<package >
   <metadata>
-    <id>MsCrmTools.UserSettingsUtility</id>
-    <version>1.2020.4.13</version>
-    <title>User Settings Utility for XrmToolBox</title>
-    <authors>MscrmTools</authors>
-    <owners>MscrmTools</owners>
+    <id>Only.CRM.Tools.UserSettingsUtility</id>
+    <version>1.0.0.1</version>
+	<title>User Settings Utility for XrmToolBox And Select SiteMap</title>
+	<authors>ChaosOnly</authors>
+	<owners>ChaosOnly</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <projectUrl>https://github.com/MscrmTools/MsCrmTools.UserSettingsUtility</projectUrl>
-    <iconUrl>https://raw.githubusercontent.com/wiki/MscrmTools/XrmToolBox/Images/logo_0100.png</iconUrl>
-    <description>Manage users personal settings in bulk</description>
-    <summary>Manage users personal settings in bulk</summary>
-    <releaseNotes>Added user searching capability</releaseNotes>
-    <tags>XrmToolBox Plugin User Settings Utility</tags>
-    <dependencies>
-      <dependency id="XrmToolBox" version="1.2018.3.21" />
-    </dependencies>
+    <license type="expression">MIT</license>
+    <!-- <icon>icon.png</icon> -->
+    <projectUrl>https://github.com/ruijuntianxia/MsCrmTools.UserSettingsUtility</projectUrl>
+	<icon>images\logo_0100.png</icon>
+	<description>Manage users personal settings in bulk,SiteMap can be switched,Personal Modification Use</description>
+	<summary>Manage users personal settings in bulk</summary>
+	<releaseNotes>Added user searching capability</releaseNotes>
+	<tags>XrmToolBox Plugin User Settings Utility</tags>
+	<dependencies>
+		<dependency id="XrmToolBox" version="1.2021.12.53" />
+		<dependency id="NETFranmework" version="4.6.2" />
+	</dependencies>
   </metadata>
   <files>
-    <file src="bin\Release\MsCrmTools.UserSettingsUtility.dll" target="lib\net452\Plugins" />
+	<file src="bin\Release\MsCrmTools.UserSettingsUtility.dll" target="lib\net462\Plugins" />
+	<file src="Images\logo_0100.png" target="images\" />
   </files>
 </package>
