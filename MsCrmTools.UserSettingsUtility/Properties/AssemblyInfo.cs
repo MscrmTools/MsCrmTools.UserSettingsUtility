@@ -4,8 +4,8 @@ using System.Runtime.InteropServices;
 // Les informations générales relatives à un assembly dépendent de
 // l'ensemble d'attributs suivant. Changez les valeurs de ces attributs pour modifier les informations
 // associées à un assembly.
-[assembly: AssemblyTitle("User Settings Utility")]
-[assembly: AssemblyDescription("Manage users personal settings in bulk")]
+[assembly: AssemblyTitle("User Settings Utility For Only")]
+[assembly: AssemblyDescription("Manage users personal settings in bulk,SiteMap can be switched")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("MscrmTools")]
 [assembly: AssemblyProduct("MsCrmTools.UserSettingsUtility")]
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 // Vous pouvez spécifier toutes les valeurs ou indiquer les numéros de build et de révision par défaut
 // en utilisant '*', comme indiqué ci-dessous :
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.2021.12.14")]
-[assembly: AssemblyFileVersion("1.2021.12.14")]
+[assembly: AssemblyVersion("1.2023.09.25")]
+[assembly: AssemblyFileVersion("1.2023.09.25")]
