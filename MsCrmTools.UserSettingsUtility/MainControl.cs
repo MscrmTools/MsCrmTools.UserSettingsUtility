@@ -237,8 +237,8 @@ namespace MsCrmTools.UserSettingsUtility
                     {
                         bw.ReportProgress(0, "Loading homes...");
                         userSelector1.Service = Service;
-                        sc.Homes = smm.GetHomeList();
-                        sitemapxml = sc.Homes[0].SiteMapXml;
+                        sc.Apps = smm.GetHomeList();
+                        sitemapxml = sc.Apps[0].SiteMapXml;
                         
                     }
                     
@@ -290,10 +290,10 @@ namespace MsCrmTools.UserSettingsUtility
 
                         var sc = (SettingsCollection)e.Result;
 
-                        // Homes
-                        if (sc.Homes != null)
+                        // Apps
+                        if (sc.Apps != null)
                         {
-                            SetHomes(sc.Homes);
+                            SetHomes(sc.Apps);
                         }
 
                         // Views

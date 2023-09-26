@@ -15,6 +15,6 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
         public EntityCollection TimeZones { get; set; }
         public List<ViewItem> Views { get; set; }
 
-        public List<AppSiteMapItems> Homes { get; set; }
+        public List<AppSiteMapItems> Apps { get; set; }
     }
 }
