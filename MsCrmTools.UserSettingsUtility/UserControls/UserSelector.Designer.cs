@@ -39,12 +39,12 @@
             this.llCheckNone = new System.Windows.Forms.LinkLabel();
             this.llCheckAll = new System.Windows.Forms.LinkLabel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.txtFilter = new System.Windows.Forms.TextBox();
+            this.lblFilter = new System.Windows.Forms.Label();
             this.lvUsers = new System.Windows.Forms.ListView();
             this.chLastName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chFirstName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chBusinessUnit = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.lblFilter = new System.Windows.Forms.Label();
-            this.txtFilter = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -143,6 +143,24 @@
             this.panel3.Size = new System.Drawing.Size(561, 30);
             this.panel3.TabIndex = 8;
             // 
+            // txtFilter
+            // 
+            this.txtFilter.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtFilter.Location = new System.Drawing.Point(56, 0);
+            this.txtFilter.Name = "txtFilter";
+            this.txtFilter.Size = new System.Drawing.Size(505, 26);
+            this.txtFilter.TabIndex = 1;
+            this.txtFilter.TextChanged += new System.EventHandler(this.txtFilter_TextChanged);
+            // 
+            // lblFilter
+            // 
+            this.lblFilter.Dock = System.Windows.Forms.DockStyle.Left;
+            this.lblFilter.Location = new System.Drawing.Point(0, 0);
+            this.lblFilter.Name = "lblFilter";
+            this.lblFilter.Size = new System.Drawing.Size(56, 30);
+            this.lblFilter.TabIndex = 0;
+            this.lblFilter.Text = "Filter";
+            // 
             // lvUsers
             // 
             this.lvUsers.CheckBoxes = true;
@@ -179,24 +197,6 @@
             // 
             this.chBusinessUnit.Text = "Business unit";
             this.chBusinessUnit.Width = 150;
-            // 
-            // lblFilter
-            // 
-            this.lblFilter.Dock = System.Windows.Forms.DockStyle.Left;
-            this.lblFilter.Location = new System.Drawing.Point(0, 0);
-            this.lblFilter.Name = "lblFilter";
-            this.lblFilter.Size = new System.Drawing.Size(56, 30);
-            this.lblFilter.TabIndex = 0;
-            this.lblFilter.Text = "Filter";
-            // 
-            // txtFilter
-            // 
-            this.txtFilter.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtFilter.Location = new System.Drawing.Point(56, 0);
-            this.txtFilter.Name = "txtFilter";
-            this.txtFilter.Size = new System.Drawing.Size(505, 26);
-            this.txtFilter.TabIndex = 1;
-            this.txtFilter.TextChanged += new System.EventHandler(this.txtFilter_TextChanged);
             // 
             // UserSelector
             // 
