@@ -19,6 +19,7 @@ namespace MsCrmTools.UserSettingsUtility
         private List<string> areas;
         private LogManager log;
         private List<Tuple<string, string>> subAreas;
+        private string sitemapxml = "";
 
         public MainControl()
         {
@@ -213,11 +214,12 @@ namespace MsCrmTools.UserSettingsUtility
             cbbSiteMapSubArea.SelectedIndex = 0;
         }
 
-        private void LoadSettings()
+        public void LoadSettings()
         {
             cbbSiteMapArea.Items.Clear();
             cbbSiteMapSubArea.Items.Clear();
             cbbTimeZones.Items.Clear();
+            
 
             var ush = new UserSettingsHelper(Service, ConnectionDetail);
             var smm = new SiteMapManager(Service);
@@ -231,6 +233,15 @@ namespace MsCrmTools.UserSettingsUtility
                 Work = (bw, e) =>
                 {
                     var sc = new SettingsCollection();
+                    if (string.IsNullOrEmpty(sitemapxml))
+                    {
+                        bw.ReportProgress(0, "Loading homes...");
+                        userSelector1.Service = Service;
+                        sc.Apps = smm.GetHomeList();
+                        sitemapxml = sc.Apps[0].SiteMapXml;
+                        
+                    }
+                    
 
                     bw.ReportProgress(0, "Loading users...");
                     userSelector1.Service = Service;
@@ -246,8 +257,8 @@ namespace MsCrmTools.UserSettingsUtility
                     sc.TimeZones = ush.RetrieveTimeZones();
 
                     bw.ReportProgress(0, "Loading SiteMap elements...");
-                    areas = smm.GetAreaList();
-                    subAreas = smm.GetSubAreaList();
+                    areas = smm.GetAreaList(sitemapxml);
+                    subAreas = smm.GetSubAreaList(sitemapxml);
 
                     bw.ReportProgress(0, "Loading Dashboards...");
                     sc.Dashboards = ush.RetrieveDashboards();
@@ -278,6 +289,12 @@ namespace MsCrmTools.UserSettingsUtility
                         cbbSearch.Items.Clear();
 
                         var sc = (SettingsCollection)e.Result;
+
+                        // Apps
+                        if (sc.Apps != null)
+                        {
+                            SetHomes(sc.Apps);
+                        }
 
                         // Views
                         if (sc.Views != null)
@@ -405,6 +422,25 @@ namespace MsCrmTools.UserSettingsUtility
             CloseTool();
         }
 
+        internal void SetHomes(List<AppSiteMapItems> scHomes)
+        {
+            applist.SelectedIndexChanged -= applist_SelectedIndexChanged;
+            applist.Items.Clear();
+            applist.Items.AddRange(scHomes.ToArray());
+            applist.SelectedIndexChanged += applist_SelectedIndexChanged;
+            applist.SelectedIndex = 0;
+        }
+
+        private void applist_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var appsitemapitem = (AppSiteMapItems)applist.SelectedItem;
+            if (sitemapxml!= appsitemapitem.SiteMapXml)
+            {
+                sitemapxml = appsitemapitem.SiteMapXml;
+                ExecuteMethod(LoadSettings);
+            }
+            
+        }
         private void tsbEditInFXB_Click(object sender, EventArgs e)
         {
             if (Service != null && userSelector1.Service == null)
@@ -423,6 +459,7 @@ namespace MsCrmTools.UserSettingsUtility
 
         private void tsbLoadCrmItems_Click(object sender, EventArgs e)
         {
+
             ExecuteMethod(LoadSettings);
         }
 
