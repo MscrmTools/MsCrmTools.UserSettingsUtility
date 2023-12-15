@@ -187,7 +187,7 @@ namespace MsCrmTools.UserSettingsUtility
             cbbTimeZones.Items.Clear();
 
             var ush = new UserSettingsHelper(Service, ConnectionDetail);
-            smm = new SiteMapManager(Service);
+            smm = new SiteMapManager(Service, ConnectionDetail);
 
             tsbLoadCrmItems.Enabled = false;
 

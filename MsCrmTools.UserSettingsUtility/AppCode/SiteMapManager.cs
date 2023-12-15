@@ -1,4 +1,5 @@
-﻿using Microsoft.Xrm.Sdk;
+﻿using McTools.Xrm.Connection;
+using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 using System;
 using System.Collections.Generic;
@@ -9,12 +10,14 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
 {
     internal class SiteMapManager
     {
+        private readonly ConnectionDetail detail;
         private readonly IOrganizationService service;
         private XmlDocument siteMapDoc;
 
-        public SiteMapManager(IOrganizationService service)
+        public SiteMapManager(IOrganizationService service, ConnectionDetail detail)
         {
             this.service = service;
+            this.detail = detail;
         }
 
         public List<string> GetAreaList(string sitemapxml)
@@ -43,40 +46,44 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
             var ec = new EntityCollection();
             ec.Entities.Add(ecdefault[0]);
 
-            //add other app sitemap
             var items = new List<AppSiteMapItems>();
 
-            var sitemapsIds = service.RetrieveMultiple(new QueryExpression("appmodulecomponent")
+            if (detail.OrganizationMajorVersion >= 9)
             {
-                ColumnSet = new ColumnSet(true),
-                Criteria = new FilterExpression
+                //add other app sitemap
+
+                var sitemapsIds = service.RetrieveMultiple(new QueryExpression("appmodulecomponent")
                 {
-                    Conditions =
+                    ColumnSet = new ColumnSet(true),
+                    Criteria = new FilterExpression
+                    {
+                        Conditions =
                                 {
                                     new ConditionExpression("componenttype", ConditionOperator.Equal, 62)
                                 }
-                }
-            });
+                    }
+                });
 
-            foreach (var siteMapId in sitemapsIds.Entities)
-            {
-                if (ec.Entities.Any(ent => ent.Id == siteMapId.GetAttributeValue<Guid>("objectid") ||
-                 siteMapId.GetAttributeValue<EntityReference>("appmoduleidunique").Name == null))
+                foreach (var siteMapId in sitemapsIds.Entities)
                 {
-                    continue;
+                    if (ec.Entities.Any(ent => ent.Id == siteMapId.GetAttributeValue<Guid>("objectid") ||
+                     siteMapId.GetAttributeValue<EntityReference>("appmoduleidunique").Name == null))
+                    {
+                        continue;
+                    }
+
+                    var tmpSiteMap = service.Retrieve("sitemap",
+                        siteMapId.GetAttributeValue<Guid>("objectid"), new ColumnSet(true));
+
+                    if (tmpSiteMap.GetAttributeValue<OptionSetValue>("componentstate")?.Value != 0)
+                    {
+                        continue;
+                    }
+
+                    tmpSiteMap["name"] =
+                        siteMapId.GetAttributeValue<EntityReference>("appmoduleidunique").Name ?? "Default";
+                    ec.Entities.Add(tmpSiteMap);
                 }
-
-                var tmpSiteMap = service.Retrieve("sitemap",
-                    siteMapId.GetAttributeValue<Guid>("objectid"), new ColumnSet(true));
-
-                if (tmpSiteMap.GetAttributeValue<OptionSetValue>("componentstate")?.Value != 0)
-                {
-                    continue;
-                }
-
-                tmpSiteMap["name"] =
-                    siteMapId.GetAttributeValue<EntityReference>("appmoduleidunique").Name ?? "Default";
-                ec.Entities.Add(tmpSiteMap);
             }
 
             items.AddRange(ec.Entities.Select(e => new AppSiteMapItems(e)));
