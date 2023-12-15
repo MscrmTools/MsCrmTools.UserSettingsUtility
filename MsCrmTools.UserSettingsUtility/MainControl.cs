@@ -18,8 +18,9 @@ namespace MsCrmTools.UserSettingsUtility
         private const string ACTIVE_USERS_FETCH = @"<fetch version='1.0' output-format='xml-platform' mapping='logical' ><entity name='systemuser' ><attribute name='fullname' /><order attribute='fullname' descending='false' /><attribute name='businessunitid' /><attribute name='siteid' /><filter type='and' ><condition attribute='isdisabled' operator='eq' value='0' /><condition attribute='accessmode' operator='ne' value='3' /></filter><attribute name='systemuserid' /></entity></fetch>";
         private List<string> areas;
         private LogManager log;
-        private List<Tuple<string, string>> subAreas;
         private string sitemapxml = "";
+        private SiteMapManager smm;
+        private List<Tuple<string, string>> subAreas;
 
         public MainControl()
         {
@@ -179,50 +180,14 @@ namespace MsCrmTools.UserSettingsUtility
                 .Single(c => ((CultureInfo)c).LCID == settings.GetAttributeValue<int>(UserSettings.LocaleId));
         }
 
-        public void OnIncomingMessage(MessageBusEventArgs message)
-        {
-            if (message.SourcePlugin == "FetchXML Builder")
-            {
-                var fetchXml = (string)message.TargetArgument;
-                if (Service != null && userSelector1.Service == null)
-                {
-                    userSelector1.Service = Service;
-                }
-                userSelector1.PopulateUsers(fetchXml);
-            }
-        }
-
-        private void cbbFormat_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cbbFormat.SelectedIndex == 0) return;
-
-            var selectedCulture = (CultureInfo)cbbFormat.SelectedItem;
-            var currentTime = DateTime.Now;
-            txtNumberFormat.Text = 123456789.ToString("n", selectedCulture);
-            txtCurrencyFormat.Text = 123456789.ToString("c", selectedCulture);
-            txtTimeFormat.Text = currentTime.ToString(selectedCulture.DateTimeFormat.ShortTimePattern);
-            txtShortDateFormat.Text = currentTime.ToString(selectedCulture.DateTimeFormat.ShortDatePattern);
-            txtLongDateFormat.Text = currentTime.ToString(selectedCulture.DateTimeFormat.LongDatePattern);
-        }
-
-        private void cbbSiteMapArea_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            cbbSiteMapSubArea.Enabled = cbbSiteMapArea.SelectedIndex != 0;
-            cbbSiteMapSubArea.Items.Clear();
-            cbbSiteMapSubArea.Items.Add("No change");
-            cbbSiteMapSubArea.Items.AddRange(subAreas.Where(t => t.Item2 == cbbSiteMapArea.SelectedItem.ToString()).Select(t => t.Item1).ToArray());
-            cbbSiteMapSubArea.SelectedIndex = 0;
-        }
-
         public void LoadSettings()
         {
             cbbSiteMapArea.Items.Clear();
             cbbSiteMapSubArea.Items.Clear();
             cbbTimeZones.Items.Clear();
-            
 
             var ush = new UserSettingsHelper(Service, ConnectionDetail);
-            var smm = new SiteMapManager(Service);
+            smm = new SiteMapManager(Service);
 
             tsbLoadCrmItems.Enabled = false;
 
@@ -235,13 +200,11 @@ namespace MsCrmTools.UserSettingsUtility
                     var sc = new SettingsCollection();
                     if (string.IsNullOrEmpty(sitemapxml))
                     {
-                        bw.ReportProgress(0, "Loading homes...");
+                        bw.ReportProgress(0, "Loading SiteMaps...");
                         userSelector1.Service = Service;
                         sc.Apps = smm.GetHomeList();
                         sitemapxml = sc.Apps[0].SiteMapXml;
-                        
                     }
-                    
 
                     bw.ReportProgress(0, "Loading users...");
                     userSelector1.Service = Service;
@@ -417,16 +380,24 @@ namespace MsCrmTools.UserSettingsUtility
             });
         }
 
-        private void TsbCloseClick(object sender, EventArgs e)
+        public void OnIncomingMessage(MessageBusEventArgs message)
         {
-            CloseTool();
+            if (message.SourcePlugin == "FetchXML Builder")
+            {
+                var fetchXml = (string)message.TargetArgument;
+                if (Service != null && userSelector1.Service == null)
+                {
+                    userSelector1.Service = Service;
+                }
+                userSelector1.PopulateUsers(fetchXml);
+            }
         }
 
         internal void SetHomes(List<AppSiteMapItems> scHomes)
         {
             applist.SelectedIndexChanged -= applist_SelectedIndexChanged;
             applist.Items.Clear();
-            applist.Items.AddRange(scHomes.ToArray());
+            applist.Items.AddRange(scHomes.OrderBy(s => s.ToString()).ToArray());
             applist.SelectedIndexChanged += applist_SelectedIndexChanged;
             applist.SelectedIndex = 0;
         }
@@ -434,13 +405,53 @@ namespace MsCrmTools.UserSettingsUtility
         private void applist_SelectedIndexChanged(object sender, EventArgs e)
         {
             var appsitemapitem = (AppSiteMapItems)applist.SelectedItem;
-            if (sitemapxml!= appsitemapitem.SiteMapXml)
+            if (sitemapxml != appsitemapitem.SiteMapXml)
             {
                 sitemapxml = appsitemapitem.SiteMapXml;
-                ExecuteMethod(LoadSettings);
+
+                areas = smm.GetAreaList(sitemapxml);
+                subAreas = smm.GetSubAreaList(sitemapxml);
+
+                cbbSiteMapArea.Items.Clear();
+                cbbSiteMapSubArea.Items.Clear();
+
+                cbbSiteMapArea.Items.Add("No change");
+                cbbSiteMapArea.Items.AddRange(areas.ToArray());
+                cbbSiteMapArea.SelectedIndex = 0;
+                cbbSiteMapSubArea.Items.Add("No change");
+                cbbSiteMapSubArea.Items.AddRange(subAreas.Select(t => t.Item1).ToArray());
+                cbbSiteMapSubArea.SelectedIndex = 0;
+                cbbSiteMapSubArea.Enabled = false;
             }
-            
         }
+
+        private void cbbFormat_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbbFormat.SelectedIndex == 0) return;
+
+            var selectedCulture = (CultureInfo)cbbFormat.SelectedItem;
+            var currentTime = DateTime.Now;
+            txtNumberFormat.Text = 123456789.ToString("n", selectedCulture);
+            txtCurrencyFormat.Text = 123456789.ToString("c", selectedCulture);
+            txtTimeFormat.Text = currentTime.ToString(selectedCulture.DateTimeFormat.ShortTimePattern);
+            txtShortDateFormat.Text = currentTime.ToString(selectedCulture.DateTimeFormat.ShortDatePattern);
+            txtLongDateFormat.Text = currentTime.ToString(selectedCulture.DateTimeFormat.LongDatePattern);
+        }
+
+        private void cbbSiteMapArea_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cbbSiteMapSubArea.Enabled = cbbSiteMapArea.SelectedIndex != 0;
+            cbbSiteMapSubArea.Items.Clear();
+            cbbSiteMapSubArea.Items.Add("No change");
+            cbbSiteMapSubArea.Items.AddRange(subAreas.Where(t => t.Item2 == cbbSiteMapArea.SelectedItem.ToString()).Select(t => t.Item1).ToArray());
+            cbbSiteMapSubArea.SelectedIndex = 0;
+        }
+
+        private void TsbCloseClick(object sender, EventArgs e)
+        {
+            CloseTool();
+        }
+
         private void tsbEditInFXB_Click(object sender, EventArgs e)
         {
             if (Service != null && userSelector1.Service == null)
@@ -459,7 +470,6 @@ namespace MsCrmTools.UserSettingsUtility
 
         private void tsbLoadCrmItems_Click(object sender, EventArgs e)
         {
-
             ExecuteMethod(LoadSettings);
         }
 
