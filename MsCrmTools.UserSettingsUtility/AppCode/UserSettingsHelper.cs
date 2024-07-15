@@ -214,6 +214,10 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
                     userSetting[UserSettings.Fields.IsEmailConversationViewEnabled] =
                         settings.GetAttributeValue<bool>(UserSettings.Fields.IsEmailConversationViewEnabled);
 
+                if (settings.GetAttributeValue<bool?>(UserSettings.Fields.ShowWeekNumber).HasValue)
+                    userSetting[UserSettings.Fields.ShowWeekNumber] = settings
+                        .GetAttributeValue<bool?>(UserSettings.Fields.ShowWeekNumber).Value;
+
                 if (userSetting.Attributes.Count > 1)
                 {
                     service.Update(userSetting);

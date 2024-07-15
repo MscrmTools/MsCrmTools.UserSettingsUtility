@@ -62,6 +62,10 @@ namespace MsCrmTools.UserSettingsUtility
                     ? 2
                     : 0;
 
+            cbbShowWeekNumber.SelectedIndex = settings.GetAttributeValue<bool?>(UserSettings.ShowWeekNumber).HasValue && settings.GetAttributeValue<bool?>(UserSettings.ShowWeekNumber).Value
+                ? 2
+                : 0;
+
             if (cbbSearch.Items.Count > 1 && settings.GetAttributeValue<OptionSetValue>(UserSettings.DefaultSearchExperience) != null)
             {
                 cbbSearch.SelectedIndex = settings.GetAttributeValue<OptionSetValue>(UserSettings.DefaultSearchExperience).Value + 1;
@@ -373,6 +377,7 @@ namespace MsCrmTools.UserSettingsUtility
                             .OrderBy(ci => ci.DisplayName)
                             .ToArray());
                         cbbFormat.SelectedIndex = 0;
+
                         panel1.Enabled = true;
                     }
                 },
@@ -501,6 +506,7 @@ namespace MsCrmTools.UserSettingsUtility
             cbbDefaultDashboard.SelectedIndex = 0;
             cbbFormat.SelectedIndex = 0;
             cbbSearch.SelectedIndex = 0;
+            cbbShowWeekNumber.SelectedIndex = 0;
             txtLongDateFormat.Text = "";
             txtCurrencyFormat.Text = "";
             txtNumberFormat.Text = "";
@@ -630,6 +636,11 @@ namespace MsCrmTools.UserSettingsUtility
             if (cbbShowEmailsAsConversation.SelectedIndex != 0)
             {
                 setting[UserSettings.IsEmailConversationViewEnabled] = cbbShowEmailsAsConversation.SelectedIndex == 2;
+            }
+
+            if (cbbShowWeekNumber.SelectedIndex != 0)
+            {
+                setting[UserSettings.ShowWeekNumber] = cbbShowWeekNumber.SelectedIndex == 2;
             }
 
             #endregion Initialisation des données à mettre à jour

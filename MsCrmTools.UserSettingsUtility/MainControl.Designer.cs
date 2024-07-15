@@ -45,11 +45,14 @@
             this.tsbReset = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.userSelector1 = new MsCrmTools.UserSettingsUtility.UserControls.UserSelector();
             this.panel1 = new System.Windows.Forms.Panel();
             this.gbSynchronization = new System.Windows.Forms.GroupBox();
             this.cbbSynchronizeResourceBookingWithOutlook = new System.Windows.Forms.ComboBox();
             this.label29 = new System.Windows.Forms.Label();
             this.gbFormats = new System.Windows.Forms.GroupBox();
+            this.LblShowWeekNumber = new System.Windows.Forms.Label();
+            this.cbbShowWeekNumber = new System.Windows.Forms.ComboBox();
             this.cbbFormat = new System.Windows.Forms.ComboBox();
             this.txtLongDateFormat = new System.Windows.Forms.TextBox();
             this.txtShortDateFormat = new System.Windows.Forms.TextBox();
@@ -118,7 +121,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.visualStudioToolStripExtender1 = new WeifenLuo.WinFormsUI.Docking.VisualStudioToolStripExtender(this.components);
             this.visualStudioToolStripExtender2 = new WeifenLuo.WinFormsUI.Docking.VisualStudioToolStripExtender(this.components);
-            this.userSelector1 = new MsCrmTools.UserSettingsUtility.UserControls.UserSelector();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -137,6 +139,7 @@
             // 
             // toolStrip1
             // 
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(16, 16);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsbClose,
             this.toolStripSeparator1,
@@ -154,7 +157,7 @@
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 3, 0);
-            this.toolStrip1.Size = new System.Drawing.Size(2004, 57);
+            this.toolStrip1.Size = new System.Drawing.Size(1665, 34);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -164,21 +167,21 @@
             this.tsbClose.Image = ((System.Drawing.Image)(resources.GetObject("tsbClose.Image")));
             this.tsbClose.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbClose.Name = "tsbClose";
-            this.tsbClose.Size = new System.Drawing.Size(34, 52);
+            this.tsbClose.Size = new System.Drawing.Size(34, 29);
             this.tsbClose.Text = "Close this tool";
             this.tsbClose.Click += new System.EventHandler(this.TsbCloseClick);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 57);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 34);
             // 
             // tsbLoadCrmItems
             // 
             this.tsbLoadCrmItems.Image = ((System.Drawing.Image)(resources.GetObject("tsbLoadCrmItems.Image")));
             this.tsbLoadCrmItems.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbLoadCrmItems.Name = "tsbLoadCrmItems";
-            this.tsbLoadCrmItems.Size = new System.Drawing.Size(223, 52);
+            this.tsbLoadCrmItems.Size = new System.Drawing.Size(231, 29);
             this.tsbLoadCrmItems.Text = "Load Users and Settings";
             this.tsbLoadCrmItems.ToolTipText = "Load Users and Settings";
             this.tsbLoadCrmItems.Click += new System.EventHandler(this.tsbLoadCrmItems_Click);
@@ -186,40 +189,40 @@
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 57);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 34);
             // 
             // tsbEditInFXB
             // 
             this.tsbEditInFXB.Image = ((System.Drawing.Image)(resources.GetObject("tsbEditInFXB.Image")));
             this.tsbEditInFXB.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbEditInFXB.Name = "tsbEditInFXB";
-            this.tsbEditInFXB.Size = new System.Drawing.Size(225, 52);
+            this.tsbEditInFXB.Size = new System.Drawing.Size(225, 29);
             this.tsbEditInFXB.Text = "Choose users from FXB";
             this.tsbEditInFXB.Click += new System.EventHandler(this.tsbEditInFXB_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 57);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 34);
             // 
             // tsbUpdateUserSettings
             // 
             this.tsbUpdateUserSettings.Image = ((System.Drawing.Image)(resources.GetObject("tsbUpdateUserSettings.Image")));
             this.tsbUpdateUserSettings.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbUpdateUserSettings.Name = "tsbUpdateUserSettings";
-            this.tsbUpdateUserSettings.Size = new System.Drawing.Size(225, 52);
+            this.tsbUpdateUserSettings.Size = new System.Drawing.Size(225, 29);
             this.tsbUpdateUserSettings.Text = "Update User(s) Settings";
             this.tsbUpdateUserSettings.Click += new System.EventHandler(this.tsbUpdateUserSettings_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 57);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 34);
             // 
             // LblSiteMap
             // 
             this.LblSiteMap.Name = "LblSiteMap";
-            this.LblSiteMap.Size = new System.Drawing.Size(46, 52);
+            this.LblSiteMap.Size = new System.Drawing.Size(46, 29);
             this.LblSiteMap.Text = "App";
             this.LblSiteMap.ToolTipText = "Select the appropriate Application to be able to select a default pane and tab fo" +
     "r the users";
@@ -227,32 +230,33 @@
             // applist
             // 
             this.applist.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.applist.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.applist.Name = "applist";
-            this.applist.Size = new System.Drawing.Size(300, 57);
+            this.applist.Size = new System.Drawing.Size(300, 34);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 57);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 34);
             // 
             // tsbReset
             // 
             this.tsbReset.Image = ((System.Drawing.Image)(resources.GetObject("tsbReset.Image")));
             this.tsbReset.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbReset.Name = "tsbReset";
-            this.tsbReset.Size = new System.Drawing.Size(82, 52);
+            this.tsbReset.Size = new System.Drawing.Size(82, 29);
             this.tsbReset.Text = "Reset";
             this.tsbReset.Click += new System.EventHandler(this.tsbReset_Click);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 57);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 34);
             // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 86);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 34);
             this.splitContainer1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.splitContainer1.Name = "splitContainer1";
             // 
@@ -263,9 +267,19 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.panel1);
-            this.splitContainer1.Size = new System.Drawing.Size(2004, 1763);
-            this.splitContainer1.SplitterDistance = 892;
+            this.splitContainer1.Size = new System.Drawing.Size(1665, 1559);
+            this.splitContainer1.SplitterDistance = 740;
             this.splitContainer1.TabIndex = 2;
+            // 
+            // userSelector1
+            // 
+            this.userSelector1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.userSelector1.Location = new System.Drawing.Point(0, 0);
+            this.userSelector1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.userSelector1.Name = "userSelector1";
+            this.userSelector1.Service = null;
+            this.userSelector1.Size = new System.Drawing.Size(740, 1559);
+            this.userSelector1.TabIndex = 1;
             // 
             // panel1
             // 
@@ -283,7 +297,7 @@
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1108, 1763);
+            this.panel1.Size = new System.Drawing.Size(921, 1559);
             this.panel1.TabIndex = 0;
             // 
             // gbSynchronization
@@ -292,9 +306,9 @@
             this.gbSynchronization.Controls.Add(this.cbbSynchronizeResourceBookingWithOutlook);
             this.gbSynchronization.Controls.Add(this.label29);
             this.gbSynchronization.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbSynchronization.Location = new System.Drawing.Point(0, 1419);
+            this.gbSynchronization.Location = new System.Drawing.Point(0, 1785);
             this.gbSynchronization.Name = "gbSynchronization";
-            this.gbSynchronization.Size = new System.Drawing.Size(1108, 102);
+            this.gbSynchronization.Size = new System.Drawing.Size(895, 102);
             this.gbSynchronization.TabIndex = 66;
             this.gbSynchronization.TabStop = false;
             this.gbSynchronization.Text = "Synchronization";
@@ -312,7 +326,7 @@
             this.cbbSynchronizeResourceBookingWithOutlook.Location = new System.Drawing.Point(232, 30);
             this.cbbSynchronizeResourceBookingWithOutlook.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.cbbSynchronizeResourceBookingWithOutlook.Name = "cbbSynchronizeResourceBookingWithOutlook";
-            this.cbbSynchronizeResourceBookingWithOutlook.Size = new System.Drawing.Size(890, 28);
+            this.cbbSynchronizeResourceBookingWithOutlook.Size = new System.Drawing.Size(677, 28);
             this.cbbSynchronizeResourceBookingWithOutlook.TabIndex = 56;
             // 
             // label29
@@ -326,6 +340,8 @@
             // gbFormats
             // 
             this.gbFormats.AutoSize = true;
+            this.gbFormats.Controls.Add(this.LblShowWeekNumber);
+            this.gbFormats.Controls.Add(this.cbbShowWeekNumber);
             this.gbFormats.Controls.Add(this.cbbFormat);
             this.gbFormats.Controls.Add(this.txtLongDateFormat);
             this.gbFormats.Controls.Add(this.txtShortDateFormat);
@@ -339,14 +355,39 @@
             this.gbFormats.Controls.Add(this.label23);
             this.gbFormats.Controls.Add(this.label22);
             this.gbFormats.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbFormats.Location = new System.Drawing.Point(0, 1153);
-            this.gbFormats.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.gbFormats.Location = new System.Drawing.Point(0, 1458);
+            this.gbFormats.Margin = new System.Windows.Forms.Padding(2);
             this.gbFormats.Name = "gbFormats";
-            this.gbFormats.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.gbFormats.Size = new System.Drawing.Size(1108, 266);
+            this.gbFormats.Padding = new System.Windows.Forms.Padding(2);
+            this.gbFormats.Size = new System.Drawing.Size(895, 327);
             this.gbFormats.TabIndex = 65;
             this.gbFormats.TabStop = false;
             this.gbFormats.Text = "Formats";
+            // 
+            // LblShowWeekNumber
+            // 
+            this.LblShowWeekNumber.Location = new System.Drawing.Point(10, 258);
+            this.LblShowWeekNumber.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.LblShowWeekNumber.Name = "LblShowWeekNumber";
+            this.LblShowWeekNumber.Size = new System.Drawing.Size(193, 48);
+            this.LblShowWeekNumber.TabIndex = 57;
+            this.LblShowWeekNumber.Text = "Show Week number in calendar";
+            // 
+            // cbbShowWeekNumber
+            // 
+            this.cbbShowWeekNumber.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbbShowWeekNumber.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbbShowWeekNumber.FormattingEnabled = true;
+            this.cbbShowWeekNumber.Items.AddRange(new object[] {
+            "No change",
+            "No",
+            "Yes"});
+            this.cbbShowWeekNumber.Location = new System.Drawing.Point(232, 250);
+            this.cbbShowWeekNumber.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.cbbShowWeekNumber.Name = "cbbShowWeekNumber";
+            this.cbbShowWeekNumber.Size = new System.Drawing.Size(677, 28);
+            this.cbbShowWeekNumber.TabIndex = 56;
             // 
             // cbbFormat
             // 
@@ -355,9 +396,9 @@
             this.cbbFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbbFormat.FormattingEnabled = true;
             this.cbbFormat.Location = new System.Drawing.Point(232, 28);
-            this.cbbFormat.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbbFormat.Margin = new System.Windows.Forms.Padding(2);
             this.cbbFormat.Name = "cbbFormat";
-            this.cbbFormat.Size = new System.Drawing.Size(890, 28);
+            this.cbbFormat.Size = new System.Drawing.Size(677, 28);
             this.cbbFormat.TabIndex = 11;
             this.cbbFormat.SelectedIndexChanged += new System.EventHandler(this.cbbFormat_SelectedIndexChanged);
             // 
@@ -367,9 +408,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtLongDateFormat.Enabled = false;
             this.txtLongDateFormat.Location = new System.Drawing.Point(232, 217);
-            this.txtLongDateFormat.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtLongDateFormat.Margin = new System.Windows.Forms.Padding(2);
             this.txtLongDateFormat.Name = "txtLongDateFormat";
-            this.txtLongDateFormat.Size = new System.Drawing.Size(890, 26);
+            this.txtLongDateFormat.Size = new System.Drawing.Size(677, 26);
             this.txtLongDateFormat.TabIndex = 10;
             // 
             // txtShortDateFormat
@@ -378,9 +419,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtShortDateFormat.Enabled = false;
             this.txtShortDateFormat.Location = new System.Drawing.Point(232, 185);
-            this.txtShortDateFormat.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtShortDateFormat.Margin = new System.Windows.Forms.Padding(2);
             this.txtShortDateFormat.Name = "txtShortDateFormat";
-            this.txtShortDateFormat.Size = new System.Drawing.Size(890, 26);
+            this.txtShortDateFormat.Size = new System.Drawing.Size(677, 26);
             this.txtShortDateFormat.TabIndex = 9;
             // 
             // txtTimeFormat
@@ -389,9 +430,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTimeFormat.Enabled = false;
             this.txtTimeFormat.Location = new System.Drawing.Point(232, 142);
-            this.txtTimeFormat.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtTimeFormat.Margin = new System.Windows.Forms.Padding(2);
             this.txtTimeFormat.Name = "txtTimeFormat";
-            this.txtTimeFormat.Size = new System.Drawing.Size(890, 26);
+            this.txtTimeFormat.Size = new System.Drawing.Size(677, 26);
             this.txtTimeFormat.TabIndex = 8;
             // 
             // txtCurrencyFormat
@@ -400,9 +441,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCurrencyFormat.Enabled = false;
             this.txtCurrencyFormat.Location = new System.Drawing.Point(232, 103);
-            this.txtCurrencyFormat.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtCurrencyFormat.Margin = new System.Windows.Forms.Padding(2);
             this.txtCurrencyFormat.Name = "txtCurrencyFormat";
-            this.txtCurrencyFormat.Size = new System.Drawing.Size(890, 26);
+            this.txtCurrencyFormat.Size = new System.Drawing.Size(677, 26);
             this.txtCurrencyFormat.TabIndex = 7;
             // 
             // txtNumberFormat
@@ -411,9 +452,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtNumberFormat.Enabled = false;
             this.txtNumberFormat.Location = new System.Drawing.Point(232, 68);
-            this.txtNumberFormat.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtNumberFormat.Margin = new System.Windows.Forms.Padding(2);
             this.txtNumberFormat.Name = "txtNumberFormat";
-            this.txtNumberFormat.Size = new System.Drawing.Size(890, 26);
+            this.txtNumberFormat.Size = new System.Drawing.Size(677, 26);
             this.txtNumberFormat.TabIndex = 6;
             // 
             // label27
@@ -488,9 +529,9 @@
             this.gbOutlookForms.Controls.Add(this.label18);
             this.gbOutlookForms.Controls.Add(this.label19);
             this.gbOutlookForms.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbOutlookForms.Location = new System.Drawing.Point(0, 961);
+            this.gbOutlookForms.Location = new System.Drawing.Point(0, 1266);
             this.gbOutlookForms.Name = "gbOutlookForms";
-            this.gbOutlookForms.Size = new System.Drawing.Size(1108, 192);
+            this.gbOutlookForms.Size = new System.Drawing.Size(895, 192);
             this.gbOutlookForms.TabIndex = 59;
             this.gbOutlookForms.TabStop = false;
             this.gbOutlookForms.Text = "Outlook Forms";
@@ -508,7 +549,7 @@
             this.cbbUseCrmFormTask.Location = new System.Drawing.Point(232, 137);
             this.cbbUseCrmFormTask.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.cbbUseCrmFormTask.Name = "cbbUseCrmFormTask";
-            this.cbbUseCrmFormTask.Size = new System.Drawing.Size(890, 28);
+            this.cbbUseCrmFormTask.Size = new System.Drawing.Size(677, 28);
             this.cbbUseCrmFormTask.TabIndex = 57;
             // 
             // label20
@@ -533,7 +574,7 @@
             this.cbbUseCrmFormAppt.Location = new System.Drawing.Point(232, 27);
             this.cbbUseCrmFormAppt.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.cbbUseCrmFormAppt.Name = "cbbUseCrmFormAppt";
-            this.cbbUseCrmFormAppt.Size = new System.Drawing.Size(890, 28);
+            this.cbbUseCrmFormAppt.Size = new System.Drawing.Size(677, 28);
             this.cbbUseCrmFormAppt.TabIndex = 51;
             // 
             // cbbUseCrmFormContact
@@ -549,7 +590,7 @@
             this.cbbUseCrmFormContact.Location = new System.Drawing.Point(232, 63);
             this.cbbUseCrmFormContact.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.cbbUseCrmFormContact.Name = "cbbUseCrmFormContact";
-            this.cbbUseCrmFormContact.Size = new System.Drawing.Size(890, 28);
+            this.cbbUseCrmFormContact.Size = new System.Drawing.Size(677, 28);
             this.cbbUseCrmFormContact.TabIndex = 52;
             // 
             // cbbUseCrmFormEmail
@@ -565,7 +606,7 @@
             this.cbbUseCrmFormEmail.Location = new System.Drawing.Point(232, 102);
             this.cbbUseCrmFormEmail.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.cbbUseCrmFormEmail.Name = "cbbUseCrmFormEmail";
-            this.cbbUseCrmFormEmail.Size = new System.Drawing.Size(890, 28);
+            this.cbbUseCrmFormEmail.Size = new System.Drawing.Size(677, 28);
             this.cbbUseCrmFormEmail.TabIndex = 53;
             // 
             // label17
@@ -603,9 +644,9 @@
             this.gbLanguages.Controls.Add(this.cbbHelpLanguage);
             this.gbLanguages.Controls.Add(this.label14);
             this.gbLanguages.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbLanguages.Location = new System.Drawing.Point(0, 844);
+            this.gbLanguages.Location = new System.Drawing.Point(0, 1149);
             this.gbLanguages.Name = "gbLanguages";
-            this.gbLanguages.Size = new System.Drawing.Size(1108, 117);
+            this.gbLanguages.Size = new System.Drawing.Size(895, 117);
             this.gbLanguages.TabIndex = 58;
             this.gbLanguages.TabStop = false;
             this.gbLanguages.Text = "Languages";
@@ -625,10 +666,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbbUiLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbbUiLanguage.FormattingEnabled = true;
-            this.cbbUiLanguage.Location = new System.Drawing.Point(234, 27);
+            this.cbbUiLanguage.Location = new System.Drawing.Point(232, 27);
             this.cbbUiLanguage.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.cbbUiLanguage.Name = "cbbUiLanguage";
-            this.cbbUiLanguage.Size = new System.Drawing.Size(896, 28);
+            this.cbbUiLanguage.Size = new System.Drawing.Size(683, 28);
             this.cbbUiLanguage.TabIndex = 61;
             // 
             // cbbHelpLanguage
@@ -640,7 +681,7 @@
             this.cbbHelpLanguage.Location = new System.Drawing.Point(232, 62);
             this.cbbHelpLanguage.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.cbbHelpLanguage.Name = "cbbHelpLanguage";
-            this.cbbHelpLanguage.Size = new System.Drawing.Size(896, 28);
+            this.cbbHelpLanguage.Size = new System.Drawing.Size(683, 28);
             this.cbbHelpLanguage.TabIndex = 63;
             // 
             // label14
@@ -658,9 +699,9 @@
             this.gbPrivacy.Controls.Add(this.label13);
             this.gbPrivacy.Controls.Add(this.cbbReportScriptErrors);
             this.gbPrivacy.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbPrivacy.Location = new System.Drawing.Point(0, 762);
+            this.gbPrivacy.Location = new System.Drawing.Point(0, 1067);
             this.gbPrivacy.Name = "gbPrivacy";
-            this.gbPrivacy.Size = new System.Drawing.Size(1108, 82);
+            this.gbPrivacy.Size = new System.Drawing.Size(895, 82);
             this.gbPrivacy.TabIndex = 57;
             this.gbPrivacy.TabStop = false;
             this.gbPrivacy.Text = "Privacy";
@@ -688,7 +729,7 @@
             this.cbbReportScriptErrors.Location = new System.Drawing.Point(232, 27);
             this.cbbReportScriptErrors.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.cbbReportScriptErrors.Name = "cbbReportScriptErrors";
-            this.cbbReportScriptErrors.Size = new System.Drawing.Size(890, 28);
+            this.cbbReportScriptErrors.Size = new System.Drawing.Size(677, 28);
             this.cbbReportScriptErrors.TabIndex = 54;
             // 
             // gbEmail
@@ -706,7 +747,7 @@
             this.gbEmail.Dock = System.Windows.Forms.DockStyle.Top;
             this.gbEmail.Location = new System.Drawing.Point(0, 519);
             this.gbEmail.Name = "gbEmail";
-            this.gbEmail.Size = new System.Drawing.Size(1108, 243);
+            this.gbEmail.Size = new System.Drawing.Size(895, 548);
             this.gbEmail.TabIndex = 56;
             this.gbEmail.TabStop = false;
             this.gbEmail.Text = "Email Settings";
@@ -724,7 +765,7 @@
             this.cbbShowEmailsAsConversation.Location = new System.Drawing.Point(232, 197);
             this.cbbShowEmailsAsConversation.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.cbbShowEmailsAsConversation.Name = "cbbShowEmailsAsConversation";
-            this.cbbShowEmailsAsConversation.Size = new System.Drawing.Size(890, 28);
+            this.cbbShowEmailsAsConversation.Size = new System.Drawing.Size(677, 28);
             this.cbbShowEmailsAsConversation.TabIndex = 54;
             // 
             // label30
@@ -748,7 +789,7 @@
             this.cbbAutoDataCaptureEnabled.Location = new System.Drawing.Point(234, 142);
             this.cbbAutoDataCaptureEnabled.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.cbbAutoDataCaptureEnabled.Name = "cbbAutoDataCaptureEnabled";
-            this.cbbAutoDataCaptureEnabled.Size = new System.Drawing.Size(890, 28);
+            this.cbbAutoDataCaptureEnabled.Size = new System.Drawing.Size(677, 28);
             this.cbbAutoDataCaptureEnabled.TabIndex = 51;
             // 
             // label28
@@ -772,7 +813,7 @@
             this.cbbSendAsAllowed.Location = new System.Drawing.Point(232, 27);
             this.cbbSendAsAllowed.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.cbbSendAsAllowed.Name = "cbbSendAsAllowed";
-            this.cbbSendAsAllowed.Size = new System.Drawing.Size(890, 28);
+            this.cbbSendAsAllowed.Size = new System.Drawing.Size(677, 28);
             this.cbbSendAsAllowed.TabIndex = 35;
             // 
             // cbbTrackMessages
@@ -791,7 +832,7 @@
             this.cbbTrackMessages.Location = new System.Drawing.Point(232, 63);
             this.cbbTrackMessages.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.cbbTrackMessages.Name = "cbbTrackMessages";
-            this.cbbTrackMessages.Size = new System.Drawing.Size(890, 28);
+            this.cbbTrackMessages.Size = new System.Drawing.Size(677, 28);
             this.cbbTrackMessages.TabIndex = 36;
             // 
             // cbbCreateRecords
@@ -808,7 +849,7 @@
             this.cbbCreateRecords.Location = new System.Drawing.Point(232, 102);
             this.cbbCreateRecords.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.cbbCreateRecords.Name = "cbbCreateRecords";
-            this.cbbCreateRecords.Size = new System.Drawing.Size(890, 28);
+            this.cbbCreateRecords.Size = new System.Drawing.Size(677, 28);
             this.cbbCreateRecords.TabIndex = 37;
             // 
             // label8
@@ -850,7 +891,7 @@
             this.gbActivities.Dock = System.Windows.Forms.DockStyle.Top;
             this.gbActivities.Location = new System.Drawing.Point(0, 362);
             this.gbActivities.Name = "gbActivities";
-            this.gbActivities.Size = new System.Drawing.Size(1108, 157);
+            this.gbActivities.Size = new System.Drawing.Size(895, 157);
             this.gbActivities.TabIndex = 55;
             this.gbActivities.TabStop = false;
             this.gbActivities.Text = "Activities";
@@ -869,7 +910,7 @@
             this.cbbCalendar.Location = new System.Drawing.Point(232, 27);
             this.cbbCalendar.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.cbbCalendar.Name = "cbbCalendar";
-            this.cbbCalendar.Size = new System.Drawing.Size(896, 28);
+            this.cbbCalendar.Size = new System.Drawing.Size(1025, 28);
             this.cbbCalendar.TabIndex = 32;
             // 
             // cbbWorkStartTime
@@ -930,7 +971,7 @@
             this.cbbWorkStartTime.Location = new System.Drawing.Point(232, 65);
             this.cbbWorkStartTime.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.cbbWorkStartTime.Name = "cbbWorkStartTime";
-            this.cbbWorkStartTime.Size = new System.Drawing.Size(896, 28);
+            this.cbbWorkStartTime.Size = new System.Drawing.Size(1025, 28);
             this.cbbWorkStartTime.TabIndex = 33;
             // 
             // cbbWorkStopTime
@@ -991,7 +1032,7 @@
             this.cbbWorkStopTime.Location = new System.Drawing.Point(232, 102);
             this.cbbWorkStopTime.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.cbbWorkStopTime.Name = "cbbWorkStopTime";
-            this.cbbWorkStopTime.Size = new System.Drawing.Size(896, 28);
+            this.cbbWorkStopTime.Size = new System.Drawing.Size(1025, 28);
             this.cbbWorkStopTime.TabIndex = 34;
             // 
             // label5
@@ -1045,7 +1086,7 @@
             this.gbGeneral.Dock = System.Windows.Forms.DockStyle.Top;
             this.gbGeneral.Location = new System.Drawing.Point(0, 0);
             this.gbGeneral.Name = "gbGeneral";
-            this.gbGeneral.Size = new System.Drawing.Size(1108, 362);
+            this.gbGeneral.Size = new System.Drawing.Size(895, 362);
             this.gbGeneral.TabIndex = 54;
             this.gbGeneral.TabStop = false;
             this.gbGeneral.Text = "General";
@@ -1062,7 +1103,7 @@
             this.cbbSearch.Location = new System.Drawing.Point(232, 307);
             this.cbbSearch.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.cbbSearch.Name = "cbbSearch";
-            this.cbbSearch.Size = new System.Drawing.Size(896, 28);
+            this.cbbSearch.Size = new System.Drawing.Size(1025, 28);
             this.cbbSearch.TabIndex = 66;
             // 
             // txtSearch
@@ -1086,7 +1127,7 @@
             this.cbbDefaultDashboard.Location = new System.Drawing.Point(232, 270);
             this.cbbDefaultDashboard.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.cbbDefaultDashboard.Name = "cbbDefaultDashboard";
-            this.cbbDefaultDashboard.Size = new System.Drawing.Size(896, 28);
+            this.cbbDefaultDashboard.Size = new System.Drawing.Size(1025, 28);
             this.cbbDefaultDashboard.TabIndex = 64;
             // 
             // label21
@@ -1119,7 +1160,7 @@
             this.cbbCurrencies.Location = new System.Drawing.Point(232, 235);
             this.cbbCurrencies.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.cbbCurrencies.Name = "cbbCurrencies";
-            this.cbbCurrencies.Size = new System.Drawing.Size(896, 28);
+            this.cbbCurrencies.Size = new System.Drawing.Size(1025, 28);
             this.cbbCurrencies.TabIndex = 61;
             // 
             // label12
@@ -1153,7 +1194,7 @@
             this.cbbAdvancedFindMode.Location = new System.Drawing.Point(232, 200);
             this.cbbAdvancedFindMode.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.cbbAdvancedFindMode.Name = "cbbAdvancedFindMode";
-            this.cbbAdvancedFindMode.Size = new System.Drawing.Size(896, 28);
+            this.cbbAdvancedFindMode.Size = new System.Drawing.Size(1025, 28);
             this.cbbAdvancedFindMode.TabIndex = 58;
             // 
             // cbbStartupPane
@@ -1169,7 +1210,7 @@
             this.cbbStartupPane.Location = new System.Drawing.Point(232, 165);
             this.cbbStartupPane.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.cbbStartupPane.Name = "cbbStartupPane";
-            this.cbbStartupPane.Size = new System.Drawing.Size(896, 28);
+            this.cbbStartupPane.Size = new System.Drawing.Size(1025, 28);
             this.cbbStartupPane.TabIndex = 57;
             // 
             // cbbSiteMapSubArea
@@ -1181,7 +1222,7 @@
             this.cbbSiteMapSubArea.Location = new System.Drawing.Point(232, 58);
             this.cbbSiteMapSubArea.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.cbbSiteMapSubArea.Name = "cbbSiteMapSubArea";
-            this.cbbSiteMapSubArea.Size = new System.Drawing.Size(896, 28);
+            this.cbbSiteMapSubArea.Size = new System.Drawing.Size(1025, 28);
             this.cbbSiteMapSubArea.TabIndex = 29;
             // 
             // cbbSiteMapArea
@@ -1193,7 +1234,7 @@
             this.cbbSiteMapArea.Location = new System.Drawing.Point(232, 23);
             this.cbbSiteMapArea.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.cbbSiteMapArea.Name = "cbbSiteMapArea";
-            this.cbbSiteMapArea.Size = new System.Drawing.Size(896, 28);
+            this.cbbSiteMapArea.Size = new System.Drawing.Size(1025, 28);
             this.cbbSiteMapArea.TabIndex = 28;
             this.cbbSiteMapArea.SelectedIndexChanged += new System.EventHandler(this.cbbSiteMapArea_SelectedIndexChanged);
             // 
@@ -1213,7 +1254,7 @@
             this.cbbPagingLimit.Location = new System.Drawing.Point(232, 93);
             this.cbbPagingLimit.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.cbbPagingLimit.Name = "cbbPagingLimit";
-            this.cbbPagingLimit.Size = new System.Drawing.Size(896, 28);
+            this.cbbPagingLimit.Size = new System.Drawing.Size(1025, 28);
             this.cbbPagingLimit.TabIndex = 30;
             // 
             // cbbTimeZones
@@ -1225,7 +1266,7 @@
             this.cbbTimeZones.Location = new System.Drawing.Point(232, 130);
             this.cbbTimeZones.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.cbbTimeZones.Name = "cbbTimeZones";
-            this.cbbTimeZones.Size = new System.Drawing.Size(896, 28);
+            this.cbbTimeZones.Size = new System.Drawing.Size(1025, 28);
             this.cbbTimeZones.TabIndex = 31;
             // 
             // label1
@@ -1272,16 +1313,6 @@
             // 
             this.visualStudioToolStripExtender2.DefaultRenderer = null;
             // 
-            // userSelector1
-            // 
-            this.userSelector1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.userSelector1.Location = new System.Drawing.Point(0, 0);
-            this.userSelector1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.userSelector1.Name = "userSelector1";
-            this.userSelector1.Service = null;
-            this.userSelector1.Size = new System.Drawing.Size(892, 1763);
-            this.userSelector1.TabIndex = 1;
-            // 
             // MainControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -1290,7 +1321,7 @@
             this.Controls.Add(this.toolStrip1);
             this.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.Name = "MainControl";
-            this.Size = new System.Drawing.Size(1336, 1232);
+            this.Size = new System.Drawing.Size(1665, 1593);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -1410,5 +1441,7 @@
         private WeifenLuo.WinFormsUI.Docking.VisualStudioToolStripExtender visualStudioToolStripExtender1;
         private WeifenLuo.WinFormsUI.Docking.VisualStudioToolStripExtender visualStudioToolStripExtender2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.Label LblShowWeekNumber;
+        private System.Windows.Forms.ComboBox cbbShowWeekNumber;
     }
 }
