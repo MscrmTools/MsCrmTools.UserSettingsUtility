@@ -57,6 +57,7 @@ namespace MsCrmTools.UserSettingsUtility.AppCode
                 <filter type='or'>
                   <condition attribute='type' operator='eq' value='0' />
                   <condition attribute='type' operator='eq' value='10' />
+                  <condition attribute='type' operator='eq' value='103' />
                 </filter>
                 <order attribute='name' />
               </entity>
