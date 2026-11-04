@@ -39,8 +39,8 @@ namespace MsCrmTools.UserSettingsUtility
 
         public void LoadCurrentUserSetting(Entity settings)
         {
-            cbbSiteMapArea.SelectedItem = settings.GetAttributeValue<string>(UserSettings.HomepageArea);
-            cbbSiteMapSubArea.SelectedItem = settings.GetAttributeValue<string>(UserSettings.HomepageSubarea);
+            SelectItemOrNoChange(cbbSiteMapArea, settings.GetAttributeValue<string>(UserSettings.HomepageArea));
+            SelectItemOrNoChange(cbbSiteMapSubArea, settings.GetAttributeValue<string>(UserSettings.HomepageSubarea));
             if (settings.GetAttributeValue<int?>(UserSettings.AdvancedFindStartupMode) != null)
                 cbbAdvancedFindMode.SelectedIndex = settings.GetAttributeValue<int?>(UserSettings.AdvancedFindStartupMode).Value;
             cbbCreateRecords.SelectedIndex = settings.GetAttributeValue<int?>(UserSettings.AutoCreateContactOnPromote).Value + 1;
@@ -93,7 +93,7 @@ namespace MsCrmTools.UserSettingsUtility
             }
             if (!string.IsNullOrEmpty(settings.GetAttributeValue<string>(UserSettings.WorkdayStartTime)))
             {
-                cbbWorkStartTime.SelectedItem = settings.GetAttributeValue<string>(UserSettings.WorkdayStartTime);
+                cbbWorkStartTime.Text = settings.GetAttributeValue<string>(UserSettings.WorkdayStartTime);
             }
             else
             {
@@ -101,7 +101,7 @@ namespace MsCrmTools.UserSettingsUtility
             }
             if (!string.IsNullOrEmpty(settings.GetAttributeValue<string>(UserSettings.WorkdayStopTime)))
             {
-                cbbWorkStopTime.SelectedItem = settings.GetAttributeValue<string>(UserSettings.WorkdayStopTime);
+                cbbWorkStopTime.Text = settings.GetAttributeValue<string>(UserSettings.WorkdayStopTime);
             }
             else
             {
@@ -448,8 +448,17 @@ namespace MsCrmTools.UserSettingsUtility
             cbbSiteMapSubArea.Enabled = cbbSiteMapArea.SelectedIndex != 0;
             cbbSiteMapSubArea.Items.Clear();
             cbbSiteMapSubArea.Items.Add("No change");
-            cbbSiteMapSubArea.Items.AddRange(subAreas.Where(t => t.Item2 == cbbSiteMapArea.SelectedItem.ToString()).Select(t => t.Item1).ToArray());
+            cbbSiteMapSubArea.Items.AddRange(subAreas.Where(t => t.Item2 == cbbSiteMapArea.SelectedItem?.ToString()).Select(t => t.Item1).ToArray());
             cbbSiteMapSubArea.SelectedIndex = 0;
+        }
+
+        private static void SelectItemOrNoChange(ComboBox comboBox, string value)
+        {
+            if (comboBox.Items.Count == 0) return;
+
+            // A value missing from the list (or null) would leave nothing selected
+            var index = value == null ? -1 : comboBox.Items.IndexOf(value);
+            comboBox.SelectedIndex = index < 0 ? 0 : index;
         }
 
         private void TsbCloseClick(object sender, EventArgs e)
@@ -534,8 +543,8 @@ namespace MsCrmTools.UserSettingsUtility
                     {UserSettings.DefaultCalendarView, cbbCalendar.SelectedIndex - 1},
                     {UserSettings.IncomingEmailFilteringMethod, new OptionSetValue(cbbTrackMessages.SelectedIndex - 1)},
                     {UserSettings.ReportScriptErrors, new OptionSetValue(cbbReportScriptErrors.SelectedIndex)},
-                    {UserSettings.HomepageArea, cbbSiteMapArea.SelectedItem.ToString()},
-                    {UserSettings.HomepageSubarea, cbbSiteMapSubArea.SelectedItem.ToString()},
+                    {UserSettings.HomepageArea, cbbSiteMapArea.SelectedItem?.ToString() ?? "No change"},
+                    {UserSettings.HomepageSubarea, cbbSiteMapSubArea.SelectedItem?.ToString() ?? "No change"},
                     {UserSettings.DefaultSearchExperience, new OptionSetValue(cbbSearch.SelectedIndex - 1)}
                 }
             };
@@ -566,23 +575,21 @@ namespace MsCrmTools.UserSettingsUtility
                 setting[UserSettings.TimeZoneCode] = ((AppCode.TimeZone)cbbTimeZones.SelectedItem).Code;
             }
 
-            if (cbbWorkStartTime.SelectedIndex != 0 || cbbWorkStartTime.SelectedText != null)
+            // Both lists can be typed into, so read the text rather than the selected item
+            var workStartTime = cbbWorkStartTime.Text.Trim();
+            var workStopTime = cbbWorkStopTime.Text.Trim();
+            foreach (var time in new[] { workStartTime, workStopTime })
             {
-                setting[UserSettings.WorkdayStartTime] = cbbWorkStartTime.SelectedItem.ToString();
-                if (cbbWorkStartTime.SelectedIndex == 0)
+                if (time.Length != 0 && time != "No change"
+                    && !DateTime.TryParseExact(time, new[] { "H:mm", "HH:mm" }, CultureInfo.InvariantCulture, DateTimeStyles.None, out _))
                 {
-                    setting[UserSettings.WorkdayStartTime] = cbbWorkStartTime.SelectedText;
+                    MessageBox.Show(this, $"\"{time}\" is not a valid work time. Use the format HH:mm, for example 08:30.", "Warning", MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                    return;
                 }
             }
-
-            if (cbbWorkStopTime.SelectedIndex != 0 || cbbWorkStopTime.SelectedText != null)
-            {
-                setting[UserSettings.WorkdayStopTime] = cbbWorkStopTime.SelectedItem.ToString();
-                if (cbbWorkStopTime.SelectedIndex == 0)
-                {
-                    setting[UserSettings.WorkdayStopTime] = cbbWorkStopTime.SelectedText;
-                }
-            }
+            setting[UserSettings.WorkdayStartTime] = workStartTime;
+            setting[UserSettings.WorkdayStopTime] = workStopTime;
 
             if (cbbHelpLanguage.SelectedIndex != 0)
             {
